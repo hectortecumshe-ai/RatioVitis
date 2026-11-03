@@ -1,0 +1,419 @@
+/* ================= Ratio Viña · capa visual propia ================= */
+:root{ --tierra:#9a6a3a; --semilla:#d9a441; --siembra:#5f8f3e; --alim:#2f7d8a; --vigil:#7a4f9a; }
+.brand-name i{color:var(--accent);font-style:italic}
+/* portada: telar vivo */
+.hero .art .telar-vivo{position:absolute;inset:4% 2% 10% 2%}
+.hilo{animation:hilar 3.2s var(--ease) both}
+@keyframes hilar{from{stroke-dashoffset:var(--l,800)}to{stroke-dashoffset:0}}
+.lanzadera{animation:lanzar 5s ease-in-out infinite}
+@keyframes lanzar{0%,100%{transform:translateX(0)}50%{transform:translateX(250px)}}
+.brota{transform-box:fill-box;transform-origin:center bottom;animation:brotar 1.2s var(--ease) both}
+@keyframes brotar{from{transform:scale(.2);opacity:0}to{transform:none;opacity:1}}
+/* catálogo de cultivos y especies */
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.cat-card{position:relative;border:1.5px solid var(--border);border-radius:var(--r-lg);background:var(--card);padding:12px 10px 10px;text-align:center;cursor:pointer;transition:transform .25s var(--ease),box-shadow .25s,border-color .2s}
+.cat-card:hover{transform:translateY(-4px) rotate(-.4deg);box-shadow:var(--shadow-lg);border-color:var(--cc)}
+.cat-card svg{width:86px;height:92px;display:block;margin:0 auto 4px;--anim:paused}
+.cat-card:hover svg,.cat-card.sel svg{--anim:running}
+.cat-card b{display:block;font-size:15px}
+.cat-card i{display:block;font-size:12px;color:var(--muted)}
+.cat-card .est{position:absolute;top:8px;right:8px;font-size:10.5px;font-weight:700;border-radius:999px;padding:2px 7px;background:var(--bg-soft);color:var(--muted)}
+.cat-card .est.doc{background:var(--ok-soft);color:var(--ok-text)}
+.cat-card.sel{border-color:var(--cc);box-shadow:0 0 0 3px color-mix(in srgb,var(--cc) 40%,transparent),var(--shadow)}
+.cat-card.sel::after{content:"✓";position:absolute;top:8px;left:10px;width:22px;height:22px;border-radius:50%;background:var(--cc);color:#fff;font-weight:700;display:grid;place-items:center;font-size:13px}
+.tipo-tabs{display:inline-flex;gap:4px;border:1px solid var(--border-strong);border-radius:999px;padding:3px;background:var(--card);margin-bottom:12px}
+.tipo-tabs button{border:0;background:none;padding:5px 14px;border-radius:999px;font-weight:700;color:var(--muted);cursor:pointer;font-family:inherit}
+.tipo-tabs button.on{background:var(--primary);color:var(--on-primary)}
+/* mapa con localidad */
+.mapa .pin .onda{fill:none;stroke:var(--accent);stroke-width:3;transform-box:fill-box;transform-origin:center;animation:onda 2.2s ease-out infinite}
+.mapa .pin .onda.d2{animation-delay:1.1s}
+@keyframes onda{from{transform:scale(.3);opacity:.9}to{transform:scale(2.4);opacity:0}}
+.zoom4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:12px}
+@media(max-width:820px){.zoom4{grid-template-columns:1fr 1fr}}
+.ruta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:10px 0 0;font-size:14px}
+.ruta span{background:var(--primary-soft);border-radius:999px;padding:3px 11px}
+.ruta i{color:var(--muted);font-style:normal}
+/* marcas de rigor */
+.interp{display:inline-flex;gap:5px;align-items:center;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--warn-text);background:var(--warn-soft);border-radius:999px;padding:2px 9px;vertical-align:middle}
+.dato{display:inline-flex;gap:5px;align-items:center;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--ok-text);background:var(--ok-soft);border-radius:999px;padding:2px 9px;vertical-align:middle}
+.sindato{color:var(--muted);font-style:italic}
+.fuente{font-size:12.5px;color:var(--muted);font-style:italic;margin-top:6px}
+/* requerimientos */
+.reqs{display:grid;gap:10px}
+.req{display:grid;grid-template-columns:52px 1fr auto;gap:12px;align-items:start;border:1px solid var(--border);border-left:6px solid var(--rc);border-radius:var(--r-md);padding:12px;background:var(--card)}
+.req .rb{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:20px;background:var(--rc)}
+.req h4{margin:0 0 4px}
+.req .pasosr{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.req .pasosr span{font-size:11.5px;background:var(--bg-soft);border-radius:6px;padding:1px 6px}
+.semaf{display:inline-flex;border:1px solid var(--border-strong);border-radius:999px;overflow:hidden}
+.semaf button{border:0;background:var(--card);padding:4px 10px;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:700;color:var(--muted)}
+.semaf button.on.ok{background:var(--ok);color:#fff}.semaf button.on.warn{background:var(--warn);color:#fff}.semaf button.on.bad{background:var(--bad);color:#fff}
+/* manejo: pasos en acordeón */
+.filtro5b{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 12px}
+.filtro5b button{border:2px solid var(--fc);background:var(--card);color:var(--text);border-radius:999px;padding:4px 12px;font-weight:700;cursor:pointer;font-family:inherit}
+.filtro5b button.on{background:var(--fc);color:#fff}
+.pacc{border:1px solid var(--border);border-left:6px solid var(--pc);border-radius:var(--r-md);background:var(--card);margin:0 0 10px;overflow:hidden}
+.pacc>summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:44px 1fr auto;gap:10px;align-items:center;padding:10px 14px}
+.pacc>summary::-webkit-details-marker{display:none}
+.pacc>summary .num{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:var(--pc);color:#fff;font-weight:700}
+.pacc>summary h4{margin:0;font-size:16px}
+.pacc>summary small{color:var(--muted)}
+.pacc[open]>summary{background:color-mix(in srgb,var(--pc) 8%,var(--card))}
+.pacc .cuerpo{padding:6px 14px 14px}
+.actrow{display:grid;grid-template-columns:28px minmax(0,1fr) 210px;gap:10px;align-items:start;padding:8px 0;border-bottom:1px dashed var(--border)}
+.actrow:last-child{border-bottom:0}
+.actrow.off{opacity:.45}
+.actrow code{font-size:11px;background:var(--bg-soft);padding:0 5px;border-radius:4px;margin-right:4px}
+.actrow.inn{background:color-mix(in srgb,var(--accent) 6%,transparent);border-radius:8px;padding:8px}
+@media(max-width:720px){.actrow{grid-template-columns:28px 1fr}.actrow .imps{grid-column:2}}
+.elchips{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
+.elchip{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;border-radius:999px;padding:1px 8px;background:color-mix(in srgb,var(--ec) 14%,var(--card));color:var(--text);border:1px solid color-mix(in srgb,var(--ec) 40%,transparent);cursor:default}
+.elchip b{color:var(--ec)}
+button.elchip{cursor:pointer;font-family:inherit}
+button.elchip.on{background:var(--ec);color:#fff}
+button.elchip.on b{color:#fff}
+.imps{display:grid;grid-template-columns:repeat(5,1fr);gap:3px}
+.imps .ic{text-align:center;font-size:10px;color:var(--muted)}
+.imps .iv{height:24px;border-radius:5px;display:grid;place-items:center;font-weight:700;font-size:12px;cursor:pointer;user-select:none;border:1px solid var(--border)}
+.iv.n2{background:var(--bad);color:#fff}.iv.n1{background:var(--bad-soft);color:var(--bad-text)}.iv.z{background:var(--bg-soft);color:var(--muted)}.iv.p1{background:var(--ok-soft);color:var(--ok-text)}.iv.p2{background:var(--ok);color:#fff}
+.nueva{border:2px dashed var(--border-strong);border-radius:var(--r-md);padding:12px;margin-top:10px;background:var(--bg-soft)}
+/* elementos */
+.catgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px}
+.catbox{border:1px solid var(--border);border-top:5px solid var(--ec);border-radius:var(--r-md);background:var(--card);padding:12px 14px}
+.catbox h3{margin:0 0 8px;display:flex;align-items:center;gap:8px;font-size:17px}
+.catbox h3 .sym{width:28px;height:28px;border-radius:8px;background:var(--ec);color:#fff;display:grid;place-items:center;font-size:15px}
+.catbox ul{list-style:none;margin:0;padding:0}
+.catbox li{display:grid;grid-template-columns:1fr auto;gap:8px;padding:4px 0;border-bottom:1px solid var(--border);font-size:14px}
+.catbox li:last-child{border-bottom:0}
+.catbox .p{font-weight:700;color:var(--ec);font-variant-numeric:tabular-nums}
+.mini-bar{height:6px;border-radius:3px;background:var(--bg-soft);overflow:hidden;margin-top:3px}.mini-bar i{display:block;height:100%;background:var(--ec);border-radius:3px}
+/* precio y valor */
+.estrellas{display:inline-flex;gap:2px}
+.estrellas button{border:0;background:none;padding:0 1px;font-size:17px;line-height:1;cursor:pointer;color:var(--border-strong)}
+.estrellas button.on{color:var(--warn)}
+.estrellas button:hover{transform:scale(1.25)}
+table.val td,table.val th{vertical-align:middle}
+table.val input{width:92px}
+/* red y tablero */
+svg.red .nodo{animation:pop .5s var(--ease) both;cursor:pointer}
+svg.red .nodo circle{transition:r .2s}
+svg.red .nodo:hover circle{stroke:var(--text);stroke-width:3}
+svg.red .arista{animation:aparece .6s ease both}
+@keyframes pop{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:none}}
+svg.red .nodo{transform-box:fill-box;transform-origin:center}
+@keyframes aparece{from{opacity:0}}
+text.halo{paint-order:stroke;stroke:var(--card);stroke-width:4px;stroke-linejoin:round}
+.legend-cat{display:flex;flex-wrap:wrap;gap:10px;font-size:13px;margin-top:8px}
+.legend-cat span{display:inline-flex;align-items:center;gap:6px;cursor:pointer;padding:2px 8px;border-radius:999px;border:1px solid transparent}
+.legend-cat span:hover{border-color:var(--border-strong)}
+.legend-cat i{width:12px;height:12px;border-radius:50%;display:inline-block}
+.tablero{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px}
+.tablero>.card{margin:0;min-width:0}
+.t3{grid-column:span 3}.t4{grid-column:span 4}.t5{grid-column:span 5}.t6{grid-column:span 6}.t7{grid-column:span 7}.t8{grid-column:span 8}.t12{grid-column:span 12}
+@media(max-width:960px){.t3,.t4,.t5,.t6,.t7,.t8{grid-column:span 12}}
+/* modelo del sistema */
+svg.modelo .caja{animation:subir .6s var(--ease) both}
+svg.modelo .caja:nth-of-type(2){animation-delay:.08s}svg.modelo .caja:nth-of-type(3){animation-delay:.16s}svg.modelo .caja:nth-of-type(4){animation-delay:.24s}
+svg.modelo .nucleo rect{animation:latir 2.6s ease-in-out infinite}
+@keyframes latir{0%,100%{stroke-width:2}50%{stroke-width:5}}
+svg.modelo .flujo{stroke-dasharray:6 6;animation:fluir 1.4s linear infinite}
+svg.modelo .retro{animation:fluir 2.2s linear infinite reverse}
+@keyframes fluir{to{stroke-dashoffset:-24}}
+.props{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.prop{border:1px solid var(--border);border-radius:var(--r-md);padding:10px 12px;background:var(--card)}
+.prop b{display:block;color:var(--primary-dark)}
+.prop .ev{font-size:13px;color:var(--muted)}
+.formular{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.btn.formula{font-size:17px;padding:12px 26px;box-shadow:0 6px 18px rgba(var(--primary-rgb),.35)}
+.btn.formula:hover{transform:translateY(-2px)}
+.tejiendo{display:inline-block;animation:girar 1s linear infinite}
+/* sostenibilidad */
+.ods-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:6px}
+.ods-c{border-radius:8px;color:#fff;padding:7px 8px;font-size:12px;line-height:1.2;min-height:76px;position:relative;overflow:hidden}
+.ods-c b{display:block;font-size:18px}
+.ods-c .pc{position:absolute;right:6px;bottom:4px;font-size:15px;font-weight:700}
+.ods-c.sd{opacity:.35}
+.formula:not(.btn){font-style:italic;background:var(--bg-soft);border-radius:var(--r-sm);padding:8px 12px;margin:8px 0;overflow-x:auto}
+.nota{font-size:13px;color:var(--muted)}
+.leyenda{display:flex;flex-wrap:wrap;gap:12px;font-size:13px;color:var(--muted);margin-top:6px}
+.leyenda span{display:inline-flex;align-items:center;gap:6px}
+.leyenda i{width:12px;height:12px;border-radius:3px;display:inline-block}
+svg.chart{width:100%;height:auto;display:block;overflow:visible}
+svg.chart text{font-family:var(--font);fill:var(--text)}
+svg.chart text.m{fill:var(--muted)}
+svg.chart .ax{stroke:var(--border-strong);stroke-width:1}
+svg.chart .grid{stroke:var(--border);stroke-width:1}
+.tip{position:fixed;z-index:90;pointer-events:none;background:var(--card);border:1px solid var(--border-strong);border-radius:var(--r-sm);padding:7px 10px;font-size:13.5px;box-shadow:var(--shadow);max-width:320px;opacity:0;transition:opacity .12s}
+.tip.on{opacity:1}
+table.tbl{display:block;overflow-x:auto;max-width:100%}
+.tbl-c{overflow-x:auto}
+@media(max-width:600px){ .brand-sub{display:none} .bar-top{gap:6px;padding:8px 12px 4px} main{padding:18px 14px 30px} }
+@media (prefers-reduced-motion:reduce){ .hilo,.lanzadera,.brota,svg.red .nodo,svg.red .arista,svg.modelo .caja,svg.modelo .flujo,svg.modelo .retro,svg.modelo .nucleo rect,.mapa .pin .onda{animation:none!important} }
+@media print{ .no-print,.bar,.progress{display:none!important} .pacc{break-inside:avoid} }
+
+/* calendario circular */
+svg.calendario .evarco{animation:aparece .5s ease both;cursor:pointer;transition:fill-opacity .2s}
+svg.calendario .evarco:hover{fill-opacity:1;stroke:var(--text);stroke-width:2}
+svg.calendario .aguja{animation:fluir 1.6s linear infinite}
+.legend-cat span.on{background:var(--bg-soft)}
+.fechas-paso{display:flex;flex-wrap:wrap;gap:10px;align-items:end;background:var(--bg-soft);border-radius:var(--r-sm);padding:8px 10px;margin:4px 0 8px}
+.fechas-paso label{display:flex;flex-direction:column;font-size:12px;color:var(--muted);font-weight:700}
+.fechas-paso select,.fechas-paso input{font-size:14px}
+
+.dibuja-m{animation:medir 1.4s var(--ease) both}
+@keyframes medir{from{stroke-dasharray:0 200}}
+@media(max-width:600px){ #pill{display:none} .bar-top{gap:4px} .modesw button{padding:4px 7px} }
+
+.cat-grid.mini{grid-template-columns:repeat(auto-fill,minmax(118px,1fr))}
+.cat-grid.mini .cat-card svg{width:70px;height:60px}
+.card.granja{border-top:4px solid #b5462a}
+.lugares{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:8px 0}
+.lugares .chip{cursor:pointer;font-family:inherit}
+.lugares .chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+.razas{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px;margin-top:10px}
+.razas>div{background:var(--bg-soft);border-radius:var(--r-sm);padding:8px 10px}
+
+/* Ventana «Así se hizo con el maíz criollo de Calpan» (bloques sin Stack documentado) */
+.ejemplo-calpan{display:flex;gap:14px;align-items:center;margin:0 0 18px;padding:14px 18px;border-radius:var(--r-lg);border:1px dashed #d9a441;background:linear-gradient(135deg,color-mix(in srgb,#d9a441 14%,var(--card)),var(--card))}
+.ejemplo-calpan .ej-ico{flex:0 0 46px;width:46px;height:56px}
+.ejemplo-calpan .ej-ico svg{width:100%;height:100%}
+.ejemplo-calpan .ej-k{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#a87612}
+.ejemplo-calpan p{margin:4px 0 8px}
+.ej-dlg h3{font-size:16.5px;margin:16px 0 6px}
+.ej-dlg ul,.ej-dlg ol{padding-left:20px;margin:6px 0}
+.ej-dlg li{margin:4px 0}
+#dlgEjemplo{max-width:760px}
+@media (max-width:560px){.ejemplo-calpan{flex-direction:column;align-items:flex-start}}
+
+/* Cladograma del vecino más cercano (Bloque 8) */
+.clado-c{overflow-x:auto}
+.clado{width:100%;min-width:560px;height:auto;font-family:var(--font)}
+.clado .rama{stroke-dasharray:3000;stroke-dashoffset:3000;animation:tejer 1.2s cubic-bezier(.2,.7,.2,1) forwards}
+@keyframes tejer{to{stroke-dashoffset:0}}
+@media (prefers-reduced-motion:reduce){.clado .rama{animation:none;stroke-dashoffset:0}}
+@media print{.clado .rama{animation:none;stroke-dashoffset:0}}
+@media print{.clado-inf{break-inside:auto}.clado-inf .clado{min-width:0}.clado-inf .clado-c{overflow:visible}}
+
+/* Prospectiva a 2, 5 y 10 años */
+.prosp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:14px;margin-bottom:10px}
+.prosp-grid .card{margin:0}
+.prosp-g .linea-p{stroke-dasharray:1400;stroke-dashoffset:1400;animation:tejer 1.6s cubic-bezier(.2,.7,.2,1) forwards}
+.leyenda-esc{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin:6px 0 16px;font-size:14px}
+.leyenda-esc i,.punto{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.prosp-sup input{width:84px}
+.prosp-t td{vertical-align:middle}
+@media (prefers-reduced-motion:reduce){.prosp-g .linea-p{animation:none;stroke-dashoffset:0}}
+@media print{.prosp-g .linea-p{animation:none;stroke-dashoffset:0}}
+.prosp-grid.inf .pg{border:1px solid var(--border);border-radius:var(--r-lg);padding:10px 12px;background:var(--bg)}
+@media print{.prosp-grid.inf{grid-template-columns:repeat(2,minmax(0,1fr))}.prosp-grid.inf .pg{break-inside:avoid}}
+
+/* Impresión general de Ratio Viña */
+@media print{
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .dibuja,.clado .rama,.prosp-g .linea-p{stroke-dashoffset:0!important}
+  .tip,.toast{display:none!important}
+  .teoria{display:block!important}
+  .teoria details>summary{list-style:none;font-weight:700;font-size:15pt;margin:12pt 0 4pt}
+  .teoria details{break-inside:avoid}
+  .tbl-c,.clado-c{max-height:none!important;overflow:visible!important}
+  table.tbl{display:table!important;overflow:visible!important;width:100%!important;max-width:100%!important;table-layout:auto}
+  .tbl,.formula:not(.btn),.modelo{overflow:visible!important}
+  .formula:not(.btn){white-space:normal}
+  .prosp-sup input,.tbl input{width:58px!important;padding:2px 4px!important;font-size:10pt!important}
+  .card .bill,#sinPM,label:has(#sinPM){display:none!important}
+  .tbl td,.tbl th{padding:4px 6px!important}
+  .tbl{font-size:10pt}
+  .chart,.clado,.prosp-g{max-width:100%;height:auto}
+  .clado{min-width:0!important}
+  main>*{animation:none!important;opacity:1!important;transform:none!important}
+  .aparece{animation:none!important;opacity:1!important}
+  .ejemplo-calpan,#dlgEjemplo{display:none!important}
+  .kpis{break-inside:avoid}
+  h1,h2,h3{break-after:avoid}
+  .tablero{display:block}
+  .tablero>.card{margin-bottom:12pt}
+  .prosp-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .prosp-grid .card,.prosp-grid .pg{break-inside:avoid}
+  a{color:inherit;text-decoration:none}
+}
+
+/* Sistemas de producción agregados por el usuario (Bloque 1) */
+.sis-nuevo{margin-top:12px;border:1px dashed var(--border-strong);border-radius:var(--r-md);padding:8px 12px}
+.sis-nuevo summary{cursor:pointer;font-weight:700;color:var(--primary)}
+.sis-nuevo[open] summary{margin-bottom:8px}
+.opt.sis-usuario{position:relative;border-style:dashed}
+.sis-quitar{position:absolute;top:6px;right:8px;border:0;background:none;color:var(--muted);cursor:pointer;font-size:14px}
+.sis-quitar:hover{color:var(--bad-text,#c43a2f)}
+@media print{.sis-nuevo,.sis-quitar{display:none!important}}
+.cat-card.cat-usuario{position:relative;border-style:dashed}
+.cat-card .sis-quitar{z-index:2}
+.cat-nuevo{margin-top:14px}
+@media print{.cat-nuevo{display:none!important}}
+
+/* Bloques 5 y 6: perillas de regeneración y de riesgo */
+.perillas{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.perilla{border:1px solid var(--border);border-left:5px solid var(--pc);border-radius:var(--r-md);padding:10px 12px;background:var(--bg)}
+.perilla.ajustada{background:color-mix(in srgb,var(--pc) 8%,var(--bg))}
+.perilla .pv{font-weight:700;color:var(--pc);white-space:nowrap}
+.perilla input[type=range],.perilla-c input[type=range]{width:100%;accent-color:var(--pc,var(--primary))}
+.perilla .marcas{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:-2px}
+.perilla .nota{margin:6px 0 0}
+.perilla .sug{font-size:12px}
+button.link{border:0;background:none;color:var(--primary);text-decoration:underline;cursor:pointer;padding:0;font:inherit}
+.perilla-c{min-width:120px}
+.perilla-c small{display:block;font-size:11.5px;color:var(--muted)}
+.riesgos-t tr.r-off td{opacity:.45}
+.medidor{max-width:280px;margin:0 auto;display:block}
+.rr-card .kpis{margin-top:4px}
+@media print{.perilla input[type=range],.perilla-c input[type=range],#rReset,#rgBase,#rgBaseX,button.link{display:none!important}.perilla{break-inside:avoid}}
+table.tbl.riesgos-t{display:table;width:100%;table-layout:fixed}
+.riesgos-t th:nth-child(1),.riesgos-t td:nth-child(1){width:44px}
+.riesgos-t th:nth-child(2),.riesgos-t td:nth-child(2){width:auto;white-space:normal}
+.riesgos-t th:nth-child(3),.riesgos-t th:nth-child(4),.riesgos-t th:nth-child(5){width:15%}
+.riesgos-t th:nth-child(6),.riesgos-t td:nth-child(6){width:80px}
+.riesgos-t td small.muted{font-size:11.5px;line-height:1.3;display:block}
+@media(max-width:760px){table.tbl.riesgos-t{display:block;table-layout:auto}}
+
+/* ================= Lo tuyo frente a lo sugerido y al ejemplo publicado ================= */
+::placeholder{color:var(--field);opacity:.75;font-style:italic}
+select.vacio{color:var(--field);font-style:italic;border-style:dashed}
+select.vacio option{color:var(--text);font-style:normal}
+.sin-llenar{display:inline-block;font-size:12px;font-style:italic;color:var(--warn-text);background:var(--warn-soft);border:1px dashed var(--warn);border-radius:var(--r-pill);padding:0 8px;font-weight:400;vertical-align:middle}
+input[type=range].fantasma{opacity:.4;filter:grayscale(1)}
+/* franja de avance bajo el título del bloque */
+.avance{display:flex;align-items:center;gap:10px;margin:10px 0 0;font-size:13px;color:var(--muted);max-width:560px}
+.avance .av-barra{flex:0 0 140px;height:7px;border-radius:7px;background:var(--bg-soft);overflow:hidden;border:1px solid var(--border)}
+.avance .av-barra i{display:block;height:100%;background:var(--warn);transition:width .4s var(--ease)}
+.avance.est-ok .av-barra i{background:var(--ok)} .avance.est-ok{color:var(--ok-text)}
+.avance.est-pend .av-barra i{width:0!important}
+.avance.ej{color:#7a5a12;background:#f6ecd2;border:1px dashed #c9a24a;border-radius:var(--r-md);padding:6px 10px}
+/* marcas del menú: pendiente, en proceso, completo */
+.steps-nav .nav-est{width:9px;height:9px;border-radius:50%;border:1.6px solid var(--field);display:inline-block;margin-left:2px}
+.steps-nav .est-proc .nav-est{border-color:var(--warn);background:linear-gradient(90deg,var(--warn) 50%,transparent 50%)}
+.steps-nav .est-ok .nav-est{border-color:var(--ok);background:var(--ok)}
+.steps-nav button.est-ok:not(.act) .n{background:var(--ok-soft);color:var(--ok-text);border-color:transparent}
+/* perillas: sugerido (punteado, gris) frente a confirmado */
+.perilla.sin-confirmar{border-style:dashed;background:repeating-linear-gradient(135deg,var(--bg),var(--bg) 8px,var(--bg-soft) 8px,var(--bg-soft) 16px)}
+.perilla.sin-confirmar .pv{color:var(--muted);font-style:italic}
+.perilla.sin-confirmar input[type=range]{filter:grayscale(1);opacity:.55}
+.perilla.confirmada{border-left-width:6px}
+.estado-p{display:inline-block;font-size:11.5px;color:var(--muted);font-style:italic;margin:2px 0}
+.perilla.confirmada .estado-p,.estado-p.ok{color:var(--ok-text);font-style:normal;font-weight:700}
+.badge.provisional{background:var(--warn-soft);color:var(--warn-text);border:1px dashed var(--warn)}
+.riesgos-t tr.r-sinconf td{background:repeating-linear-gradient(135deg,transparent,transparent 8px,var(--bg-soft) 8px,var(--bg-soft) 16px)}
+.riesgos-t tr.r-sinconf input[type=range]{filter:grayscale(1);opacity:.5}
+.riesgos-t tr.r-sinconf .btn.sm{padding:1px 8px;font-size:12px}
+/* Bloque 4: respuesta Sí / No por actividad */
+.resp-sn{display:flex;flex-direction:column;gap:4px;flex:0 0 auto}
+.resp-sn button{font:inherit;font-size:12px;padding:3px 9px;border-radius:var(--r-pill);border:1px dashed var(--field);background:var(--card);color:var(--muted);cursor:pointer;white-space:nowrap}
+.resp-sn button.si.on{background:var(--ok);border:1px solid var(--ok);color:#fff;font-weight:700}
+.resp-sn button.no.on{background:var(--bad-soft);border:1px solid var(--bad);color:var(--bad-text);font-weight:700}
+.actrow.resp-vacia{background:repeating-linear-gradient(135deg,transparent,transparent 8px,var(--bg-soft) 8px,var(--bg-soft) 16px)}
+.actrow.resp-no{opacity:.5}
+.resp-todas{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:0 0 10px}
+.resp-ok{color:var(--ok-text);font-weight:700} .resp-parcial{color:var(--warn-text);font-weight:700} .resp-no{color:var(--muted);font-style:italic}
+.ej-pista{font-style:italic;color:#8a6a1e}
+/* ventana del ejemplo publicado: sepia, marca de agua, solo lectura */
+dialog.dlg-ejemplo{background:#f7efdc;color:#3b3020;border:2px solid #c9a24a;position:relative;overflow:auto}
+dialog.dlg-ejemplo .dh{background:#efe1bd;border-bottom:1px dashed #c9a24a}
+dialog.dlg-ejemplo .marca-agua{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;font-size:clamp(28px,6vw,64px);font-weight:700;letter-spacing:.06em;color:rgba(150,110,30,.12);transform:rotate(-18deg);white-space:nowrap;z-index:0}
+dialog.dlg-ejemplo .db,dialog.dlg-ejemplo .dh{position:relative;z-index:1}
+dialog.dlg-ejemplo h3{color:#7a5a12}
+dialog.dlg-ejemplo a{color:#7a4a10}
+.ej-aviso{background:#fff7e3;border:1px dashed #c9a24a;border-radius:var(--r-md);padding:8px 12px;font-size:14px}
+/* franja fija del modo ejemplo */
+.franja-ej{position:sticky;top:0;z-index:60;display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;padding:9px 16px;background:#c4661c;color:#fff;font-size:14.5px;box-shadow:0 2px 10px rgba(0,0,0,.18)}
+.franja-ej .btn{background:#fff;color:#8a3a1f;border-color:#fff}
+html.modo-ejemplo main{outline:4px solid rgba(224,128,42,.55);outline-offset:-4px;background:repeating-linear-gradient(135deg,transparent,transparent 22px,rgba(224,128,42,.035) 22px,rgba(224,128,42,.035) 44px)}
+/* bloques de resultados sin datos */
+.vacio-res h2{margin-top:0}
+.vacio-lista{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:10px}
+.vacio-item{font:inherit;text-align:left;display:grid;grid-template-columns:auto 1fr;gap:2px 8px;align-items:center;padding:8px 10px;border-radius:var(--r-md);border:1px dashed var(--field);background:var(--card);cursor:pointer;color:var(--text)}
+.vacio-item .n{grid-row:span 2;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--bg-soft);font-size:12px;font-weight:700}
+.vacio-item small{color:var(--muted)}
+.vacio-item.est-ok{border:1px solid var(--ok)} .vacio-item.est-ok .n{background:var(--ok);color:#fff}
+.vacio-item.est-proc{border-color:var(--warn)}
+/* Inicio: cómo distinguir lo tuyo */
+.como-llenar .muestra{display:inline-block;padding:6px 12px;border-radius:var(--r-md);font-size:13.5px}
+.como-llenar .muestra.vacia{border:1px solid var(--border-strong);color:var(--field);font-style:italic;background:var(--card);min-width:150px}
+.como-llenar .muestra.sugerida{border:1.5px dashed var(--field);color:var(--muted);font-style:italic;background:repeating-linear-gradient(135deg,var(--bg),var(--bg) 8px,var(--bg-soft) 8px,var(--bg-soft) 16px)}
+.como-llenar .muestra.ejemplo{border:2px solid #c9a24a;background:#f7efdc;color:#7a5a12;font-weight:700}
+.revisado.on{border-color:var(--ok)}
+@media print{.franja-ej,.avance,.resp-todas,.resp-sn{display:none!important} html.modo-ejemplo main{outline:none;background:none}}
+.actrow:has(.resp-sn){grid-template-columns:118px minmax(0,1fr) 210px;padding:8px 6px;border-radius:8px}
+.resp-sn button{width:100%;text-align:center}
+@media(max-width:720px){.actrow:has(.resp-sn){grid-template-columns:104px 1fr}}
+/* Atlas nacional */
+.atlas-p td.hc{text-align:right;font-variant-numeric:tabular-nums;background:color-mix(in srgb,var(--ok) calc(var(--f) * 48%),transparent)}
+.atlas-p td.hc small{color:var(--muted);font-size:11px}
+.atlas-p td.hc.vacia{color:var(--field);background:none}
+.atlas-p td:nth-child(2){min-width:240px}
+.atlas-mapa .edo-a{stroke:var(--card);stroke-width:2}
+tr.atlas-ref td{background:color-mix(in srgb,#c9a24a 10%,transparent)}
+.atlas-inn{columns:2 280px;column-gap:24px;margin:0;padding-left:18px}
+.atlas-inn li{break-inside:avoid;margin-bottom:4px}
+/* Clima vitícola */
+.clima-t input{width:58px;padding:4px 5px;font:inherit;font-size:13.5px;text-align:right;border:1px solid var(--border-strong);border-radius:6px;background:var(--card);color:var(--text)}
+.clima-t th.temp{background:var(--ok-soft)}
+.clima-t th{white-space:nowrap}
+.winkler-t td{white-space:normal;vertical-align:top}
+.winkler-t td:first-child{white-space:nowrap}
+
+/* Código QR de la app (tarjeta «¿Cómo citarla?») */
+.qr-app{display:flex;gap:14px;align-items:center;margin-top:14px;font-size:13px;line-height:1.45;color:var(--muted)}
+.qr-app .qr-img{flex:none;width:104px;height:104px;border-radius:8px;overflow:hidden;border:1px solid var(--line, #dcd9cd);background:#fff}
+.qr-app .qr-img svg{width:100%;height:100%;display:block}
+.qr-app b{color:var(--text, inherit);overflow-wrap:anywhere}
+
+/* Modelo 3D del sistema complejo adaptativo (Bloque 9) */
+.m3d-barra{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin:10px 0 6px}
+.m3d-ctl{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);white-space:nowrap}
+.m3d-ctl select{font:inherit;font-size:13px;max-width:280px}
+svg.m3d{width:100%;height:auto;touch-action:none;cursor:grab;border-radius:var(--r-md);background:radial-gradient(ellipse at 50% 40%,var(--card) 0%,var(--bg-soft) 100%);outline-offset:3px}
+svg.m3d:active{cursor:grabbing}
+svg.m3d .m3d-nodo{cursor:pointer}
+svg.m3d .m3d-etq{fill:var(--text);paint-order:stroke;stroke:var(--card);stroke-width:4px}
+svg.m3d .m3d-val{fill:var(--text);paint-order:stroke;stroke:var(--card);stroke-width:3px}
+.m3d-rank h4{margin:12px 0 2px}
+.m3d-rank ol{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:5px}
+.m3d-rank li{display:grid;grid-template-columns:minmax(150px,1.3fr) 2fr 42px;gap:10px;align-items:center;font-size:13.5px;cursor:pointer;border-radius:6px;padding:2px 4px}
+.m3d-rank li:hover{background:var(--bg-soft)}
+.m3d-rank .nm{display:flex;gap:7px;align-items:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.m3d-rank .nm i{flex:none;width:10px;height:10px;border-radius:50%}
+.m3d-rank .bar{height:10px;border-radius:5px;background:var(--bg-soft);overflow:hidden}
+.m3d-rank .bar b{display:block;height:100%;border-radius:5px}
+.m3d-rank .v{text-align:right;font-weight:700}
+.seg-m3d{display:inline-flex;gap:6px}
+@media (max-width:640px){ .m3d-rank li{grid-template-columns:1.6fr 1fr 30px;font-size:13px} .m3d-rank .nm{white-space:normal} }
+@media print{ .m3d-barra,.m3d-ayuda,.seg-m3d{display:none!important} }
+
+/* Bloque 5 · Manejo: pasos flexibles (orden, regla, «no aplica», pasos propios) */
+.paso-ctl{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;padding:8px 10px;margin:-4px 0 10px;border-radius:var(--r-sm,8px);background:var(--bg-soft);border:1px dashed var(--border)}
+.paso-ctl .btn{min-width:0}
+.paso-ctl select{font:inherit;font-size:13px}
+details.pacc.noaplica{opacity:.62;filter:grayscale(.7)}
+details.pacc.noaplica[open]{opacity:.9}
+details.pacc.noaplica .cuerpo > :not(.paso-ctl):not(.na-nota){display:none!important}
+details.pacc.propio > summary .num{background:var(--accent);color:#fff}
+.actrow.inn.trad > span{color:var(--primary)}
+.tipo-act{font-size:12px;color:var(--muted);font-weight:400}
+details.nuevo-el{margin:10px 0 10px}
+details.nuevo-el > summary{display:inline-flex;align-items:center;gap:6px;cursor:pointer;list-style:none;background:var(--primary);color:#fff;border-color:var(--primary)}
+details.nuevo-el > summary::-webkit-details-marker{display:none}
+details.nuevo-el[open]{padding:8px 12px 10px;border:1px dashed var(--border);border-radius:var(--r-sm,8px)}
+details.nuevo-el[open] > summary{margin-bottom:8px}
+.card.nuevo-paso{border-style:dashed}
+
+/* Bloque 5 · arrastrar pasos y actividades con agarradera */
+.arrastre{display:inline-grid;place-items:center;width:22px;height:26px;border-radius:6px;color:var(--muted);cursor:grab;touch-action:none;user-select:none;font-size:17px;line-height:1;flex:none}
+.arrastre:hover{background:var(--bg-soft);color:var(--text)}
+details.pacc > summary{position:relative;padding-left:34px!important}
+details.pacc > summary > .arrastre{position:absolute;left:6px;top:50%;transform:translateY(-50%)}
+.actrow[data-actkey]{position:relative;padding-left:30px!important}
+.actrow[data-actkey] > .arrastre{position:absolute;left:4px;top:8px}
+body.arrastrando-manejo, body.arrastrando-manejo *{cursor:grabbing!important;user-select:none}
+.arrastrando{opacity:.45;outline:2px dashed var(--primary);outline-offset:2px}
+.drop-antes{box-shadow:0 -4px 0 0 var(--accent)!important}
+.drop-despues{box-shadow:0 4px 0 0 var(--accent)!important}
+details.pacc.drop-dentro{outline:3px solid var(--accent);outline-offset:2px}

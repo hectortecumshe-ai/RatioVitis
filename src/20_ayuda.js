@@ -1,0 +1,66 @@
+"use strict";
+/* =====================================================================
+   AYUDA CONTEXTUAL · signos «?» con concepto y escala de decisión
+   c = concepto; s = escala [nivel, texto]; niveles ok · warn · bad · info
+   Cada escala viene de una fuente citada y verificada contra su texto.
+   ===================================================================== */
+const AYUDA = {
+  sitio:{c:E('La latitud y la altitud entran en la radiación extraterrestre (Ra) y en la presión atmosférica de la ecuación de Penman–Monteith (FAO-56, Ec. 7 y 21).','Latitude and altitude enter extraterrestrial radiation (Ra) and atmospheric pressure in the Penman–Monteith equation (FAO-56, Eq. 7 and 21).'),
+    s:[['info',E('Con la localidad del INEGI se toman solas; si mediste con GPS, escríbelas.','The INEGI locality provides them; if you measured with GPS, type them.')]]},
+  tipoUva:{c:E('El tipo de uva fija los coeficientes de FAO-56: Kcb 0.15 / 0.80 / 0.40 en mesa o pasa y 0.15 / 0.65 / 0.40 en vino (Cuadro 17); p = 0.35 en mesa y 0.45 en vino (Cuadro 22).','Grape type sets FAO-56 coefficients: Kcb 0.15 / 0.80 / 0.40 for table or raisin and 0.15 / 0.65 / 0.40 for wine (Table 17); p = 0.35 table and 0.45 wine (Table 22).'),
+    s:[['info',E('Si tienes coeficientes calibrados en tu viñedo, se podrán comparar con los de FAO-56.','If you have coefficients calibrated in your vineyard, they can be compared with FAO-56.')]]},
+  fw:{c:E('Fracción de la superficie del suelo que moja el riego (FAO-56, Cuadro 20). Con la lluvia es 1.0; con goteo, 0.3 a 0.4.','Fraction of soil surface wetted by irrigation (FAO-56, Table 20). With rain it is 1.0; with drip, 0.3 to 0.4.'),
+    s:[['info',E('Afecta la evaporación del suelo (Ke), no la transpiración.','It affects soil evaporation (Ke), not transpiration.')]]},
+  diseno:{c:E('Bloques completos al azar: cada bloque (p. ej., una hilera) recibe todos los tratamientos, sorteados dentro del bloque. Así la diferencia entre hileras se separa del efecto del tratamiento. La unidad experimental es la parcela.','Randomised complete blocks: each block (e.g., a row) receives all treatments, randomised within the block. Row differences are separated from the treatment effect. The experimental unit is the plot.'),
+    s:[['ok',E('Al menos dos repeticiones (bloques) por tratamiento y un testigo.','At least two replicates (blocks) per treatment and a control.')],['bad',E('Un tratamiento por hilera no tiene repeticiones verdaderas: el efecto queda confundido con el de la hilera.','One treatment per row has no true replicates: the effect is confounded with the row.')]]},
+  textura:{c:E('Proporción de arena, limo y arcilla. En la prueba del frasco, el % de cada capa es su altura entre la altura total de sólidos × 100 (UC ANR). La clase sale del triángulo de texturas del USDA.','Share of sand, silt and clay. In the jar test, each layer % is its height over the total solids height × 100 (UC ANR). The class comes from the USDA texture triangle.'),
+    s:[['info',E('Suelos con mucha arcilla retienen o encharcan; los muy arenosos drenan de más (UC ANR).','Clay-rich soils retain or waterlog; very sandy soils over-drain (UC ANR).')]]},
+  da:{c:E('Densidad aparente = masa de suelo seco / volumen del cilindro (g cm⁻³). Indica compactación (USDA-NRCS, Soil Quality Kit).','Bulk density = dry soil mass / core volume (g cm⁻³). It indicates compaction (USDA-NRCS, Soil Quality Kit).'),
+    s:[['ok',E('Por debajo del valor ideal de tu textura.','Below the ideal value for your texture.')],['warn',E('Entre el ideal y el que afecta el crecimiento de raíces.','Between ideal and the value affecting root growth.')],['bad',E('Arriba del valor que restringe raíces. UC ANR: más de 1.3 puede ser problemático.','Above the root-restricting value. UC ANR: above 1.3 may be problematic.')]]},
+  adt:{c:E('Agua disponible total ADT = 1000 (θCC − θPMP) Zr, en mm (FAO-56, Ec. 82). Agua fácilmente aprovechable AFA = p · ADT (Ec. 83): la que la vid usa sin estrés.','Total available water TAW = 1000 (θFC − θWP) Zr, in mm (FAO-56, Eq. 82). Readily available water RAW = p · TAW (Eq. 83): what the vine uses without stress.'),
+    s:[['info',E('Valores sugeridos de θCC y θPMP: centro del rango del Cuadro 19 de FAO-56 para tu textura; reemplázalos con tu análisis.','Suggested θFC and θWP: centre of the FAO-56 Table 19 range for your texture; replace them with your analysis.')]]},
+  ph:{c:E('pH del suelo en suspensión agua (1:5) o con kit de campo.','Soil pH in water suspension (1:5) or with a field kit.'),
+    s:[['ok',E('5.5 a 6.5: rango ideal para viñedo (cerca de 5.5 para portainjertos, de 6.5 para V. vinifera; UC ANR).','5.5 to 6.5: ideal vineyard range (near 5.5 for rootstocks, 6.5 for V. vinifera; UC ANR).')],['bad',E('Menos de 5.0 o más de 7.0: reduce la disponibilidad de boro (NC State Extension).','Below 5.0 or above 7.0: reduces boron availability (NC State Extension).')]]},
+  ce:{c:E('Conductividad eléctrica del extracto de saturación (CEe). FAO-56: Ya/Ym = 100 − b (CEe − CEe umbral); la vid es moderadamente sensible, umbral 1.5 dS m⁻¹ y b = 9.6 % por dS m⁻¹.','Electrical conductivity of the saturation extract (ECe). FAO-56: Ya/Ym = 100 − b (ECe − ECe threshold); grapevine is moderately sensitive, threshold 1.5 dS m⁻¹ and b = 9.6 % per dS m⁻¹.'),
+    s:[['ok',E('Hasta 1.5 dS m⁻¹: sin pérdida esperada.','Up to 1.5 dS m⁻¹: no expected loss.')],['warn',E('Arriba de 1.5: el rendimiento relativo baja 9.6 % por cada dS m⁻¹.','Above 1.5: relative yield falls 9.6 % per dS m⁻¹.')],['info',E('La CE en relación 1:5 no es la CEe: no la uses en esta fórmula.','EC at 1:5 is not ECe: do not use it in this formula.')]]},
+  et0:{c:E('Evapotranspiración de referencia: la demanda de agua de la atmósfera, por FAO Penman–Monteith (FAO-56, Ec. 6).','Reference evapotranspiration: the atmosphere’s water demand, by FAO Penman–Monteith (FAO-56, Eq. 6).'),
+    s:[['ok',E('Bajo 1–3 y moderado 3–5 mm d⁻¹.','Low 1–3 and moderate 3–5 mm d⁻¹.')],['warn',E('Alto 5–7 mm d⁻¹.','High 5–7 mm d⁻¹.')],['bad',E('Muy alto, más de 7 mm d⁻¹ (FAO-56).','Very high, above 7 mm d⁻¹ (FAO-56).')]]},
+  huglin:{c:E('Índice heliotérmico de Huglin: suma del 1 de abril al 30 de septiembre de [(T − 10) + (Tmáx − 10)] / 2, por el coeficiente de longitud del día (1.00 bajo 40° de latitud).','Huglin heliothermal index: sum from 1 April to 30 September of [(T − 10) + (Tmax − 10)] / 2, times the day-length coefficient (1.00 below 40° latitude).'),
+    s:[['info',E('Clases de Tonietto y Carbonneau (2004): muy fresco ≤ 1500 · fresco 1500–1800 · templado 1800–2100 · templado cálido 2100–2400 · cálido 2400–3000 · muy cálido > 3000.','Tonietto and Carbonneau (2004) classes: very cool ≤ 1500 · cool 1500–1800 · temperate 1800–2100 · warm temperate 2100–2400 · warm 2400–3000 · very warm > 3000.')]]},
+  ci:{c:E('Índice de frescor nocturno: temperatura mínima media de septiembre, el mes de maduración en el hemisferio norte (Tonietto y Carbonneau, 2004).','Cool night index: mean minimum temperature of September, the ripening month in the northern hemisphere (Tonietto and Carbonneau, 2004).'),
+    s:[['info',E('Noches muy frescas ≤ 12 °C · frescas 12–14 · templadas 14–18 · cálidas > 18. Cerca de 14.2 °C hay un umbral para el color y los aromas terpénicos.','Very cool nights ≤ 12 °C · cool 12–14 · temperate 14–18 · warm > 18. Around 14.2 °C there is a threshold for colour and terpenic aromas.')]]},
+  winkler:{c:E('Grados día de Winkler: suma del 1 de abril al 31 de octubre de (T media − 10 °C), sin valores negativos (Amerine y Winkler, 1944).','Winkler degree days: sum from 1 April to 31 October of (mean T − 10 °C), negatives excluded (Amerine and Winkler, 1944).'),
+    s:[['info',E('Las regiones se mostrarán cuando estén verificadas contra su fuente.','Regions will be shown once verified against their source.')]]},
+  pe:{c:E('Relación lluvia / ET0 del mes (FAO-56).','Monthly rainfall / ET0 ratio (FAO-56).'),
+    s:[['ok',E('1 o más: mes húmedo.','1 or more: humid month.')],['bad',E('Menos de 0.5: mes seco.','Below 0.5: dry month.')]]},
+  kcb:{c:E('Coeficiente basal: la transpiración de la vid cuando el suelo superficial está seco y no hay estrés (FAO-56, cap. 7). Kc = Kcb + Ke.','Basal coefficient: vine transpiration when the surface soil is dry and there is no stress (FAO-56, ch. 7). Kc = Kcb + Ke.'),
+    s:[['info',E('Sube en la etapa de desarrollo, se mantiene en la media y baja en la final.','It rises in development, holds mid-season and falls in the late stage.')]]},
+  ks:{c:E('Coeficiente de estrés hídrico: 1 mientras el agotamiento de la zona de raíces no pasa el agua fácilmente aprovechable; luego baja hasta 0 en el punto de marchitez (FAO-56, Ec. 84).','Water stress coefficient: 1 while root-zone depletion stays below readily available water; then it falls to 0 at wilting point (FAO-56, Eq. 84).'),
+    s:[['ok',E('Ks = 1: transpiración máxima.','Ks = 1: maximum transpiration.')],['warn',E('0 < Ks < 1: la transpiración se reduce en proporción.','0 < Ks < 1: transpiration is reduced proportionally.')],['bad',E('Ks = 0: se agotó el agua disponible.','Ks = 0: available water is exhausted.')]]},
+  fracE:{c:E('Parte de la evapotranspiración que se va por evaporación del suelo y no pasa por la vid: E / (E + T), con el coeficiente dual de FAO-56.','Share of evapotranspiration lost as soil evaporation without passing through the vine: E / (E + T), from the FAO-56 dual coefficient.'),
+    s:[['info',E('Es agua que no produce uva.','It is water that produces no grapes.')]]},
+  psiAlba:{c:E('Potencial hídrico de hoja al alba, con cámara de presión, 1 a 2 horas antes del amanecer (IVES Technical Reviews).','Predawn leaf water potential, with a pressure chamber, 1 to 2 hours before sunrise (IVES Technical Reviews).'),
+    s:[['ok',E('Clase 1, 0 a −0.3 MPa: sin déficit.','Class 1, 0 to −0.3 MPa: no deficit.')],['warn',E('Clase 2, −0.3 a −0.5: déficit leve a moderado. Clase 3, −0.5 a −0.8: moderado a severo.','Class 2, −0.3 to −0.5: mild to moderate. Class 3, −0.5 to −0.8: moderate to severe.')],['bad',E('Clase 4, menos de −0.8 MPa: estrés.','Class 4, below −0.8 MPa: stress.')]]},
+  psiTallo:{c:E('Potencial hídrico de tallo al mediodía: hoja sombreada embolsada al menos 30 minutos antes, medida entre las 12 y las 16 h (IVES Technical Reviews; UC ANR).','Midday stem water potential: shaded leaf bagged at least 30 minutes before, measured between 12:00 and 16:00 (IVES Technical Reviews; UC ANR).'),
+    s:[['ok',E('IVES clase 1, −0.6 MPa o más: sin déficit.','IVES class 1, −0.6 MPa or above: no deficit.')],['warn',E('Clase 2, −0.7 a −1.1; clase 3, −1.2 a −1.6.','Class 2, −0.7 to −1.1; class 3, −1.2 to −1.6.')],['bad',E('Clase 4, menos de −1.6 MPa: estrés.','Class 4, below −1.6 MPa: stress.')]]}
+};
+function ayuda(k){ return AYUDA[k] ? `<span class="qh" tabindex="0" role="button" data-q="${k}" aria-label="${T('Ayuda','Help')}">?</span>` : ''; }
+function ayudaHTML(k, titulo){ const a=AYUDA[k]; if(!a) return '';
+  return `${titulo?`<b class="qt">${titulo}</b>`:''}<p>${tx(a.c)}</p><div class="qe">${T('Escala de decisión','Decision scale')}</div><ul>${a.s.map(([n,t])=>`<li class="${n}">${tx(t)}</li>`).join('')}</ul>`; }
+(function(){
+  let tip=null, cur=null;
+  function show(el){ if(!tip){ tip=document.createElement('div'); tip.id='qtip'; tip.setAttribute('role','tooltip'); document.body.appendChild(tip); }
+    const k=el.dataset.q; const tit = el.dataset.qt || (el.closest('td,th,label,h3,h4,.kpi .l,.l,.f')||{}).innerText || '';
+    tip.innerHTML = ayudaHTML(k, tit.replace(/\?/g,'').trim().slice(0,90)); cur=el; tip.classList.add('on'); show.t=Date.now();
+    const r=el.getBoundingClientRect(), w=Math.min(340, innerWidth-24); tip.style.width=w+'px';
+    let x=r.left+r.width/2-w/2; x=Math.max(12,Math.min(x,innerWidth-w-12)); const h=tip.offsetHeight; let y=r.bottom+8; if(y+h>innerHeight-8) y=Math.max(8,r.top-h-8);
+    tip.style.left=x+'px'; tip.style.top=y+'px'; }
+  function hide(){ if(tip) tip.classList.remove('on'); cur=null; }
+  document.addEventListener('mouseover',e=>{ const el=e.target.closest&&e.target.closest('.qh'); if(el) show(el); });
+  document.addEventListener('mouseout',e=>{ const el=e.target.closest&&e.target.closest('.qh'); if(el && !(e.relatedTarget&&el.contains(e.relatedTarget))) hide(); });
+  document.addEventListener('focusin',e=>{ const el=e.target.closest&&e.target.closest('.qh'); if(el) show(el); });
+  document.addEventListener('focusout',e=>{ if(e.target.classList&&e.target.classList.contains('qh')) hide(); });
+  document.addEventListener('click',e=>{ const el=e.target.closest&&e.target.closest('.qh'); if(el){ e.preventDefault(); e.stopPropagation(); show(el); } else hide(); }, true);
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') hide(); });
+  addEventListener('scroll',()=>{ if(cur && Date.now()-(show.t||0)>400) hide(); },{passive:true});
+})();
