@@ -52,14 +52,22 @@ function renderValidacion(el){ const ej=ejemplosFAO(), cs=comparaCasos(), so=pru
      [T('t crítico al 95 %','95 % critical t'), mx(C.tcrit,c=>Math.abs(EST.qT(0.05,c.df)-c.t)), 1e-8]];
     return `<div class="card"><h2>${T('4. Estadística contra SciPy y numpy','4. Statistics against SciPy and numpy')}</h2>${tablaU([T('Prueba','Test'),T('Diferencia máxima','Maximum difference'),T('Resultado','Result')], r.map(([n,d,t])=>`<tr><td>${n}</td><td>${d.toExponential(1)}</td><td>${ok(d,t)}</td></tr>`))}
      <p class="nota">${T('Referencia calculada aparte con SciPy (F, t, rango estudentizado, Levene, Pearson) y con modelos lineales de mínimos cuadrados en numpy (ANCOVA y medidas repetidas): pruebas/verificar_estadistica.py.','Reference computed separately with SciPy (F, t, studentized range, Levene, Pearson) and least-squares linear models in numpy (ANCOVA and repeated measures): pruebas/verificar_estadistica.py.')}</p></div>`; })()}
+  ${(()=>{ let dg=0, db=0, dc=0; CASOS_RED.forEach(c=>{ const m=RED.metricas(c.ids.map(id=>({id})), c.arcos.map(([a,b,s])=>({a,b,s,t:'ecuacion',w:1})));
+      c.ids.forEach(id=>{ dg=Math.max(dg,Math.abs(m.grado[id]-c.grado[id])); db=Math.max(db,Math.abs(m.inter[id]-c.inter[id])); }); dc=Math.max(dc,Math.abs(m.ciclos.length-c.ciclos)); });
+    return `<div class="card"><h2>${T('5. Red del sistema contra NetworkX','5. System network against NetworkX')}</h2>${tablaU([T('Prueba (30 grafos aleatorios)','Test (30 random graphs)'),T('Diferencia máxima','Maximum difference'),T('Resultado','Result')],[
+      `<tr><td>${T('Grado de cada nodo','Degree of each node')}</td><td>${dg}</td><td>${ok(dg,0)}</td></tr>`,
+      `<tr><td>${T('Intermediación normalizada (Brandes)','Normalised betweenness (Brandes)')}</td><td>${db.toExponential(1)}</td><td>${ok(db,1e-12)}</td></tr>`,
+      `<tr><td>${T('Número de ciclos dirigidos simples (longitud ≤ 7)','Number of simple directed cycles (length ≤ 7)')}</td><td>${dc}</td><td>${ok(dc,0)}</td></tr>`])}<p class="nota">pruebas/verificar_red.py · NetworkX ${T('(betweenness_centrality, simple_cycles)','(betweenness_centrality, simple_cycles)')}</p></div>`; })()}
   ${siguiente('validacion')}`; }
 const CASOS_EST = __CASOS_EST__;
+const CASOS_RED = __CASOS_RED__;
 
 const REFS = [
   'Allen, R. G., Pereira, L. S., Raes, D., y Smith, M. (2006). Evapotranspiración del cultivo: guías para la determinación de los requerimientos de agua de los cultivos (Estudio FAO Riego y Drenaje 56). FAO.',
   'Amerine, M. A., y Winkler, A. J. (1944). Composition and quality of musts and wines of California grapes. Hilgardia, 15(6), 493–673.',
   'Barrera-Guzmán, L. Á. (2026). AgriDesign: Diseña y analiza experimentos agrícolas (Versión 1.0) [Software]. Zenodo. https://doi.org/10.5281/zenodo.22683046',
   'Barrera-Guzmán, L. Á. (2026). PhenologyPro: ¿Cuánto calor, cuánta agua y para cuándo? (Versión 1.2.0) [Software]. Zenodo. https://doi.org/10.5281/zenodo.23004710',
+  'Brandes, U. (2001). A faster algorithm for betweenness centrality. Journal of Mathematical Sociology, 25(2), 163–177.',
   'Chan, S. (2001). Complex adaptive systems. ESD.83 Research Seminar in Engineering Systems, Massachusetts Institute of Technology.',
   'Er-Raki, S., Rodriguez, J. C., Garatuza-Payan, J., Watts, C. J., y Chehbouni, A. (2013). Determination of crop evapotranspiration of table grapes in a semi-arid region of Northwest Mexico using multi-spectral vegetation index. Agricultural Water Management, 122, 12–19.',
   'HortScience (1993). An empirical protocol for indirect measurement of leaf area index in grape (Vitis vinifera L.). HortScience, 28(8), 777.',

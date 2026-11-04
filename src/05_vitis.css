@@ -1,0 +1,24 @@
+/* Ratio Vitis: modelo 3D y Recorrido del viñedo */
+.m3v .flujo{stroke-dasharray:12 9;animation:flujo3 .9s linear infinite}
+@keyframes flujo3{to{stroke-dashoffset:-21}}
+@media (prefers-reduced-motion:reduce){.m3v .flujo{animation:none}}
+.recorrido{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.4fr);gap:18px;align-items:center;background:linear-gradient(160deg,#10223a,#1b2f4a 60%,#22324a);color:#f3ecdf;border-radius:22px;padding:22px;position:relative;overflow:hidden}
+.recorrido .esc-n{font:700 12px/1 var(--sans,system-ui);letter-spacing:.16em;text-transform:uppercase;color:#d9a441}
+.recorrido h2{font-size:clamp(1.5rem,1rem + 2vw,2.3rem);line-height:1.15;margin:10px 0 12px;color:#fff}
+.recorrido h2 em{font-style:italic;color:#e9ad2f}
+.recorrido .cifra{font-size:clamp(2.6rem,2rem + 3vw,4.4rem);font-weight:700;color:#e9ad2f;line-height:1;font-variant-numeric:tabular-nums}
+.recorrido .cifra small{font-size:.32em;color:#c9d3e0;margin-left:6px;font-weight:400}
+.recorrido p{color:#c9d3e0;font-size:16px;line-height:1.55}
+.recorrido p b{color:#fff}
+.recorrido .subt{background:rgba(0,0,0,.28);border-radius:10px;padding:8px 12px;font-size:15px;color:#fff;margin-top:10px}
+.recorrido .subt mark{background:none;color:#e9ad2f;font-weight:700}
+.recorrido .m3v{background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.07),transparent 70%);border-radius:16px}
+.recorrido .m3v text{fill:#f3ecdf}
+.recorrido .ctl{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.recorrido .ctl .btn{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.25)}
+.recorrido .ctl .btn.pri{background:#c0772b;border-color:#c0772b}
+.recorrido .puntos{display:flex;gap:6px;margin-top:12px}.recorrido .puntos i{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.25)}.recorrido .puntos i.on{background:#e9ad2f}
+.recorrido .sindato{color:#c9d3e0}
+@media (max-width:820px){.recorrido{grid-template-columns:minmax(0,1fr)}}
+.recorrido .anillo text{fill:#f3ecdf}
+.recorrido .anillo text.m{fill:#c9d3e0}
