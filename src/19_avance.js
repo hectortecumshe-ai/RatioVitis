@@ -6,7 +6,7 @@
    - Modo ejemplo: el caso de Mata de Zarza vive en un estado aparte que no se
      guarda; una franja fija lo anuncia y el proyecto del usuario queda intacto.
    ===================================================================== */
-const BLOQUES_LLENAR = ['vina','suelo','clima','raspa'];
+const BLOQUES_LLENAR = ['vina','suelo','clima','raspa','fert','bio','prod'];
 const BLOQUES_RESULTADO = [];
 function avance(id){ let c=[], nota='';
   const v=S.vina, s=S.suelo, r=S.raspa;
@@ -14,6 +14,9 @@ function avance(id){ let c=[], nota='';
   else if(id==='suelo') c=[!!(s.textura||SUELO.textura(num(s.jarArena),num(s.jarLimo),num(s.jarArcilla))), num(s.da)!=null||(num(s.daMasa)!=null&&num(s.daVol)!=null), num(s.cc)!=null, num(s.pmp)!=null, num(s.zr)!=null, num(s.ph)!=null, num(s.ce)!=null, num(s.mo)!=null];
   else if(id==='clima'){ c=[S.clima.dias.length>0, S.clima.dias.length>=30, S.clima.dias.length>=180, !!S.clima.fuente]; if(!S.clima.dias.length) nota=T('importa los registros diarios','import the daily records'); }
   else if(id==='raspa') c=[!!r.etapas, !!r.brot, (r.riegos||[]).length>0, (r.psi||[]).length>0];
+  else if(id==='fert'){ const fo=Object.values(S.fert.foliar||{}); c=[Object.values(S.fert.suelo).some(v=>num(v)!=null), !!S.fert.tejido&&!!S.fert.etapa, fo.some(o=>Object.values(o).some(v=>num(v)!=null)), (S.fert.abonos||[]).length>0]; }
+  else if(id==='bio'){ const d=Object.values(S.bio.datos||{}); c=[d.some(o=>num(o.poda)!=null), d.some(o=>num(o.af)!=null), (S.bio.sarm||[]).length>0, num(S.bio.fC)!=null, Object.keys(S.bio.ms||{}).length>0]; }
+  else if(id==='prod'){ const d=Object.values(S.prod.datos||{}); c=[d.some(o=>num(o.rend)!=null), d.some(o=>num(o.racimos)!=null), d.some(o=>num(o.brix)!=null), d.some(o=>num(o.acidez)!=null)]; }
   else return null;
   const t=c.length, h=c.filter(Boolean).length, f=t?h/t:0, estado=!h?'pend':h>=t?'ok':'proc';
   return {h, t, f, estado, nota, txt:{pend:T('Pendiente','Pending'), proc:T('En proceso','In progress'), ok:T('Completo','Complete')}[estado]}; }

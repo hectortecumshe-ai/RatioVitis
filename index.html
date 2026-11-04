@@ -1358,12 +1358,15 @@ function estadoInicial(){ return {
   suelo:{textura:'', jarArena:'', jarLimo:'', jarArcilla:'', daMasa:'', daVol:'', da:'', cc:'', pmp:'', zr:'', ze:'', rew:'', infVol:'', infT:'', ph:'', ce:'', mo:''},   // Bloque 2
   clima:{dias:[], fuente:'', kRs:''},                       // Bloque 3: registros diarios de la estación
   raspa:{etapas:'', brot:'', ajustar:false, fc:'', riegos:[], psi:[], dr0:''},     // Bloque 4
+  fert:{suelo:{n:'', p:'', k:'', ca:'', mg:'', cic:''}, tejido:'', etapa:'', foliar:{}, abonos:[], nObj:''},   // Bloque 5 · foliar: unidad -> {N, P, …}
+  bio:{datos:{}, sarm:[], ms:{}, fC:'', resp:'', respDias:''},     // Bloque 6 · datos: unidad -> {poda, af, ndvi}; ms: unidad -> {ini:{…}, fin:{…}}
+  prod:{datos:{}},                                          // Bloque 7 · unidad -> {rend, racimos, baya, brix, acidez, ph}
   revisado:{}
 }; }
 /* EJ = modo ejemplo: nunca se guarda y no toca el proyecto del usuario */
 let EJ = false, S_USUARIO = null;
 function guardar(){ if(EJ) return; try{ localStorage.setItem('vitis_v1', JSON.stringify(S)); }catch(e){} }
-function fusionar(base, g){ const s=Object.assign(base, g); ['proyecto','sitio','vina','exp','suelo','clima','raspa'].forEach(k=>{ s[k]=Object.assign(estadoInicial()[k], g[k]||{}); }); return s; }
+function fusionar(base, g){ const s=Object.assign(base, g); ['proyecto','sitio','vina','exp','suelo','clima','raspa','fert','bio','prod'].forEach(k=>{ s[k]=Object.assign(estadoInicial()[k], g[k]||{}); }); return s; }
 function cargar(){ try{ const g=JSON.parse(localStorage.getItem('vitis_v1')||'null'); if(g && g.formato) return fusionar(estadoInicial(), g); }catch(e){} return estadoInicial(); }
 const LUGARES = [];   // sin accesos directos: cada localidad se elige en el mapa o en la lista
 
@@ -1396,7 +1399,7 @@ const MAPA_MX = {w:1000, h:627, edo:{"MX-SON":"M115.0,10.2L232.3,50.0L297.9,50.2
    - Modo ejemplo: el caso de Mata de Zarza vive en un estado aparte que no se
      guarda; una franja fija lo anuncia y el proyecto del usuario queda intacto.
    ===================================================================== */
-const BLOQUES_LLENAR = ['vina','suelo','clima','raspa'];
+const BLOQUES_LLENAR = ['vina','suelo','clima','raspa','fert','bio','prod'];
 const BLOQUES_RESULTADO = [];
 function avance(id){ let c=[], nota='';
   const v=S.vina, s=S.suelo, r=S.raspa;
@@ -1404,6 +1407,9 @@ function avance(id){ let c=[], nota='';
   else if(id==='suelo') c=[!!(s.textura||SUELO.textura(num(s.jarArena),num(s.jarLimo),num(s.jarArcilla))), num(s.da)!=null||(num(s.daMasa)!=null&&num(s.daVol)!=null), num(s.cc)!=null, num(s.pmp)!=null, num(s.zr)!=null, num(s.ph)!=null, num(s.ce)!=null, num(s.mo)!=null];
   else if(id==='clima'){ c=[S.clima.dias.length>0, S.clima.dias.length>=30, S.clima.dias.length>=180, !!S.clima.fuente]; if(!S.clima.dias.length) nota=T('importa los registros diarios','import the daily records'); }
   else if(id==='raspa') c=[!!r.etapas, !!r.brot, (r.riegos||[]).length>0, (r.psi||[]).length>0];
+  else if(id==='fert'){ const fo=Object.values(S.fert.foliar||{}); c=[Object.values(S.fert.suelo).some(v=>num(v)!=null), !!S.fert.tejido&&!!S.fert.etapa, fo.some(o=>Object.values(o).some(v=>num(v)!=null)), (S.fert.abonos||[]).length>0]; }
+  else if(id==='bio'){ const d=Object.values(S.bio.datos||{}); c=[d.some(o=>num(o.poda)!=null), d.some(o=>num(o.af)!=null), (S.bio.sarm||[]).length>0, num(S.bio.fC)!=null, Object.keys(S.bio.ms||{}).length>0]; }
+  else if(id==='prod'){ const d=Object.values(S.prod.datos||{}); c=[d.some(o=>num(o.rend)!=null), d.some(o=>num(o.racimos)!=null), d.some(o=>num(o.brix)!=null), d.some(o=>num(o.acidez)!=null)]; }
   else return null;
   const t=c.length, h=c.filter(Boolean).length, f=t?h/t:0, estado=!h?'pend':h>=t?'ok':'proc';
   return {h, t, f, estado, nota, txt:{pend:T('Pendiente','Pending'), proc:T('En proceso','In progress'), ok:T('Completo','Complete')}[estado]}; }
@@ -1549,6 +1555,7 @@ const FAO = (()=>{
     const TEW = 1000*(par.cc-0.5*par.pmp)*par.ze;                             // Ec. 73 [mm]
     const REW = Math.min(par.rew, TEW*0.99), h=par.h, kcmin=par.kcmin??0.15;
     let Dr = par.dr0!=null ? par.dr0 : 0, De = par.de0!=null ? par.de0 : 0;   // inicio a capacidad de campo si no se indica
+    let fwUlt = 1;                                                             // fw del último humedecimiento (lluvia = 1)
     const out=[];
     dias.forEach((d,i)=>{ const t=i+1, u2=d.u2??2, hrmin=d.hrmin??45;
       let kcb=kcbDia(t, par.etapas);
@@ -1556,7 +1563,8 @@ const FAO = (()=>{
       const kcmax=Math.max(1.2+ajusteClima(u2,hrmin,h), kcb+0.05);                                         // Ec. 72
       const fc = par.fc!=null ? par.fc : Math.min(0.99, Math.max(0.01, Math.pow(Math.max(0,(kcb-kcmin)/(kcmax-kcmin)), 1+0.5*h)));   // Ec. 76
       const P=d.prec||0, I=d.riego||0, RO=0;                                  // escurrimiento superficial supuesto nulo
-      const fw = I>0 && P<=0 ? par.fw : 1;                                     // Cuadro 20: lluvia 1.0; goteo 0.3–0.4
+      if(P>0) fwUlt=1; else if(I>0) fwUlt=par.fw;                              // Cuadro 20: lluvia 1.0; goteo 0.3–0.4
+      const fw = fwUlt;                                                        // entre eventos se conserva el del último (FAO-56, cap. 7)
       const few = Math.max(0.01, Math.min(1-fc, fw));                          // Ec. 75
       const Kr = De<=REW ? 1 : Math.max(0,(TEW-De)/(TEW-REW));                 // Ec. 74
       const Ke = Math.min(Kr*(kcmax-kcb), few*kcmax);                          // Ec. 71
@@ -1770,6 +1778,7 @@ const RASPA = (()=>{
     const L=et.L, par={cc:sh.cc, pmp:sh.pmp, zr:sh.zr, ze:sh.ze, rew:sh.rew, p:uv.p, h:uv.h, fw, fc:num(S.raspa.fc), dr0:num(S.raspa.dr0), ajustar:!!S.raspa.ajustar,
       etapas:{Li:L[0], Ld:L[1], Lm:L[2], Lf:L[3], kini:uv.kcb[0], kmed:uv.kcb[1], kfin:uv.kcb[2]}};
     const b=FAO.balance(dias, par), tot=k=>b.reduce((s,d)=>s+d[k],0);
+    b.forEach((x,i)=>{ x.rnRef=dias[i].r.rn; x.rs=dias[i].r.rs; });   // radiación neta de la superficie de referencia (FAO-56, Ec. 40)
     const Tr=tot('Tr'), Ev=tot('E'), P=tot('P'), I=tot('I'), DP=tot('DP');
     return {b, par, sh, uv, fw, dias:b.length, tot:{et0:tot('et0'), etc:tot('etc'), T:Tr, E:Ev, P, I, DP}, fracE: Tr+Ev>0 ? Ev/(Tr+Ev) : null,
       diasEstres:b.filter(d=>d.Ks<1).length, ksMin:Math.min(...b.map(d=>d.Ks)), ultimo:b[b.length-1]}; }
@@ -1777,6 +1786,56 @@ const RASPA = (()=>{
   const laminaNeta = ultimo=> ultimo ? ultimo.Dr : null;
   return {ALBA, TALLO, UCANR, URIARTE, psi, correr, laminaNeta};
 })();
+
+</script>
+<script>
+"use strict";
+/* =====================================================================
+   CAMPO · fertilidad, biomasa y carbono, productividad y energía (Bloques 5 a 8)
+   Cada constante está cotejada con el texto de su fuente:
+   · Rangos de suficiencia foliar de Garnacha tinta (La Rioja), limbo y peciolo en floración y envero:
+     OENO One, «Sufficiency ranges (SR) and deviation from optimum percentage (DOP) references…», Tablas 5 a 8.
+   · Rangos de suficiencia de peciolo en floración: NC State Extension, Winegrape Grower’s Guide, cap. 9.
+   · Riesgo de deficiencia de Mg cuando K/Mg del peciolo pasa de 5 a 1: NC State Extension, cap. 9.
+   · Peso de poda de 0.3 a 0.4 libras por pie de hilera: NC State Extension.
+   · Índice de Ravaz recomendado entre 5 y 10; relación área foliar/fruto 1.2 m² kg⁻¹ (0.8 sobrecargada, 1.6 subcargada): UC Davis.
+   · Sólidos solubles de cosecha en uva de mesa entre 14 y 17.5 °Brix: Permanhani et al. (2016).
+   · fc = 0.98 (NDVI − 0.15) y Kc = 0.1808 e^(1.3138 NDVI), uva de mesa en el noroeste de México: Er-Raki et al. (2013).
+   · λ = 2.45 MJ kg⁻¹ (FAO-56); relación de Bowen β = H / LE (OENO One, revisión de covarianza de remolinos).
+   · C = MS · fC; CO₂ = ΔC · 44/12; O₂ = CO₂ · 32/44 (estequiometría de la fotosíntesis; propuesta de tesis de Hernández González).
+   ===================================================================== */
+const CAMPO = (()=>{
+  const NUT = [{k:'N',u:'%'},{k:'P',u:'%'},{k:'K',u:'%'},{k:'Ca',u:'%'},{k:'Mg',u:'%'},{k:'Fe',u:'mg/kg'},{k:'Mn',u:'mg/kg'},{k:'Zn',u:'mg/kg'},{k:'Cu',u:'mg/kg'},{k:'B',u:'mg/kg'}];
+  /* Garnacha: cortes entre bajo | bajo el óptimo | óptimo | sobre el óptimo | alto (4 límites por nutriente) */
+  const GARNACHA = {
+    'limbo|floracion':  {N:[2.83,2.97,3.10,3.25],P:[0.22,0.25,0.28,0.32],K:[0.84,0.94,1.02,1.11],Ca:[1.77,2.01,2.22,2.47],Mg:[0.23,0.28,0.33,0.38],Fe:[97,125,154,197],Mn:[80,103,123,145],Zn:[13,15,17,20],Cu:[6,7,9,11],B:[53,62,71,80]},
+    'peciolo|floracion':{N:[1.24,1.46,1.64,1.86],P:[0.34,0.41,0.46,0.52],K:[1.15,1.38,1.61,1.93],Ca:[1.75,1.98,2.19,2.43],Mg:[0.62,0.82,1.06,1.24],Fe:[26,32,38,46],Mn:[30,44,61,88],Zn:[11,13,16,20],Cu:[7,8,9,11],B:[39,43,45,49]},
+    'limbo|envero':     {N:[1.99,2.09,2.18,2.28],P:[0.14,0.15,0.17,0.19],K:[0.92,1.14,1.34,1.56],Ca:[2.63,2.86,3.06,3.28],Mg:[0.21,0.29,0.40,0.47],Fe:[129,159,191,235],Mn:[91,124,153,187],Zn:[12,14,16,18],Cu:[14,68,127,275],B:[32,39,45,54]},
+    'peciolo|envero':   {N:[0.57,0.64,0.70,0.77],P:[0.12,0.17,0.22,0.30],K:[0.83,1.73,2.64,3.87],Ca:[2.19,2.40,2.52,2.77],Mg:[0.77,1.03,1.43,1.70],Fe:[30,37,45,55],Mn:[47,90,148,218],Zn:[16,21,25,29],Cu:[10,18,39,66],B:[34,37,40,43]} };
+  const CLASES_SR = [E('Bajo','Low'),E('Bajo el óptimo','Below optimal'),E('Óptimo','Optimal'),E('Sobre el óptimo','Above optimal'),E('Alto','High')];
+  function claseGarnacha(clave, nut, v){ const t=(GARNACHA[clave]||{})[nut]; if(!t||v==null) return null; const i=t.findIndex(x=>v<x); return {i:i<0?4:i, n:CLASES_SR[i<0?4:i]}; }
+  /* NC State: peciolo en floración, rango de suficiencia [mín, máx] (null = sin límite publicado) */
+  const NCSTATE = {N:[1.20,2.20],P:[0.15,null],K:[1.50,2.50],Mg:[0.30,0.50],Fe:[40,null],Mn:[25,1000],Cu:[7,15],Zn:[35,50],B:[30,100]};
+  function claseNC(nut, v){ const r=NCSTATE[nut]; if(!r||v==null) return null; if(v<r[0]) return {k:'bad',n:E('Bajo el rango','Below range')}; if(r[1]!=null&&v>r[1]) return {k:'warn',n:E('Arriba del rango','Above range')}; return {k:'ok',n:E('Suficiente','Sufficient')}; }
+  const kmg = (K,Mg)=> K!=null&&Mg>0 ? K/Mg : null;   // > 5 : riesgo de deficiencia de Mg (NC State)
+  /* Poda: libras por pie de hilera a kg por metro (1 lb = 0.45359 kg; 1 pie = 0.3048 m) */
+  const PODA_KGM = [0.3*0.45359237/0.3048, 0.4*0.45359237/0.3048];
+  function clasePoda(kgPlanta, sobre){ if(kgPlanta==null||!(sobre>0)) return null; const v=kgPlanta/sobre;
+    return {v, k:v<PODA_KGM[0]?'warn':v>PODA_KGM[1]?'warn':'ok', c:v<PODA_KGM[0]?E('bajo','low'):v>PODA_KGM[1]?E('vigor alto','high vigour'):E('en promedio','average'), n:v<PODA_KGM[0]?E('Bajo el promedio de referencia (0.45–0.60 kg m⁻¹)','Below the reference average (0.45–0.60 kg m⁻¹)'):v>PODA_KGM[1]?E('Arriba: vigor alto (0.45–0.60 kg m⁻¹)','Above: high vigour (0.45–0.60 kg m⁻¹)'):E('En el promedio de referencia','Within the reference average')}; }
+  const claseRavaz = r=> r==null?null: r<5?{k:'warn',c:E('subcargada','undercropped'),n:E('Menos de 5: subcargada (mucho vigor para la fruta)','Below 5: undercropped (much vigour for the fruit)')}: r>10?{k:'warn',c:E('sobrecargada','overcropped'),n:E('Más de 10: sobrecargada','Above 10: overcropped')}:{k:'ok',c:E('equilibrada','balanced'),n:E('Entre 5 y 10: equilibrada','Between 5 and 10: balanced')};
+  const claseAF = r=> r==null?null: r<1.0?{k:'warn',c:E('sobrecargada','overcropped'),n:E('Cerca de 0.8: sobrecargada','Near 0.8: overcropped')}: r>1.4?{k:'warn',c:E('subcargada','undercropped'),n:E('Cerca de 1.6: subcargada','Near 1.6: undercropped')}:{k:'ok',c:E('recomendada','recommended'),n:E('Cerca de 1.2: recomendada','Near 1.2: recommended')};
+  const claseBrix = (b, tipo)=> b==null||tipo!=='mesa'?null: b<14?{k:'warn',c:E('antes de la ventana','before the window'),n:E('Menos de 14 °Brix: antes de la ventana de cosecha de uva de mesa','Below 14 °Brix: before the table-grape harvest window')}: b>17.5?{k:'warn',c:E('después de la ventana','after the window'),n:E('Más de 17.5 °Brix: después de la ventana','Above 17.5 °Brix: after the window')}:{k:'ok',c:E('en ventana','in window'),n:E('Dentro de la ventana de cosecha (14–17.5 °Brix)','Within the harvest window (14–17.5 °Brix)')};
+  const fcNDVI = ndvi=> ndvi==null?null: Math.max(0, 0.98*(ndvi-0.15));
+  const kcNDVI = ndvi=> ndvi==null?null: 0.1808*Math.exp(1.3138*ndvi);
+  /* Carbono de la biomasa seca y gases equivalentes (por planta, g) */
+  function carbono(msIni, msFin, fC){ if(msFin==null||fC==null) return null; const dC=(msFin-(msIni||0))*fC, co2=dC*44/12; return {dC, co2, o2:co2*32/44}; }
+  /* Energía diaria de la superficie con la ET del viñedo: LE = λ ETc; H = Rn − G − LE (residuo); β = H / LE */
+  function energia(b){ return b.map(d=>{ const rn=d.rnRef, le=2.45*d.etc, h=rn-le; return {f:d.f, rn, le, h, beta:le>0?h/le:null}; }); }
+  return {NUT, GARNACHA, CLASES_SR, claseGarnacha, NCSTATE, claseNC, kmg, PODA_KGM, clasePoda, claseRavaz, claseAF, claseBrix, fcNDVI, kcNDVI, carbono, energia};
+})();
+/* Unidades de comparación: los tratamientos del experimento, o el viñedo completo si no hay */
+const unidades = ()=> (S.exp.trats||[]).filter(t=>t.id).length ? S.exp.trats.filter(t=>t.id).map(t=>({id:t.id, n:t.id+(t.n?' · '+t.n:'')})) : [{id:'V', n:T('Viñedo','Vineyard')}];
+const densidad = ()=> num(S.vina.entre)>0&&num(S.vina.sobre)>0 ? 10000/(num(S.vina.entre)*num(S.vina.sobre)) : null;
 
 </script>
 <script>
@@ -2091,6 +2150,10 @@ const BLOQUES = [
   {id:'suelo',  n:'2', ill:'i-tierra', corto:E('Suelo','Soil'), titulo:E('Suelo: textura, densidad, agua disponible y química básica','Soil: texture, density, available water and basic chemistry'), render:()=>renderSuelo},
   {id:'clima',  n:'3', ill:'i-tierra', corto:E('Clima','Climate'), titulo:E('Clima: registros diarios, ET0 e índices vitícolas','Climate: daily records, ET0 and viticultural indices'), render:()=>renderClima},
   {id:'raspa',  n:'4', ill:'i-regen',  corto:E('RASPA','SPAC'), titulo:E('Relación agua–suelo–planta–atmósfera','Soil–plant–atmosphere water relations'), render:()=>renderRaspa},
+  {id:'fert',   n:'5', ill:'i-tierra', corto:E('Fertilidad','Fertility'), titulo:E('Fertilidad y abonos','Fertility and manures'), render:()=>renderFert},
+  {id:'bio',    n:'6', ill:'i-regen',  corto:E('Biomasa','Biomass'), titulo:E('Biomasa, dosel y carbono','Biomass, canopy and carbon'), render:()=>renderBio},
+  {id:'prod',   n:'7', ill:'c-uva',    corto:E('Productividad','Productivity'), titulo:E('Productividad, calidad y equilibrio','Productivity, quality and balance'), render:()=>renderProd},
+  {id:'energia',n:'8', ill:'i-tierra', corto:E('Energía','Energy'), titulo:E('Energía: cómo reparte el viñedo la radiación','Energy: how the vineyard splits radiation'), render:()=>renderEnergia},
   {id:'validacion', n:'✓', ill:'i-check', corto:E('Validación','Validation'), titulo:E('Validación','Validation'), render:()=>renderValidacion},
   {id:'teoria', n:'§', ill:'i-book',   corto:E('Teoría','Theory'), titulo:E('Marco teórico y fuentes','Theoretical framework and sources'), render:()=>renderTeoria}
 ];
@@ -2145,7 +2208,11 @@ function renderInicio(el){
   const pasos=[['vina',T('Viñedo y experimento','Vineyard and trial'),T('Sitio con latitud y altitud del INEGI, tipo de uva, densidad de plantación y un diseño en bloques al azar con sorteo reproducible y croquis.','Site with INEGI latitude and altitude, grape type, planting density and a randomised block design with reproducible draw and layout.')],
     ['suelo',T('Suelo','Soil'),T('Textura con la prueba del frasco, densidad aparente y su clase, agua disponible (ADT y AFA), infiltración, pH y salinidad.','Texture by jar test, bulk density and its class, available water (TAW and RAW), infiltration, pH and salinity.')],
     ['clima',T('Clima','Climate'),T('Importa los registros diarios de tu estación: ET0 de Penman–Monteith día por día, Huglin, frescor nocturno, Winkler y lluvia contra demanda.','Import your station’s daily records: Penman–Monteith ET0 day by day, Huglin, cool nights, Winkler and rain against demand.')],
-    ['raspa',T('RASPA','SPAC'),T('El agua del suelo a la atmósfera: coeficiente dual de FAO-56, balance diario, estrés hídrico, potencial de tallo y cuánta agua se evapora sin pasar por la vid.','Water from soil to atmosphere: FAO-56 dual coefficient, daily balance, water stress, stem potential and how much water evaporates without passing through the vine.')]];
+    ['raspa',T('RASPA','SPAC'),T('El agua del suelo a la atmósfera: coeficiente dual de FAO-56, balance diario, estrés hídrico, potencial de tallo y cuánta agua se evapora sin pasar por la vid.','Water from soil to atmosphere: FAO-56 dual coefficient, daily balance, water stress, stem potential and how much water evaporates without passing through the vine.')],
+    ['fert',T('Fertilidad y abonos','Fertility and manures'),T('Análisis de suelo y foliar con rangos de suficiencia citados, relación K/Mg y la dosis de cada abono igualada en nitrógeno.','Soil and tissue analysis with cited sufficiency ranges, K/Mg ratio and each manure dose matched in nitrogen.')],
+    ['bio',T('Biomasa y carbono','Biomass and carbon'),T('Peso de poda, área foliar e IAF, NDVI, crecimiento del sarmiento y el carbono acumulado con su CO₂ fijado y O₂ liberado.','Pruning weight, leaf area and LAI, NDVI, shoot growth and accumulated carbon with its fixed CO₂ and released O₂.')],
+    ['prod',T('Productividad','Productivity'),T('Rendimiento, °Brix, índice de Ravaz, relación área foliar/fruto y productividad del agua, por tratamiento.','Yield, °Brix, Ravaz index, leaf area/fruit ratio and water productivity, by treatment.')],
+    ['energia',T('Energía','Energy'),T('Radiación neta, calor latente y sensible y la relación de Bowen del viñedo, día por día.','Net radiation, latent and sensible heat and the vineyard Bowen ratio, day by day.')]];
   el.innerHTML = `<section class="hero">
     <div><div class="eyebrow">Ratio Complexus · ${T('el viñedo medido','the measured vineyard')}</div>
       <h1>${T('Ratio <em>Vitis</em>: el viñedo como <span class="acc">sistema que se mide</span>','Ratio <em>Vitis</em>: the vineyard as a <span class="acc">measured system</span>')}</h1>
@@ -2171,7 +2238,7 @@ function renderInicio(el){
     <div class="stat"><div class="v">4</div><div class="l">${T('escalas de potencial hídrico citadas','cited water potential scales')}</div></div></div>
   <h2 class="section-t">${T('El núcleo de Ratio Vitis','The core of Ratio Vitis')}</h2>
   <div class="inc">${pasos.map((p,i)=>`<button data-ir="${p[0]}"><span class="num">${i+1}</span><h3>${p[1]}</h3><p>${p[2]}</p></button>`).join('')}</div>
-  <div class="card"><h2>${T('En camino','Coming next')}</h2><p class="nota">${T('Fertilidad y abonos, biomasa y carbono, productividad, energía, estadística (con exportación a las apps de la suite LABG de Luis Ángel Barrera-Guzmán), el modelo del sistema complejo adaptativo con su «Recorrido del viñedo», impacto y sostenibilidad, prospectiva e informe.','Fertility and manures, biomass and carbon, productivity, energy, statistics (with export to Luis Ángel Barrera-Guzmán’s LABG suite apps), the complex adaptive system model with its “Vineyard walk-through”, impact and sustainability, outlook and report.')}</p></div>
+  <div class="card"><h2>${T('En camino','Coming next')}</h2><p class="nota">${T('Estadística (con exportación a las apps de la suite LABG de Luis Ángel Barrera-Guzmán), el modelo del sistema complejo adaptativo con su «Recorrido del viñedo», impacto y sostenibilidad, prospectiva e informe.','Statistics (with export to Luis Ángel Barrera-Guzmán’s LABG suite apps), the complex adaptive system model with its “Vineyard walk-through”, impact and sustainability, outlook and report.')}</p></div>
   <div class="card"><h2>${T('Rigor: dato publicado, medición o lectura','Rigour: published data, measurement or reading')}</h2>
    <p>${marcaDato()} ${T('Coeficientes, umbrales y fórmulas tomados de una fuente citada y cotejados con su texto.','Coefficients, thresholds and formulas taken from a cited source and checked against its text.')}</p>
    <p>${marcaInterp()} ${T('Supuestos de Ratio Vitis para completar un cálculo; siempre marcados y editables.','Ratio Vitis assumptions to complete a calculation; always flagged and editable.')}</p></div>
@@ -2265,7 +2332,7 @@ function renderSuelo(el){ const s=S.suelo, texJar=SUELO.textura(num(s.jarArena),
    7. BLOQUES · 3 Clima, 4 RASPA · con gráficas propias en SVG
    ===================================================================== */
 /* Serie diaria: barras (lluvia, riego) y líneas (ET0, ETc, Dr…) con eje de fechas */
-function serieDiaria(dias, cfg){ const W=980, H=cfg.h||300, L=52, R=cfg.der?52:16, Tp=16, B=34, n=dias.length; if(!n) return '';
+function serieDiaria(dias, cfg){ const W=980, H=cfg.h||300, L=52, R=cfg.der?52:16, Tp=34, B=34, n=dias.length; if(!n) return '';
   const x=i=>L+(i+.5)*(W-L-R)/n, bw=Math.max(1,(W-L-R)/n*.8);
   const vals=cfg.series.flatMap(s=>dias.map(s.f)).concat((cfg.barras||[]).flatMap(b=>dias.map(b.f))).filter(v=>v!=null&&isFinite(v));
   const hi=cfg.max!=null?cfg.max:Math.max(1,...vals)*1.08, lo=cfg.min!=null?cfg.min:0, y=v=>Tp+(H-Tp-B)*(1-(v-lo)/(hi-lo));
@@ -2277,11 +2344,11 @@ function serieDiaria(dias, cfg){ const W=980, H=cfg.h||300, L=52, R=cfg.der?52:1
   cfg.series.forEach(se=>{ const pts=dias.map((d,i)=>[x(i),se.f(d)]).filter(p=>p[1]!=null); s+=`<path class="dibuja" d="${pts.map((p,i)=>`${i?'L':'M'}${p[0].toFixed(1)} ${y(p[1]).toFixed(1)}`).join('')}" fill="none" stroke="${se.c}" stroke-width="${se.w||2}" style="--l:4000;stroke-dasharray:4000"/>`; });
   const meses=[]; dias.forEach((d,i)=>{ if(i===0||d.f.slice(8)==='01') meses.push(i); }); const salto=Math.max(1,Math.ceil(meses.length/12));
   meses.filter((_,k)=>k%salto===0).forEach(i=>{ s+=`<text x="${x(i)}" y="${H-12}" font-size="11" class="m">${MESES()[+dias[i].f.slice(5,7)-1]} ${dias[i].f.slice(2,4)}</text>`; });
-  s+=`<g font-size="12">${cfg.series.concat(cfg.barras||[]).concat(cfg.bandas||[]).map((se,k)=>`<g transform="translate(${L+8+k*150} ${Tp+2})"><rect width="12" height="4" y="5" fill="${se.c}"/><text x="16" y="11" class="m">${esc(se.n)}</text></g>`).join('')}</g>`;
+  s+=`<g font-size="12">${cfg.series.concat(cfg.barras||[]).concat(cfg.bandas||[]).map((se,k)=>`<g transform="translate(${L+8+k*170} 4)"><rect width="12" height="4" y="5" fill="${se.c}"/><text x="16" y="11" class="m">${esc(se.n)}</text></g>`).join('')}</g>`;
   return s+'</svg>'; }
 /* Anillo partido: transpiración (pasa por la vid) contra evaporación del suelo (no pasa) */
 function anilloAgua(E, Tr){ const tot=E+Tr; if(!(tot>0)) return ''; const fe=E/tot, R=88, C=110, a=2*Math.PI*fe, x=C+R*Math.sin(a), y=C-R*Math.cos(a);
-  return `<svg class="chart anillo" viewBox="0 0 220 220" role="img" aria-label="${T('Reparto del agua evapotranspirada','Evapotranspired water split')}">
+  return `<svg class="chart anillo" viewBox="0 0 220 220" style="max-width:240px;margin:auto;display:block" role="img" aria-label="${T('Reparto del agua evapotranspirada','Evapotranspired water split')}">
    <circle cx="${C}" cy="${C}" r="${R}" fill="none" stroke="#4f7d3a" stroke-width="26"/>
    <path d="M${C} ${C-R} A${R} ${R} 0 ${fe>.5?1:0} 1 ${x.toFixed(1)} ${y.toFixed(1)}" fill="none" stroke="#c0772b" stroke-width="26"/>
    <text x="${C}" y="${C-4}" text-anchor="middle" font-size="34" font-weight="700" fill="var(--text)">${fmt(100*fe,0)}%</text>
@@ -2341,7 +2408,7 @@ function renderRaspa(el){ const r=S.raspa, res=RASPA.correr(), uv=tipoUva();
     <p class="nota">${T('Lámina en mm sobre toda la superficie: litros por planta / (distancia entre hileras × distancia entre plantas).','Depth in mm over the whole area: litres per vine / (row spacing × vine spacing).')}</p></div>
   ${res.falta?`<div class="card vacio-res"><h2>${T('Para correr el balance falta','To run the balance you still need')}</h2><ul>${res.falta.map(f=>`<li>${esc(tx(f[1]))}</li>`).join('')}</ul></div>`:`
   <div class="card"><h2>${T('4.3 Balance hídrico diario','4.3 Daily water balance')}${ayuda('ks')}</h2>
-    <div class="grid g2" style="align-items:center"><div>${anilloAgua(res.tot.E, res.tot.T)}</div>
+    <div class="grid g2" style="align-items:center"><div>${anilloAgua(res.tot.E, res.tot.T)}<p class="nota" style="text-align:center"><span style="color:#4f7d3a">■</span> ${T('transpiración: pasa por la vid','transpiration: through the vine')} · <span style="color:#c0772b">■</span> ${T('evaporación del suelo','soil evaporation')}</p></div>
      <div><h3 style="margin-top:0">${T(`De cada 100 litros que se evapotranspiraron, ${fmt(100*res.fracE,0)} salieron del suelo sin pasar por la vid.`,`Of every 100 litres evapotranspired, ${fmt(100*res.fracE,0)} left the soil without passing through the vine.`)}${ayuda('fracE')}</h3>
       <div class="kpis"><div class="kpi"><div class="l">${T('Transpiración','Transpiration')}</div><div class="v">${fmt(res.tot.T,0)}</div><div class="s">mm</div></div><div class="kpi"><div class="l">${T('Evaporación del suelo','Soil evaporation')}</div><div class="v">${fmt(res.tot.E,0)}</div><div class="s">mm</div></div>
        <div class="kpi"><div class="l">${T('Días con estrés (Ks < 1)','Days with stress (Ks < 1)')}</div><div class="v">${res.diasEstres}</div><div class="s">${T('de','of')} ${res.dias} · Ks ${T('mín.','min.')} ${fmt(res.ksMin,2)}</div></div>
@@ -2364,6 +2431,114 @@ function renderRaspa(el){ const r=S.raspa, res=RASPA.correr(), uv=tipoUva();
   $$('[data-qriego]',el).forEach(b=>b.onclick=()=>{ S.raspa.riegos.splice(+b.dataset.qriego,1); guardar(); render(); });
   $('#bPsi',el).onclick=()=>{ const f=$('#psF',el).value, v=num($('#psV',el).value); if(!f||v==null) return toast(T('Escribe fecha y valor','Type date and value')); S.raspa.psi.push({f, tipo:$('#psT',el).value, mpa:String(v>0?-v:v)}); S.raspa.psi.sort((a,b)=>a.f.localeCompare(b.f)); guardar(); render(); };
   $$('[data-qpsi]',el).forEach(b=>b.onclick=()=>{ S.raspa.psi.splice(+b.dataset.qpsi,1); guardar(); render(); }); }
+
+</script>
+<script>
+"use strict";
+/* =====================================================================
+   8. BLOQUES · 5 Fertilidad y abonos, 6 Biomasa y carbono, 7 Productividad, 8 Energía
+   Las tablas comparan por tratamiento (o el viñedo completo si no hay experimento).
+   ===================================================================== */
+/* Campo profundo: data-sp="bio.datos.T0.poda" crea los objetos intermedios */
+function ponerProfundo(p, v){ const k=p.split('.'), u=k.pop(); let o=S; k.forEach(x=>{ if(o[x]==null||typeof o[x]!=='object') o[x]={}; o=o[x]; }); o[u]=v; }
+document.addEventListener('change',e=>{ const t=e.target.closest&&e.target.closest('[data-sp]'); if(!t||EJ) return; ponerProfundo(t.dataset.sp, t.value.trim()); guardar(); render(); });
+const celda = (ruta, ph)=> `<input data-sp="${ruta}" type="number" step="any" inputmode="decimal" value="${esc(leerRuta(ruta)??'')}" placeholder="${esc(ph||'')}" style="width:100%;min-width:64px">`;
+const vU = (obj,u,k)=> num(((obj||{})[u]||{})[k]);
+const badgeC = c=> c ? `<span class="badge ${c.k==='ok'?'ok':c.k==='bad'?'bad':'warn'}" title="${esc(tx(c.n))}">${esc(tx(c.c||c.n))}</span>` : '';
+const tablaU = (cab, filas)=> `<div class="tbl-c"><table class="tbl"><thead><tr>${cab.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody>${filas.join('')}</tbody></table></div>`;
+
+/* ================= BLOQUE 5 · FERTILIDAD Y ABONOS ================= */
+function renderFert(el){ const f=S.fert, U=unidades(), clave=f.tejido&&f.etapa?f.tejido+'|'+f.etapa:'';
+  const colSR=['#b05434','#c0772b','#2f8f6a','#c0772b','#b05434'];
+  el.innerHTML = `${cabecera('fert',T('Lo que el suelo ofrece y lo que la vid tomó. El análisis de suelo dice qué hay; el de hoja o peciolo, en floración o envero, dice qué llegó a la planta. Aquí también se calcula la dosis de cada abono para que todos aporten el mismo nitrógeno.','What the soil offers and what the vine took up. The soil analysis says what is there; the leaf or petiole analysis at flowering or veraison says what reached the plant. Here each manure dose is also computed so that all supply the same nitrogen.'))}
+  <div class="card"><h2>${T('5.1 Análisis de suelo','5.1 Soil analysis')}</h2>
+    <div class="grid g3">${campo('fert.suelo.n',T('N total (%)','Total N (%)'))}${campo('fert.suelo.p',T('P Olsen (mg kg⁻¹)','Olsen P (mg kg⁻¹)'))}${campo('fert.suelo.k',T('K intercambiable (cmol(+) kg⁻¹)','Exchangeable K (cmol(+) kg⁻¹)'))}${campo('fert.suelo.ca',T('Ca intercambiable (cmol(+) kg⁻¹)','Exchangeable Ca (cmol(+) kg⁻¹)'))}${campo('fert.suelo.mg',T('Mg intercambiable (cmol(+) kg⁻¹)','Exchangeable Mg (cmol(+) kg⁻¹)'))}${campo('fert.suelo.cic',T('CIC (cmol(+) kg⁻¹)','CEC (cmol(+) kg⁻¹)'))}</div>
+    <p class="nota">${T('pH, CE y materia orgánica se capturan en el Bloque 2. Las clases de fertilidad del suelo se agregarán cuando haya una referencia publicada para viñedos de México.','pH, EC and organic matter are entered in Block 2. Soil fertility classes will be added once a published reference for Mexican vineyards is available.')}</p></div>
+  <div class="card"><h2>${T('5.2 Análisis foliar','5.2 Tissue analysis')}</h2>
+    <div class="grid g2"><label class="f"><span>${T('Tejido','Tissue')}</span><select data-s="fert.tejido" class="${f.tejido?'':'vacio'}"><option value="" ${f.tejido?'':'selected'} disabled>${T('— Elige —','— Choose —')}</option><option value="peciolo" ${f.tejido==='peciolo'?'selected':''}>${T('Peciolo','Petiole')}</option><option value="limbo" ${f.tejido==='limbo'?'selected':''}>${T('Limbo (lámina)','Leaf blade')}</option></select></label>
+      <label class="f"><span>${T('Momento de muestreo','Sampling time')}</span><select data-s="fert.etapa" class="${f.etapa?'':'vacio'}"><option value="" ${f.etapa?'':'selected'} disabled>${T('— Elige —','— Choose —')}</option><option value="floracion" ${f.etapa==='floracion'?'selected':''}>${T('Floración (hoja opuesta al racimo)','Flowering (leaf opposite the cluster)')}</option><option value="envero" ${f.etapa==='envero'?'selected':''}>${T('Envero','Veraison')}</option></select></label></div>
+    ${tablaU([T('Unidad','Unit')].concat(CAMPO.NUT.map(n=>`${n.k}<br><small>${n.u}</small>`)), U.map(u=>`<tr><td><b>${esc(u.n)}</b></td>${CAMPO.NUT.map(n=>`<td>${celda(`fert.foliar.${u.id}.${n.k}`)}</td>`).join('')}</tr>`))}
+    ${clave?`<h3>${T('Lectura con los rangos de suficiencia','Reading with sufficiency ranges')}</h3>
+      ${tablaU([T('Unidad','Unit')].concat(CAMPO.NUT.map(n=>n.k)).concat(f.tejido==='peciolo'?['K/Mg']:[]), U.map(u=>{ const fo=f.foliar[u.id]||{}; const r=CAMPO.kmg(num(fo.K),num(fo.Mg));
+        return `<tr><td>${esc(u.n)}</td>${CAMPO.NUT.map(n=>{ const c=CAMPO.claseGarnacha(clave,n.k,num(fo[n.k])); return `<td>${c?`<span class="badge" style="background:${colSR[c.i]};color:#fff">${esc(tx(c.n))}</span>`:'—'}</td>`; }).join('')}${f.tejido==='peciolo'?`<td>${r!=null?`<span class="badge ${r>5?'warn':'ok'}">${fmt(r,1)}</span>`:'—'}</td>`:''}</tr>`; }))}
+      <p class="alert warn">${T('Referencia de Garnacha tinta en La Rioja (España): sirve para comparar, no es un rango para Perlette ni para México. Úsala con cautela hasta tener referencias locales.','Reference for red Grenache in La Rioja (Spain): useful for comparison, not a range for Perlette or Mexico. Use it with caution until local references exist.')}</p>
+      ${f.tejido==='peciolo'?`<p class="nota">${T('K/Mg del peciolo mayor que 5 a 1: aumenta el riesgo de deficiencia de magnesio (NC State Extension).','Petiole K/Mg above 5 to 1: higher risk of magnesium deficiency (NC State Extension).')}</p>`:''}
+      ${f.tejido==='peciolo'&&f.etapa==='floracion'?`<h3>${T('Rangos de NC State (peciolo en floración)','NC State ranges (petiole at bloom)')}</h3>${tablaU([T('Unidad','Unit')].concat(Object.keys(CAMPO.NCSTATE)), U.map(u=>{ const fo=f.foliar[u.id]||{}; return `<tr><td>${esc(u.n)}</td>${Object.keys(CAMPO.NCSTATE).map(k=>`<td>${badgeC(CAMPO.claseNC(k,num(fo[k])))||'—'}</td>`).join('')}</tr>`; }))}`:''}
+      <p class="nota">${T('El índice DOP (desviación del óptimo) se agregará cuando sus valores de referencia estén verificados contra su fuente.','The DOP index (deviation from optimum) will be added once its reference values are verified against their source.')}</p>`:''}
+    ${fuente('OENO One, «Sufficiency ranges (SR) and deviation from optimum percentage (DOP) references for leaf blade and petiole» (Garnacha tinta), Tablas 5 a 8; NC State Extension, Winegrape Grower’s Guide, cap. 9.')}</div>
+  <div class="card"><h2>${T('5.3 Abonos y dosis igualada en nitrógeno','5.3 Manures and nitrogen-matched dose')}</h2>
+    <p class="nota">${T('Para que las diferencias entre tratamientos se deban al tipo de abono y no a que uno aporte más nitrógeno, la dosis de cada abono se calcula para dar el mismo N por planta. Captura el análisis de cada abono (base seca) y el N que quieres aportar.','So that treatment differences come from the manure type and not from one supplying more nitrogen, each manure dose is computed to give the same N per vine. Enter each manure’s analysis (dry basis) and the N you want to supply.')} ${marcaInterp(T('Criterio de la propuesta de tesis de Hernández González','Criterion from the Hernández González thesis proposal'))}</p>
+    ${campo('fert.nObj',T('N por planta a aportar (g)','N per vine to supply (g)'),{ph:T('lo decides tú con tu análisis','you decide it from your analysis')})}
+    ${tablaU([T('Abono','Manure'),T('N (%)','N (%)'),T('C orgánico (%)','Organic C (%)'),T('Humedad (%)','Moisture (%)'),'C/N',T('Dosis por planta (kg, húmedo)','Dose per vine (kg, wet)'),''], (f.abonos||[]).map((a,i)=>{ const n=num(a.n), c=num(a.c), h=num(a.h)??0, no=num(f.nObj); const cn=n>0&&c!=null?c/n:null, dosis=n>0&&no!=null?no/(n/100*(1-h/100))/1000:null;
+      return `<tr><td><input data-ab="${i}|nom" value="${esc(a.nom||'')}" placeholder="${T('p. ej., excreta de ovino + pulpa de café','e.g., sheep manure + coffee pulp')}" style="width:100%"></td>${['n','c','h'].map(k=>`<td><input data-ab="${i}|${k}" type="number" step="any" value="${esc(a[k]||'')}" style="width:80px"></td>`).join('')}<td>${cn!=null?fmt(cn,1):'—'}</td><td>${dosis!=null?`<b>${fmt(dosis,2)}</b>`:'—'}</td><td><button class="btn sm ghost" data-qab="${i}">×</button></td></tr>`; }).concat([`<tr><td colspan="7"><button class="btn sm" id="bAddAb">＋ ${T('Agregar abono','Add manure')}</button></td></tr>`]))}
+    <p class="nota">${T('Dosis (kg húmedo por planta) = N objetivo (g) / [N (%) / 100 × (1 − humedad / 100)] / 1000.','Dose (wet kg per vine) = target N (g) / [N (%) / 100 × (1 − moisture / 100)] / 1000.')}</p></div>
+  ${siguiente('fert')}`;
+  $$('[data-ab]',el).forEach(i=>i.onchange=()=>{ const [k,c]=i.dataset.ab.split('|'); S.fert.abonos[+k][c]=i.value.trim(); guardar(); render(); });
+  $$('[data-qab]',el).forEach(b=>b.onclick=()=>{ S.fert.abonos.splice(+b.dataset.qab,1); guardar(); render(); });
+  $('#bAddAb',el).onclick=()=>{ S.fert.abonos.push({nom:'',n:'',c:'',h:''}); guardar(); render(); }; }
+
+/* ================= BLOQUE 6 · BIOMASA Y CARBONO ================= */
+function renderBio(el){ const b=S.bio, U=unidades(), sob=num(S.vina.sobre), ent=num(S.vina.entre), area=sob>0&&ent>0?sob*ent:null, den=densidad(), fC=num(b.fC);
+  const tasa=u=>{ const l=(b.sarm||[]).filter(x=>x.u===u&&num(x.cm)!=null).sort((a,c)=>a.f.localeCompare(c.f)); if(l.length<2) return null; const a=l[0], z=l[l.length-1], d=(Date.parse(z.f)-Date.parse(a.f))/864e5; return d>0?(num(z.cm)-num(a.cm))/d:null; };
+  const org=['raiz','tallo','hoja','fruto'], ON={raiz:E('Raíz','Root'),tallo:E('Tallo y sarmientos','Trunk and canes'),hoja:E('Hojas','Leaves'),fruto:E('Fruto','Fruit')};
+  const msT=(u,m)=>{ const o=((b.ms[u]||{})[m])||{}; const v=org.map(k=>num(o[k])); return v.some(x=>x!=null)?v.reduce((s,x)=>s+(x||0),0):null; };
+  el.innerHTML = `${cabecera('bio',T('La planta como almacén: cuánta madera hace, cuánta hoja despliega para captar luz y cuánto carbono guarda. Del carbono acumulado se calcula el CO₂ que fijó y el O₂ que liberó.','The plant as a store: how much wood it makes, how much leaf it unfolds to capture light and how much carbon it keeps. From accumulated carbon come the CO₂ it fixed and the O₂ it released.'))}
+  <div class="card"><h2>${T('6.1 Vigor y dosel','6.1 Vigour and canopy')}</h2>
+    ${tablaU([T('Unidad','Unit'),T('Peso de poda (kg/planta)','Pruning weight (kg/vine)'),T('Área foliar (m²/planta)','Leaf area (m²/vine)'),'NDVI',T('Peso de poda por metro de hilera','Pruning weight per row metre'),T('IAF','LAI'),'fc','Kc (NDVI)'],
+      U.map(u=>{ const d=b.datos[u.id]||{}, cp=CAMPO.clasePoda(num(d.poda), sob), iaf=num(d.af)!=null&&area?num(d.af)/area:null, nd=num(d.ndvi);
+        return `<tr><td><b>${esc(u.n)}</b></td><td>${celda(`bio.datos.${u.id}.poda`)}</td><td>${celda(`bio.datos.${u.id}.af`)}</td><td>${celda(`bio.datos.${u.id}.ndvi`)}</td><td>${cp?fmt(cp.v,2)+' kg m⁻¹ '+badgeC(cp):'—'}</td><td>${iaf!=null?fmt(iaf,2):'—'}</td><td>${nd!=null?fmt(CAMPO.fcNDVI(nd),2):'—'}</td><td>${nd!=null?fmt(CAMPO.kcNDVI(nd),2):'—'}</td></tr>`; }))}
+    <p class="nota">${T('IAF = área foliar por planta / superficie por planta (entre hileras × entre plantas). Con NDVI: fc = 0.98 (NDVI − 0.15) y Kc = 0.1808 e^(1.3138 NDVI), medidos en uva de mesa Perlette y Superior del noroeste de México (Er-Raki et al., 2013). Peso de poda de referencia: 0.3 a 0.4 libras por pie de hilera (0.45 a 0.60 kg m⁻¹).','LAI = leaf area per vine / area per vine (row × vine spacing). With NDVI: fc = 0.98 (NDVI − 0.15) and Kc = 0.1808 e^(1.3138 NDVI), measured on Perlette and Superior table grapes in Northwest Mexico (Er-Raki et al., 2013). Reference pruning weight: 0.3 to 0.4 pounds per foot of row (0.45 to 0.60 kg m⁻¹).')}</p>
+    ${fuente('NC State Extension, Winegrape Grower’s Guide; HortScience 28(8): 777; Er-Raki et al. (2013).')}</div>
+  <div class="card"><h2>${T('6.2 Crecimiento del sarmiento más largo','6.2 Growth of the longest shoot')}</h2>
+    ${(b.sarm||[]).length?tablaU([T('Fecha','Date'),T('Unidad','Unit'),T('Longitud (cm)','Length (cm)'),''], b.sarm.map((x,i)=>`<tr><td>${esc(x.f)}</td><td>${esc(x.u)}</td><td>${fmt(num(x.cm),1)}</td><td><button class="btn sm ghost" data-qsar="${i}">×</button></td></tr>`)):`<p class="sindato">${T('Sin mediciones de sarmiento.','No shoot measurements.')}</p>`}
+    <div class="row" style="gap:8px;align-items:flex-end;flex-wrap:wrap"><label class="f"><span>${T('Fecha','Date')}</span><input type="date" id="saF"></label><label class="f"><span>${T('Unidad','Unit')}</span><select id="saU">${U.map(u=>`<option value="${esc(u.id)}">${esc(u.n)}</option>`).join('')}</select></label><label class="f"><span>cm</span><input type="number" step="any" id="saV"></label><button class="btn sm" id="bSar">＋ ${T('Agregar','Add')}</button></div>
+    <div class="kpis">${U.map(u=>{ const t=tasa(u.id); return `<div class="kpi"><div class="l">${esc(u.n)}</div><div class="v">${t!=null?fmt(t,2):'—'}</div><div class="s">cm d⁻¹ · ${T('tasa media de crecimiento','mean growth rate')}</div></div>`; }).join('')}</div></div>
+  <div class="card"><h2>${T('6.3 Carbono, CO₂ y O₂','6.3 Carbon, CO₂ and O₂')}</h2>
+    <p class="nota">${T('Materia seca por planta (g), secada en estufa, al inicio y al final del periodo. Con la fracción de carbono se obtiene el carbono acumulado, el CO₂ fijado y el O₂ liberado (6 CO₂ + 6 H₂O → C₆H₁₂O₆ + 6 O₂).','Dry matter per vine (g), oven-dried, at the start and end of the period. With the carbon fraction this gives accumulated carbon, fixed CO₂ and released O₂ (6 CO₂ + 6 H₂O → C₆H₁₂O₆ + 6 O₂).')}</p>
+    ${campo('bio.fC',T('Fracción de carbono de la materia seca','Carbon fraction of dry matter'),{ph:T('mídela en laboratorio (0.45–0.50 en la propuesta)','measure it in the lab (0.45–0.50 in the proposal)')})}
+    ${tablaU([T('Unidad','Unit'),T('Momento','Time')].concat(org.map(k=>tx(ON[k])+' (g)')).concat([T('Total (g)','Total (g)')]), U.flatMap(u=>['ini','fin'].map(m=>`<tr><td>${m==='ini'?`<b>${esc(u.n)}</b>`:''}</td><td>${m==='ini'?T('Inicio','Start'):T('Final','End')}</td>${org.map(k=>`<td>${celda(`bio.ms.${u.id}.${m}.${k}`)}</td>`).join('')}<td>${msT(u.id,m)!=null?fmt(msT(u.id,m),0):'—'}</td></tr>`)))}
+    <div class="grid g2">${campo('bio.resp',T('Respiración del suelo (g CO₂ m⁻² d⁻¹)','Soil respiration (g CO₂ m⁻² d⁻¹)'),{nota:T('Trampas de álcali (NaOH) o cámara con sensor de CO₂.','Alkali traps (NaOH) or chamber with CO₂ sensor.')})}${campo('bio.respDias',T('Días del periodo','Days in the period'))}</div>
+    ${fC==null?`<p class="sindato">${T('Falta la fracción de carbono.','The carbon fraction is missing.')}</p>`:tablaU([T('Unidad','Unit'),T('C acumulado (g/planta)','Accumulated C (g/vine)'),T('CO₂ fijado (g/planta)','Fixed CO₂ (g/vine)'),T('O₂ liberado (g/planta)','Released O₂ (g/vine)'),T('CO₂ fijado (t/ha)','Fixed CO₂ (t/ha)'),T('Balance neto con el suelo (t CO₂/ha)','Net balance with soil (t CO₂/ha)')],
+      U.map(u=>{ const c=CAMPO.carbono(msT(u.id,'ini'), msT(u.id,'fin'), fC), ha=c&&den?c.co2*den/1e6:null, rs=num(b.resp), dd=num(b.respDias), emit=rs!=null&&dd!=null?rs*dd*10000/1e6:null;
+        return `<tr><td><b>${esc(u.n)}</b></td><td>${c?fmt(c.dC,0):'—'}</td><td>${c?fmt(c.co2,0):'—'}</td><td>${c?fmt(c.o2,0):'—'}</td><td>${ha!=null?fmt(ha,2):'—'}</td><td>${ha!=null&&emit!=null?`<b>${fmt(ha-emit,2)}</b>`:'—'}</td></tr>`; }))}
+    <p class="nota">C = MS × fC · CO₂ = ΔC × 44/12 · O₂ = CO₂ × 32/44 · ${T('por hectárea con la densidad de plantación del Bloque 1','per hectare with the Block 1 planting density')}.</p>
+    ${fuente(T('Propuesta de tesis de J. Hernández González (UACh, 2026), sección 6.5.','J. Hernández González thesis proposal (UACh, 2026), section 6.5.'))}</div>
+  ${siguiente('bio')}`;
+  $('#bSar',el).onclick=()=>{ const f=$('#saF',el).value, v=num($('#saV',el).value); if(!f||v==null) return toast(T('Escribe fecha y longitud','Type date and length')); S.bio.sarm.push({f, u:$('#saU',el).value, cm:String(v)}); S.bio.sarm.sort((a,c)=>a.f.localeCompare(c.f)); guardar(); render(); };
+  $$('[data-qsar]',el).forEach(x=>x.onclick=()=>{ S.bio.sarm.splice(+x.dataset.qsar,1); guardar(); render(); }); }
+
+/* ================= BLOQUE 7 · PRODUCTIVIDAD ================= */
+function renderProd(el){ const p=S.prod, U=unidades(), den=densidad(), res=RASPA.correr(), aguaETc=res.tot?res.tot.etc*10:null, aguaRiego=res.tot?res.tot.I*10:null;
+  el.innerHTML = `${cabecera('prod',T('Lo que el viñedo entrega: cuánta uva, de qué calidad y con cuánta agua. Los índices de equilibrio dicen si la planta tiene la carga que su follaje puede madurar.','What the vineyard delivers: how many grapes, of what quality and with how much water. Balance indices tell whether the vine carries the crop its foliage can ripen.'))}
+  <div class="card"><h2>${T('7.1 Cosecha y calidad','7.1 Harvest and quality')}</h2>
+    ${tablaU([T('Unidad','Unit'),T('Rendimiento (kg/planta)','Yield (kg/vine)'),T('Racimos por planta','Clusters per vine'),T('Peso de baya (g)','Berry weight (g)'),'°Brix',T('Acidez titulable (g L⁻¹)','Titratable acidity (g L⁻¹)'),T('pH del mosto','Must pH')],
+      U.map(u=>`<tr><td><b>${esc(u.n)}</b></td>${['rend','racimos','baya','brix','acidez','ph'].map(k=>`<td>${celda(`prod.datos.${u.id}.${k}`)}</td>`).join('')}</tr>`))}</div>
+  <div class="card"><h2>${T('7.2 Resultados','7.2 Results')}</h2>
+    ${tablaU([T('Unidad','Unit'),T('Rendimiento (t/ha)','Yield (t/ha)'),T('Peso de racimo (g)','Cluster weight (g)'),'°Brix',T('Índice de Ravaz','Ravaz index'),T('Área foliar / fruto (m² kg⁻¹)','Leaf area / fruit (m² kg⁻¹)'),T('Productividad del agua (kg m⁻³)','Water productivity (kg m⁻³)')],
+      U.map(u=>{ const d=p.datos[u.id]||{}, r=num(d.rend), rc=num(d.racimos), bx=num(d.brix), po=vU(S.bio.datos,u.id,'poda'), af=vU(S.bio.datos,u.id,'af');
+        const tha=r!=null&&den?r*den/1000:null, rav=r!=null&&po>0?r/po:null, afr=af!=null&&r>0?af/r:null, wp=tha!=null&&aguaETc>0?tha*1000/aguaETc:null;
+        return `<tr><td><b>${esc(u.n)}</b></td><td>${tha!=null?fmt(tha,1):'—'}</td><td>${r!=null&&rc>0?fmt(1000*r/rc,0):'—'}</td><td>${bx!=null?fmt(bx,1)+' '+badgeC(CAMPO.claseBrix(bx,S.vina.tipo)):'—'}</td><td>${rav!=null?fmt(rav,1)+' '+badgeC(CAMPO.claseRavaz(rav)):'—'}</td><td>${afr!=null?fmt(afr,2)+' '+badgeC(CAMPO.claseAF(afr)):'—'}</td><td>${wp!=null?fmt(wp,1):'—'}</td></tr>`; }))}
+    <p class="nota">${T('Ravaz = rendimiento / peso de poda (peso de poda del Bloque 6). Área foliar / fruto con el área foliar del Bloque 6. Productividad del agua = rendimiento / agua evapotranspirada por el viñedo (ETc del Bloque 4).','Ravaz = yield / pruning weight (pruning weight from Block 6). Leaf area / fruit with Block 6 leaf area. Water productivity = yield / water evapotranspired by the vineyard (ETc from Block 4).')}
+      ${aguaETc?T(` Agua del periodo: ETc ${fmt(aguaETc,0)} m³ ha⁻¹; riego ${fmt(aguaRiego,0)} m³ ha⁻¹.`,` Water in the period: ETc ${fmt(aguaETc,0)} m³ ha⁻¹; irrigation ${fmt(aguaRiego,0)} m³ ha⁻¹.`):T(' Sin balance del Bloque 4 no hay productividad del agua.',' Without the Block 4 balance there is no water productivity.')}</p>
+    <p class="nota">${T('La reducción de rendimiento por estrés hídrico (factor Ky de FAO-56) se agregará cuando su valor para la vid esté verificado contra su fuente.','Yield reduction from water stress (FAO-56 Ky factor) will be added once its grapevine value is verified against its source.')}</p>
+    ${fuente('UC Davis, research summary 214 (Ravaz y área foliar/fruto); Permanhani et al. (2016), Theor. Exp. Plant Physiol. 28: 85–108 (°Brix de uva de mesa).')}</div>
+  ${siguiente('prod')}`; }
+
+/* ================= BLOQUE 8 · ENERGÍA ================= */
+function renderEnergia(el){ const res=RASPA.correr();
+  if(res.falta){ el.innerHTML=`${cabecera('energia','')}<div class="card vacio-res"><h2>${T('La energía se calcula con el balance del Bloque 4','Energy is computed from the Block 4 balance')}</h2><ul>${res.falta.map(f=>`<li>${esc(tx(f[1]))}</li>`).join('')}</ul><button class="btn" data-ir="raspa">${T('Ir al Bloque 4','Go to Block 4')} →</button></div>${siguiente('energia')}`; return; }
+  const en=CAMPO.energia(res.b), sum=k=>en.reduce((s,d)=>s+d[k],0), Rn=sum('rn'), LE=sum('le'), H=sum('h');
+  el.innerHTML = `${cabecera('energia',T('El sol da la energía; el viñedo decide en qué la gasta. La que se va en evaporar agua (calor latente) enfría al dosel; la que calienta el aire es calor sensible. Su cociente, la relación de Bowen, resume cómo reparte la energía.','The sun provides the energy; the vineyard decides how to spend it. What goes into evaporating water (latent heat) cools the canopy; what heats the air is sensible heat. Their ratio, the Bowen ratio, summarises how energy is split.'))}
+  <div class="card"><h2>${T('8.1 Reparto de la energía disponible','8.1 Partition of available energy')}</h2>
+    <div class="kpis"><div class="kpi"><div class="l">${T('Radiación neta (Rn)','Net radiation (Rn)')}</div><div class="v">${fmt(Rn,0)}</div><div class="s">MJ m⁻² · ${res.dias} ${T('días','days')}</div></div>
+      <div class="kpi"><div class="l">${T('Calor latente (LE = λ ETc)','Latent heat (LE = λ ETc)')}</div><div class="v">${fmt(LE,0)}</div><div class="s">MJ m⁻² · ${fmt(100*LE/Rn,0)} % ${T('de Rn','of Rn')}</div></div>
+      <div class="kpi"><div class="l">${T('Calor sensible (H = Rn − G − LE)','Sensible heat (H = Rn − G − LE)')}</div><div class="v">${fmt(H,0)}</div><div class="s">MJ m⁻² · ${fmt(100*H/Rn,0)} % ${T('de Rn','of Rn')}</div></div>
+      <div class="kpi"><div class="l">${T('Relación de Bowen (β = H / LE)','Bowen ratio (β = H / LE)')}</div><div class="v">${LE>0?fmt(H/LE,2):'—'}</div><div class="s">${T('del periodo','for the period')}</div></div></div>
+    ${serieDiaria(en,{titulo:'Energía',h:280,series:[{n:'Rn',c:'#e9ad2f',f:d=>d.rn},{n:'LE',c:'#3f6fb0',f:d=>d.le},{n:'H',c:'#b05434',f:d=>d.h}],min:Math.min(0,...en.map(d=>d.h))})}
+    <p class="nota">${T('Rn es la radiación neta de la superficie de referencia de FAO-56 (albedo 0.23), calculada con tu clima; G ≈ 0 en periodos diarios; λ = 2.45 MJ kg⁻¹; ETc viene del balance del Bloque 4 y H se obtiene como residuo. Es una estimación: una medición con covarianza de remolinos o con relación de Bowen la sustituye.','Rn is the net radiation of the FAO-56 reference surface (albedo 0.23), computed from your climate; G ≈ 0 for daily periods; λ = 2.45 MJ kg⁻¹; ETc comes from the Block 4 balance and H is obtained as a residual. It is an estimate: an eddy-covariance or Bowen-ratio measurement replaces it.')} ${marcaInterp(T('Rn de la superficie de referencia aplicada al viñedo','Reference-surface Rn applied to the vineyard'))}</p>
+    ${fuente('Allen et al. (2006), FAO-56 (λ, Rn, G); OENO One, «Water and carbon fluxes in vineyards under climate change – a review of eddy-covariance studies» (β = H/LE).')}</div>
+  <div class="card"><h2>${T('8.2 Energía del manejo','8.2 Management energy')}</h2><p class="sindato">${T('La energía invertida (abono, transporte, mano de obra, riego) frente a la captada en la biomasa necesita coeficientes energéticos publicados; se agregará con las fuentes que subas al cuaderno de Ratio Vitis.','Energy invested (manure, transport, labour, irrigation) against energy captured in biomass needs published energy coefficients; it will be added with the sources you upload to the Ratio Vitis notebook.')}</p></div>
+  ${siguiente('energia')}`; }
 
 </script>
 <script>
@@ -6307,6 +6482,9 @@ function renderValidacion(el){ const ej=ejemplosFAO(), cs=comparaCasos(), so=pru
    <div class="tbl-c"><table class="tbl"><thead><tr><th>${T('Arena–limo–arcilla (%)','Sand–silt–clay (%)')}</th><th>${T('Esperado (USDA)','Expected (USDA)')}</th><th>Ratio Vitis</th><th></th></tr></thead><tbody>
    ${tex.map(([a,l,c,k,r])=>`<tr><td>${a}–${l}–${c}</td><td>${esc(tx(SUELO.CLASES[k]))}</td><td>${esc(tx(SUELO.CLASES[r]))}</td><td>${ok(k===r?0:1,0)}</td></tr>`).join('')}</tbody></table></div>
    <p>${T('Sorteo en bloques: la misma semilla da el mismo croquis y cada bloque contiene cada tratamiento una vez','Block randomisation: the same seed gives the same layout and each block holds each treatment once')} ${ok(so?0:1,0)}</p>
+   <p>${T('Peciolo en floración, N = 1.50 % (Garnacha: óptimo 1.46–1.64) → clase','Petiole at flowering, N = 1.50 % (Grenache: optimal 1.46–1.64) → class')} ${esc(tx(CAMPO.claseGarnacha('peciolo|floracion','N',1.50).n))} ${ok(CAMPO.claseGarnacha('peciolo|floracion','N',1.50).i===2?0:1,0)}</p>
+   <p>${T('Carbono: 100 g de C acumulado → CO₂ 366.7 g y O₂ 266.7 g','Carbon: 100 g of accumulated C → CO₂ 366.7 g and O₂ 266.7 g')} ${ok(Math.abs(CAMPO.carbono(0,1000,0.1).co2-366.667)+Math.abs(CAMPO.carbono(0,1000,0.1).o2-266.667),0.01)}</p>
+   <p>${T('Er-Raki et al. (2013): NDVI de suelo desnudo 0.15 → fc = 0','Er-Raki et al. (2013): bare-soil NDVI 0.15 → fc = 0')} ${ok(Math.abs(CAMPO.fcNDVI(0.15)),1e-12)}</p>
    <p>${T('Potencial de tallo −0.65 MPa (hueco de la escala del IVES entre −0.6 y −0.7) → clase','Stem potential −0.65 MPa (gap of the IVES scale between −0.6 and −0.7) → class')} ${RASPA.psi('tallo',-0.65).ives[1]} ${ok(RASPA.psi('tallo',-0.65).ives[1]===2?0:1,0)}</p></div>
   ${siguiente('validacion')}`; }
 
@@ -6317,6 +6495,12 @@ const REFS = [
   'Barrera-Guzmán, L. Á. (2026). PhenologyPro: ¿Cuánto calor, cuánta agua y para cuándo? (Versión 1.2.0) [Software]. Zenodo. https://doi.org/10.5281/zenodo.23004710',
   'Chan, S. (2001). Complex adaptive systems. ESD.83 Research Seminar in Engineering Systems, Massachusetts Institute of Technology.',
   'Er-Raki, S., Rodriguez, J. C., Garatuza-Payan, J., Watts, C. J., y Chehbouni, A. (2013). Determination of crop evapotranspiration of table grapes in a semi-arid region of Northwest Mexico using multi-spectral vegetation index. Agricultural Water Management, 122, 12–19.',
+  'HortScience (1993). An empirical protocol for indirect measurement of leaf area index in grape (Vitis vinifera L.). HortScience, 28(8), 777.',
+  'OENO One. Sufficiency ranges (SR) and deviation from optimum percentage (DOP) references for leaf blade and petiole of red Grenache. https://oeno-one.eu/article/view/94',
+  'OENO One. Water and carbon fluxes in vineyards under climate change – a review of eddy-covariance studies. https://oeno-one.eu/article/view/9872',
+  'Permanhani et al. (2016). Deficit irrigation in table grape: eco-physiological basis and potential use to save water and improve quality. Theoretical and Experimental Plant Physiology, 28, 85–108.',
+  'UC Davis. Research summary 214: Effect of shoot number on leaf area and crop weight relationship. https://wine.ucdavis.edu/',
+  'Hernández González, J. (2026). Adaptabilidad del cultivo de uva (Vitis vinifera L.) en Mata de Zarza, Veracruz, como sistema complejo adaptativo (propuesta de tesis de maestría). Universidad Autónoma Chapingo.',
   'Holland, J. H. (1995). Hidden order: How adaptation builds complexity. Addison-Wesley.',
   'IVES Technical Reviews. A few words on grapevine leaf water potential. https://ives-technicalreviews.eu/article/view/3620',
   'NC State Extension. North Carolina Winegrape Grower’s Guide, chapter 9: Vine nutrition. https://content.ces.ncsu.edu/pdf/chapter-9-vine-nutrition/2014-10-16/winegrapes9.pdf',

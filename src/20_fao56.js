@@ -59,6 +59,7 @@ const FAO = (()=>{
     const TEW = 1000*(par.cc-0.5*par.pmp)*par.ze;                             // Ec. 73 [mm]
     const REW = Math.min(par.rew, TEW*0.99), h=par.h, kcmin=par.kcmin??0.15;
     let Dr = par.dr0!=null ? par.dr0 : 0, De = par.de0!=null ? par.de0 : 0;   // inicio a capacidad de campo si no se indica
+    let fwUlt = 1;                                                             // fw del último humedecimiento (lluvia = 1)
     const out=[];
     dias.forEach((d,i)=>{ const t=i+1, u2=d.u2??2, hrmin=d.hrmin??45;
       let kcb=kcbDia(t, par.etapas);
@@ -66,7 +67,8 @@ const FAO = (()=>{
       const kcmax=Math.max(1.2+ajusteClima(u2,hrmin,h), kcb+0.05);                                         // Ec. 72
       const fc = par.fc!=null ? par.fc : Math.min(0.99, Math.max(0.01, Math.pow(Math.max(0,(kcb-kcmin)/(kcmax-kcmin)), 1+0.5*h)));   // Ec. 76
       const P=d.prec||0, I=d.riego||0, RO=0;                                  // escurrimiento superficial supuesto nulo
-      const fw = I>0 && P<=0 ? par.fw : 1;                                     // Cuadro 20: lluvia 1.0; goteo 0.3–0.4
+      if(P>0) fwUlt=1; else if(I>0) fwUlt=par.fw;                              // Cuadro 20: lluvia 1.0; goteo 0.3–0.4
+      const fw = fwUlt;                                                        // entre eventos se conserva el del último (FAO-56, cap. 7)
       const few = Math.max(0.01, Math.min(1-fc, fw));                          // Ec. 75
       const Kr = De<=REW ? 1 : Math.max(0,(TEW-De)/(TEW-REW));                 // Ec. 74
       const Ke = Math.min(Kr*(kcmax-kcb), few*kcmax);                          // Ec. 71

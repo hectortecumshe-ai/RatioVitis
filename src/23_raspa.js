@@ -39,6 +39,7 @@ const RASPA = (()=>{
     const L=et.L, par={cc:sh.cc, pmp:sh.pmp, zr:sh.zr, ze:sh.ze, rew:sh.rew, p:uv.p, h:uv.h, fw, fc:num(S.raspa.fc), dr0:num(S.raspa.dr0), ajustar:!!S.raspa.ajustar,
       etapas:{Li:L[0], Ld:L[1], Lm:L[2], Lf:L[3], kini:uv.kcb[0], kmed:uv.kcb[1], kfin:uv.kcb[2]}};
     const b=FAO.balance(dias, par), tot=k=>b.reduce((s,d)=>s+d[k],0);
+    b.forEach((x,i)=>{ x.rnRef=dias[i].r.rn; x.rs=dias[i].r.rs; });   // radiación neta de la superficie de referencia (FAO-56, Ec. 40)
     const Tr=tot('Tr'), Ev=tot('E'), P=tot('P'), I=tot('I'), DP=tot('DP');
     return {b, par, sh, uv, fw, dias:b.length, tot:{et0:tot('et0'), etc:tot('etc'), T:Tr, E:Ev, P, I, DP}, fracE: Tr+Ev>0 ? Ev/(Tr+Ev) : null,
       diasEstres:b.filter(d=>d.Ks<1).length, ksMin:Math.min(...b.map(d=>d.Ks)), ultimo:b[b.length-1]}; }

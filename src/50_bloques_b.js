@@ -3,7 +3,7 @@
    7. BLOQUES · 3 Clima, 4 RASPA · con gráficas propias en SVG
    ===================================================================== */
 /* Serie diaria: barras (lluvia, riego) y líneas (ET0, ETc, Dr…) con eje de fechas */
-function serieDiaria(dias, cfg){ const W=980, H=cfg.h||300, L=52, R=cfg.der?52:16, Tp=16, B=34, n=dias.length; if(!n) return '';
+function serieDiaria(dias, cfg){ const W=980, H=cfg.h||300, L=52, R=cfg.der?52:16, Tp=34, B=34, n=dias.length; if(!n) return '';
   const x=i=>L+(i+.5)*(W-L-R)/n, bw=Math.max(1,(W-L-R)/n*.8);
   const vals=cfg.series.flatMap(s=>dias.map(s.f)).concat((cfg.barras||[]).flatMap(b=>dias.map(b.f))).filter(v=>v!=null&&isFinite(v));
   const hi=cfg.max!=null?cfg.max:Math.max(1,...vals)*1.08, lo=cfg.min!=null?cfg.min:0, y=v=>Tp+(H-Tp-B)*(1-(v-lo)/(hi-lo));
@@ -15,11 +15,11 @@ function serieDiaria(dias, cfg){ const W=980, H=cfg.h||300, L=52, R=cfg.der?52:1
   cfg.series.forEach(se=>{ const pts=dias.map((d,i)=>[x(i),se.f(d)]).filter(p=>p[1]!=null); s+=`<path class="dibuja" d="${pts.map((p,i)=>`${i?'L':'M'}${p[0].toFixed(1)} ${y(p[1]).toFixed(1)}`).join('')}" fill="none" stroke="${se.c}" stroke-width="${se.w||2}" style="--l:4000;stroke-dasharray:4000"/>`; });
   const meses=[]; dias.forEach((d,i)=>{ if(i===0||d.f.slice(8)==='01') meses.push(i); }); const salto=Math.max(1,Math.ceil(meses.length/12));
   meses.filter((_,k)=>k%salto===0).forEach(i=>{ s+=`<text x="${x(i)}" y="${H-12}" font-size="11" class="m">${MESES()[+dias[i].f.slice(5,7)-1]} ${dias[i].f.slice(2,4)}</text>`; });
-  s+=`<g font-size="12">${cfg.series.concat(cfg.barras||[]).concat(cfg.bandas||[]).map((se,k)=>`<g transform="translate(${L+8+k*150} ${Tp+2})"><rect width="12" height="4" y="5" fill="${se.c}"/><text x="16" y="11" class="m">${esc(se.n)}</text></g>`).join('')}</g>`;
+  s+=`<g font-size="12">${cfg.series.concat(cfg.barras||[]).concat(cfg.bandas||[]).map((se,k)=>`<g transform="translate(${L+8+k*170} 4)"><rect width="12" height="4" y="5" fill="${se.c}"/><text x="16" y="11" class="m">${esc(se.n)}</text></g>`).join('')}</g>`;
   return s+'</svg>'; }
 /* Anillo partido: transpiración (pasa por la vid) contra evaporación del suelo (no pasa) */
 function anilloAgua(E, Tr){ const tot=E+Tr; if(!(tot>0)) return ''; const fe=E/tot, R=88, C=110, a=2*Math.PI*fe, x=C+R*Math.sin(a), y=C-R*Math.cos(a);
-  return `<svg class="chart anillo" viewBox="0 0 220 220" role="img" aria-label="${T('Reparto del agua evapotranspirada','Evapotranspired water split')}">
+  return `<svg class="chart anillo" viewBox="0 0 220 220" style="max-width:240px;margin:auto;display:block" role="img" aria-label="${T('Reparto del agua evapotranspirada','Evapotranspired water split')}">
    <circle cx="${C}" cy="${C}" r="${R}" fill="none" stroke="#4f7d3a" stroke-width="26"/>
    <path d="M${C} ${C-R} A${R} ${R} 0 ${fe>.5?1:0} 1 ${x.toFixed(1)} ${y.toFixed(1)}" fill="none" stroke="#c0772b" stroke-width="26"/>
    <text x="${C}" y="${C-4}" text-anchor="middle" font-size="34" font-weight="700" fill="var(--text)">${fmt(100*fe,0)}%</text>
@@ -79,7 +79,7 @@ function renderRaspa(el){ const r=S.raspa, res=RASPA.correr(), uv=tipoUva();
     <p class="nota">${T('Lámina en mm sobre toda la superficie: litros por planta / (distancia entre hileras × distancia entre plantas).','Depth in mm over the whole area: litres per vine / (row spacing × vine spacing).')}</p></div>
   ${res.falta?`<div class="card vacio-res"><h2>${T('Para correr el balance falta','To run the balance you still need')}</h2><ul>${res.falta.map(f=>`<li>${esc(tx(f[1]))}</li>`).join('')}</ul></div>`:`
   <div class="card"><h2>${T('4.3 Balance hídrico diario','4.3 Daily water balance')}${ayuda('ks')}</h2>
-    <div class="grid g2" style="align-items:center"><div>${anilloAgua(res.tot.E, res.tot.T)}</div>
+    <div class="grid g2" style="align-items:center"><div>${anilloAgua(res.tot.E, res.tot.T)}<p class="nota" style="text-align:center"><span style="color:#4f7d3a">■</span> ${T('transpiración: pasa por la vid','transpiration: through the vine')} · <span style="color:#c0772b">■</span> ${T('evaporación del suelo','soil evaporation')}</p></div>
      <div><h3 style="margin-top:0">${T(`De cada 100 litros que se evapotranspiraron, ${fmt(100*res.fracE,0)} salieron del suelo sin pasar por la vid.`,`Of every 100 litres evapotranspired, ${fmt(100*res.fracE,0)} left the soil without passing through the vine.`)}${ayuda('fracE')}</h3>
       <div class="kpis"><div class="kpi"><div class="l">${T('Transpiración','Transpiration')}</div><div class="v">${fmt(res.tot.T,0)}</div><div class="s">mm</div></div><div class="kpi"><div class="l">${T('Evaporación del suelo','Soil evaporation')}</div><div class="v">${fmt(res.tot.E,0)}</div><div class="s">mm</div></div>
        <div class="kpi"><div class="l">${T('Días con estrés (Ks < 1)','Days with stress (Ks < 1)')}</div><div class="v">${res.diasEstres}</div><div class="s">${T('de','of')} ${res.dias} · Ks ${T('mín.','min.')} ${fmt(res.ksMin,2)}</div></div>

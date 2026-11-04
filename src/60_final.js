@@ -37,6 +37,9 @@ function renderValidacion(el){ const ej=ejemplosFAO(), cs=comparaCasos(), so=pru
    <div class="tbl-c"><table class="tbl"><thead><tr><th>${T('Arena–limo–arcilla (%)','Sand–silt–clay (%)')}</th><th>${T('Esperado (USDA)','Expected (USDA)')}</th><th>Ratio Vitis</th><th></th></tr></thead><tbody>
    ${tex.map(([a,l,c,k,r])=>`<tr><td>${a}–${l}–${c}</td><td>${esc(tx(SUELO.CLASES[k]))}</td><td>${esc(tx(SUELO.CLASES[r]))}</td><td>${ok(k===r?0:1,0)}</td></tr>`).join('')}</tbody></table></div>
    <p>${T('Sorteo en bloques: la misma semilla da el mismo croquis y cada bloque contiene cada tratamiento una vez','Block randomisation: the same seed gives the same layout and each block holds each treatment once')} ${ok(so?0:1,0)}</p>
+   <p>${T('Peciolo en floración, N = 1.50 % (Garnacha: óptimo 1.46–1.64) → clase','Petiole at flowering, N = 1.50 % (Grenache: optimal 1.46–1.64) → class')} ${esc(tx(CAMPO.claseGarnacha('peciolo|floracion','N',1.50).n))} ${ok(CAMPO.claseGarnacha('peciolo|floracion','N',1.50).i===2?0:1,0)}</p>
+   <p>${T('Carbono: 100 g de C acumulado → CO₂ 366.7 g y O₂ 266.7 g','Carbon: 100 g of accumulated C → CO₂ 366.7 g and O₂ 266.7 g')} ${ok(Math.abs(CAMPO.carbono(0,1000,0.1).co2-366.667)+Math.abs(CAMPO.carbono(0,1000,0.1).o2-266.667),0.01)}</p>
+   <p>${T('Er-Raki et al. (2013): NDVI de suelo desnudo 0.15 → fc = 0','Er-Raki et al. (2013): bare-soil NDVI 0.15 → fc = 0')} ${ok(Math.abs(CAMPO.fcNDVI(0.15)),1e-12)}</p>
    <p>${T('Potencial de tallo −0.65 MPa (hueco de la escala del IVES entre −0.6 y −0.7) → clase','Stem potential −0.65 MPa (gap of the IVES scale between −0.6 and −0.7) → class')} ${RASPA.psi('tallo',-0.65).ives[1]} ${ok(RASPA.psi('tallo',-0.65).ives[1]===2?0:1,0)}</p></div>
   ${siguiente('validacion')}`; }
 
@@ -47,6 +50,12 @@ const REFS = [
   'Barrera-Guzmán, L. Á. (2026). PhenologyPro: ¿Cuánto calor, cuánta agua y para cuándo? (Versión 1.2.0) [Software]. Zenodo. https://doi.org/10.5281/zenodo.23004710',
   'Chan, S. (2001). Complex adaptive systems. ESD.83 Research Seminar in Engineering Systems, Massachusetts Institute of Technology.',
   'Er-Raki, S., Rodriguez, J. C., Garatuza-Payan, J., Watts, C. J., y Chehbouni, A. (2013). Determination of crop evapotranspiration of table grapes in a semi-arid region of Northwest Mexico using multi-spectral vegetation index. Agricultural Water Management, 122, 12–19.',
+  'HortScience (1993). An empirical protocol for indirect measurement of leaf area index in grape (Vitis vinifera L.). HortScience, 28(8), 777.',
+  'OENO One. Sufficiency ranges (SR) and deviation from optimum percentage (DOP) references for leaf blade and petiole of red Grenache. https://oeno-one.eu/article/view/94',
+  'OENO One. Water and carbon fluxes in vineyards under climate change – a review of eddy-covariance studies. https://oeno-one.eu/article/view/9872',
+  'Permanhani et al. (2016). Deficit irrigation in table grape: eco-physiological basis and potential use to save water and improve quality. Theoretical and Experimental Plant Physiology, 28, 85–108.',
+  'UC Davis. Research summary 214: Effect of shoot number on leaf area and crop weight relationship. https://wine.ucdavis.edu/',
+  'Hernández González, J. (2026). Adaptabilidad del cultivo de uva (Vitis vinifera L.) en Mata de Zarza, Veracruz, como sistema complejo adaptativo (propuesta de tesis de maestría). Universidad Autónoma Chapingo.',
   'Holland, J. H. (1995). Hidden order: How adaptation builds complexity. Addison-Wesley.',
   'IVES Technical Reviews. A few words on grapevine leaf water potential. https://ives-technicalreviews.eu/article/view/3620',
   'NC State Extension. North Carolina Winegrape Grower’s Guide, chapter 9: Vine nutrition. https://content.ces.ncsu.edu/pdf/chapter-9-vine-nutrition/2014-10-16/winegrapes9.pdf',
