@@ -41,13 +41,14 @@ function estadoInicial(){ return {
   raspa:{etapas:'', brot:'', ajustar:false, fc:'', riegos:[], psi:[], dr0:''},     // Bloque 4
   fert:{suelo:{n:'', p:'', k:'', ca:'', mg:'', cic:''}, tejido:'', etapa:'', foliar:{}, abonos:[], nObj:''},   // Bloque 5 · foliar: unidad -> {N, P, …}
   bio:{datos:{}, sarm:[], ms:{}, fC:'', resp:'', respDias:''},     // Bloque 6 · datos: unidad -> {poda, af, ndvi}; ms: unidad -> {ini:{…}, fin:{…}}
-  prod:{datos:{}},                                          // Bloque 7 · unidad -> {rend, racimos, baya, brix, acidez, ph}
+  prod:{datos:{}},
+  est:{cols:[], filas:[], cT:'', cB:'', cF:'', cE:'', var:'', fecha:'', alfa:'0.05'},   // Bloque 9 · datos de campo importados                                          // Bloque 7 · unidad -> {rend, racimos, baya, brix, acidez, ph}
   revisado:{}
 }; }
 /* EJ = modo ejemplo: nunca se guarda y no toca el proyecto del usuario */
 let EJ = false, S_USUARIO = null;
 function guardar(){ if(EJ) return; try{ localStorage.setItem('vitis_v1', JSON.stringify(S)); }catch(e){} }
-function fusionar(base, g){ const s=Object.assign(base, g); ['proyecto','sitio','vina','exp','suelo','clima','raspa','fert','bio','prod'].forEach(k=>{ s[k]=Object.assign(estadoInicial()[k], g[k]||{}); }); return s; }
+function fusionar(base, g){ const s=Object.assign(base, g); ['proyecto','sitio','vina','exp','suelo','clima','raspa','fert','bio','prod','est'].forEach(k=>{ s[k]=Object.assign(estadoInicial()[k], g[k]||{}); }); return s; }
 function cargar(){ try{ const g=JSON.parse(localStorage.getItem('vitis_v1')||'null'); if(g && g.formato) return fusionar(estadoInicial(), g); }catch(e){} return estadoInicial(); }
 const LUGARES = [];   // sin accesos directos: cada localidad se elige en el mapa o en la lista
 

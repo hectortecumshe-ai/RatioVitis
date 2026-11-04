@@ -6,7 +6,7 @@
    - Modo ejemplo: el caso de Mata de Zarza vive en un estado aparte que no se
      guarda; una franja fija lo anuncia y el proyecto del usuario queda intacto.
    ===================================================================== */
-const BLOQUES_LLENAR = ['vina','suelo','clima','raspa','fert','bio','prod'];
+const BLOQUES_LLENAR = ['vina','suelo','clima','raspa','fert','bio','prod','est'];
 const BLOQUES_RESULTADO = [];
 function avance(id){ let c=[], nota='';
   const v=S.vina, s=S.suelo, r=S.raspa;
@@ -17,6 +17,7 @@ function avance(id){ let c=[], nota='';
   else if(id==='fert'){ const fo=Object.values(S.fert.foliar||{}); c=[Object.values(S.fert.suelo).some(v=>num(v)!=null), !!S.fert.tejido&&!!S.fert.etapa, fo.some(o=>Object.values(o).some(v=>num(v)!=null)), (S.fert.abonos||[]).length>0]; }
   else if(id==='bio'){ const d=Object.values(S.bio.datos||{}); c=[d.some(o=>num(o.poda)!=null), d.some(o=>num(o.af)!=null), (S.bio.sarm||[]).length>0, num(S.bio.fC)!=null, Object.keys(S.bio.ms||{}).length>0]; }
   else if(id==='prod'){ const d=Object.values(S.prod.datos||{}); c=[d.some(o=>num(o.rend)!=null), d.some(o=>num(o.racimos)!=null), d.some(o=>num(o.brix)!=null), d.some(o=>num(o.acidez)!=null)]; }
+  else if(id==='est') c=[S.est.filas.length>0, !!S.est.cT, !!S.est.cB];
   else return null;
   const t=c.length, h=c.filter(Boolean).length, f=t?h/t:0, estado=!h?'pend':h>=t?'ok':'proc';
   return {h, t, f, estado, nota, txt:{pend:T('Pendiente','Pending'), proc:T('En proceso','In progress'), ok:T('Completo','Complete')}[estado]}; }

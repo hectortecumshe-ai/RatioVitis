@@ -41,7 +41,19 @@ function renderValidacion(el){ const ej=ejemplosFAO(), cs=comparaCasos(), so=pru
    <p>${T('Carbono: 100 g de C acumulado → CO₂ 366.7 g y O₂ 266.7 g','Carbon: 100 g of accumulated C → CO₂ 366.7 g and O₂ 266.7 g')} ${ok(Math.abs(CAMPO.carbono(0,1000,0.1).co2-366.667)+Math.abs(CAMPO.carbono(0,1000,0.1).o2-266.667),0.01)}</p>
    <p>${T('Er-Raki et al. (2013): NDVI de suelo desnudo 0.15 → fc = 0','Er-Raki et al. (2013): bare-soil NDVI 0.15 → fc = 0')} ${ok(Math.abs(CAMPO.fcNDVI(0.15)),1e-12)}</p>
    <p>${T('Potencial de tallo −0.65 MPa (hueco de la escala del IVES entre −0.6 y −0.7) → clase','Stem potential −0.65 MPa (gap of the IVES scale between −0.6 and −0.7) → class')} ${RASPA.psi('tallo',-0.65).ives[1]} ${ok(RASPA.psi('tallo',-0.65).ives[1]===2?0:1,0)}</p></div>
+  ${(()=>{ const C=CASOS_EST, mx=(l,f)=>Math.max(...l.map(f)); const r=[
+     [T('ANOVA en bloques: F y p (40 experimentos)','Block ANOVA: F and p (40 experiments)'), mx(C.anova,c=>{ const a=EST.anova(c.obs); return Math.max(Math.abs(a.F-c.F)/c.F, Math.abs(a.p-c.p)); }), 1e-9],
+     [T('Tukey: p de cada par (rango estudentizado)','Tukey: p of each pair (studentized range)'), mx(C.anova,c=>{ const t=EST.tukey(EST.anova(c.obs)); return mx(c.tukey,x=>Math.abs(t.pares.find(z=>z.a===x.a&&z.b===x.b).p-x.p)); }), 1e-6],
+     [T('Levene (mediana): W y p','Levene (median): W and p'), mx(C.anova,c=>{ const g=[...new Set(c.obs.map(o=>o.t))].map(t=>c.obs.filter(o=>o.t===t).map(o=>o.y)), l=EST.levene(g); return Math.max(Math.abs(l.W-c.levW), Math.abs(l.p-c.levP)); }), 1e-9],
+     [T('Correlación de Pearson: r y p (30 casos)','Pearson correlation: r and p (30 cases)'), mx(C.pearson,c=>{ const q=EST.pearson(c.x,c.y); return Math.max(Math.abs(q.r-c.r), Math.abs(q.p-c.p)); }), 1e-9],
+     [T('ANCOVA en bloques con covariable: F y p (25 casos)','Block ANCOVA with covariate: F and p (25 cases)'), mx(C.ancova,c=>{ const q=EST.ancovaBCA(c.obs); return Math.max(Math.abs(q.F-c.F)/c.F, Math.abs(q.p-c.p), Math.abs(q.Fcov-c.Fcov)/c.Fcov); }), 1e-8],
+     [T('Medidas repetidas (parcelas divididas en el tiempo): F y p (20 casos)','Repeated measures (split plot in time): F and p (20 cases)'), mx(C.tiempo,c=>{ const q=EST.parcelasTiempo(c.obs), f=n=>q.filas.find(x=>x.n===n); return Math.max(Math.abs(f('T').F-c.FT)/c.FT, Math.abs(f('T').p-c.pT), Math.abs(f('TF').F-c.FTF)/c.FTF, Math.abs(f('TF').p-c.pTF)); }), 1e-9],
+     [T('Distribución del rango estudentizado','Studentized range distribution'), mx(C.ptukey,c=>Math.abs(EST.ptukey(c.q,c.k,c.df)-c.P)), 1e-6],
+     [T('t crítico al 95 %','95 % critical t'), mx(C.tcrit,c=>Math.abs(EST.qT(0.05,c.df)-c.t)), 1e-8]];
+    return `<div class="card"><h2>${T('4. Estadística contra SciPy y numpy','4. Statistics against SciPy and numpy')}</h2>${tablaU([T('Prueba','Test'),T('Diferencia máxima','Maximum difference'),T('Resultado','Result')], r.map(([n,d,t])=>`<tr><td>${n}</td><td>${d.toExponential(1)}</td><td>${ok(d,t)}</td></tr>`))}
+     <p class="nota">${T('Referencia calculada aparte con SciPy (F, t, rango estudentizado, Levene, Pearson) y con modelos lineales de mínimos cuadrados en numpy (ANCOVA y medidas repetidas): pruebas/verificar_estadistica.py.','Reference computed separately with SciPy (F, t, studentized range, Levene, Pearson) and least-squares linear models in numpy (ANCOVA and repeated measures): pruebas/verificar_estadistica.py.')}</p></div>`; })()}
   ${siguiente('validacion')}`; }
+const CASOS_EST = __CASOS_EST__;
 
 const REFS = [
   'Allen, R. G., Pereira, L. S., Raes, D., y Smith, M. (2006). Evapotranspiración del cultivo: guías para la determinación de los requerimientos de agua de los cultivos (Estudio FAO Riego y Drenaje 56). FAO.',
@@ -60,6 +72,7 @@ const REFS = [
   'IVES Technical Reviews. A few words on grapevine leaf water potential. https://ives-technicalreviews.eu/article/view/3620',
   'NC State Extension. North Carolina Winegrape Grower’s Guide, chapter 9: Vine nutrition. https://content.ces.ncsu.edu/pdf/chapter-9-vine-nutrition/2014-10-16/winegrapes9.pdf',
   'Soil Science Division Staff (2017). Soil survey manual (USDA Handbook 18). USDA.',
+  'Steel, R. G. D., y Torrie, J. H. (1980). Principles and procedures of statistics: A biometrical approach (2.ª ed.). McGraw-Hill.',
   'Tonietto, J., y Carbonneau, A. (2004). A multicriteria climatic classification system for grape-growing regions worldwide. Agricultural and Forest Meteorology, 124(1–2), 81–97.',
   'UC ANR. Using stem water potential for wine grape irrigation management. https://ucanr.edu/sites/default/files/2014-05/189775.pdf',
   'UC ANR (2025). Site selection and vineyard design. https://ucanr.edu/sites/default/files/2025-02/407854.pdf',
