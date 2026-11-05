@@ -40,3 +40,9 @@
 .vista-cien .modelo{display:grid;gap:8px}
 .vista-cien .eq{line-height:1.7}
 .vista-cien .eq-f{font-size:12.5px;color:var(--muted);margin-left:10px;font-style:italic}
+
+/* Informe */
+.inf-sec{margin:26px 0 10px;padding-bottom:4px;border-bottom:2px solid var(--accent,#2f5d50);font-size:22px}
+.acciones li{margin:.35em 0;line-height:1.5}
+.refs{font-size:13.5px;line-height:1.45}.refs li{margin:.25em 0}
+@media print{.inf-sec{break-after:avoid}.inf-portada,.acciones{break-inside:avoid}.tablero .card{break-inside:avoid}}

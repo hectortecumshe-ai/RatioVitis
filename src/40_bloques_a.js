@@ -22,6 +22,7 @@ const BLOQUES = [
   {id:'riesgos', n:'13', ill:'i-riesgo', corto:E('Riesgos','Risks'), titulo:E('Riesgos del viñedo','Vineyard risks'), render:()=>renderRiesgos},
   {id:'sost',    n:'14', ill:'i-valor', corto:E('Sostenibilidad','Sustainability'), titulo:E('Sostenibilidad por tratamiento','Sustainability by treatment'), render:()=>renderSost},
   {id:'prosp',   n:'15', ill:'i-panel2', corto:E('Prospectiva','Outlook'), titulo:E('Prospectiva a 1, 2 y 5 años','Outlook at 1, 2 and 5 years'), render:()=>renderProsp},
+  {id:'informe', n:'16', ill:'i-req', corto:E('Informe','Report'), titulo:E('Informe del viñedo','Vineyard report'), render:()=>renderInforme},
   {id:'validacion', n:'✓', ill:'i-check', corto:E('Validación','Validation'), titulo:E('Validación','Validation'), render:()=>renderValidacion},
   {id:'teoria', n:'§', ill:'i-book',   corto:E('Teoría','Theory'), titulo:E('Marco teórico y fuentes','Theoretical framework and sources'), render:()=>renderTeoria}
 ];
@@ -106,7 +107,7 @@ function renderInicio(el){
     <div class="stat"><div class="v">4</div><div class="l">${T('escalas de potencial hídrico citadas','cited water potential scales')}</div></div></div>
   <h2 class="section-t">${T('El núcleo de Ratio Vitis','The core of Ratio Vitis')}</h2>
   <div class="inc">${pasos.map((p,i)=>`<button data-ir="${p[0]}"><span class="num">${i+1}</span><h3>${p[1]}</h3><p>${p[2]}</p></button>`).join('')}</div>
-  <div class="card"><h2>${T('En camino','Coming next')}</h2><p class="nota">${T('Estadística (con exportación a las apps de la suite LABG de Luis Ángel Barrera-Guzmán), el modelo del sistema complejo adaptativo con su «Recorrido del viñedo», impacto y sostenibilidad, prospectiva e informe.','Statistics (with export to Luis Ángel Barrera-Guzmán’s LABG suite apps), the complex adaptive system model with its “Vineyard walk-through”, impact and sustainability, outlook and report.')}</p></div>
+  <div class="card"><h2>${T('En camino','Coming next')}</h2><p class="nota">${T('Un modo ejemplo con el caso de Mata de Zarza, Veracruz, para recorrer la aplicación antes de capturar tus datos.','An example mode with the Mata de Zarza, Veracruz, case to explore the app before entering your data.')}</p></div>
   <div class="card"><h2>${T('Rigor: dato publicado, medición o lectura','Rigour: published data, measurement or reading')}</h2>
    <p>${marcaDato()} ${T('Coeficientes, umbrales y fórmulas tomados de una fuente citada y cotejados con su texto.','Coefficients, thresholds and formulas taken from a cited source and checked against its text.')}</p>
    <p>${marcaInterp()} ${T('Supuestos de Ratio Vitis para completar un cálculo; siempre marcados y editables.','Ratio Vitis assumptions to complete a calculation; always flagged and editable.')}</p></div>
