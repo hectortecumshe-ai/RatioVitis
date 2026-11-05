@@ -97,6 +97,7 @@ function renderRaspa(el){ const r=S.raspa, res=RASPA.correr(), uv=tipoUva();
       <label class="f"><span>MPa</span><input type="number" step="any" id="psV" placeholder="${T('p. ej., −0.8','e.g., −0.8')}"></label><button class="btn sm" id="bPsi">＋ ${T('Agregar','Add')}</button></div>
     <p class="nota">${ayuda('psiTallo')} ${T('Tallo','Stem')} · ${ayuda('psiAlba')} ${T('Alba','Predawn')} · ${T('Si tu cámara marca bar, divide entre 10 (1 bar = 0.1 MPa).','If your chamber reads bar, divide by 10 (1 bar = 0.1 MPa).')}</p>
     ${fuente('IVES Technical Reviews, «A few words on grapevine leaf water potential»; UC ANR, Using stem water potential for wine grape irrigation management; Uriarte et al. (2025).')}</div>
+  ${seccionFeno()}
   ${siguiente('raspa')}`;
   $('#bRiego',el).onclick=()=>{ const f=$('#rgF',el).value, m=num($('#rgM',el).value); if(!f||m==null) return toast(T('Escribe fecha y lámina','Type date and depth')); S.raspa.riegos.push({f, mm:String(m)}); S.raspa.riegos.sort((a,b)=>a.f.localeCompare(b.f)); guardar(); render(); };
   $$('[data-qriego]',el).forEach(b=>b.onclick=()=>{ S.raspa.riegos.splice(+b.dataset.qriego,1); guardar(); render(); });

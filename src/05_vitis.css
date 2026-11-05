@@ -3,7 +3,7 @@
 @keyframes flujo3{to{stroke-dashoffset:-21}}
 @media (prefers-reduced-motion:reduce){.m3v .flujo{animation:none}}
 .recorrido{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.4fr);gap:18px;align-items:center;background:linear-gradient(160deg,#10223a,#1b2f4a 60%,#22324a);color:#f3ecdf;border-radius:22px;padding:22px;position:relative;overflow:hidden}
-.recorrido .esc-n{font:700 12px/1 var(--sans,system-ui);letter-spacing:.16em;text-transform:uppercase;color:#d9a441}
+.recorrido .esc-n{font:700 12.5px/1 var(--font);letter-spacing:.16em;text-transform:uppercase;color:#d9a441}
 .recorrido h2{font-size:clamp(1.5rem,1rem + 2vw,2.3rem);line-height:1.15;margin:10px 0 12px;color:#fff}
 .recorrido h2 em{font-style:italic;color:#e9ad2f}
 .recorrido .cifra{font-size:clamp(2.6rem,2rem + 3vw,4.4rem);font-weight:700;color:#e9ad2f;line-height:1;font-variant-numeric:tabular-nums}
@@ -24,4 +24,19 @@
 .recorrido .anillo text.m{fill:#c9d3e0}
 
 /* Tablero: las tablas ocupan todo el ancho de su tarjeta */
-.tablero .tbl-c .tbl{width:100%}
+.tbl-c .tbl{width:100%}
+
+/* Variables del estudio */
+.vars-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.vars-grid h4{margin:.3em 0 .4em}
+.var-row{display:flex;gap:8px;align-items:flex-start;padding:6px 0;border-bottom:1px dashed var(--border);cursor:pointer}
+.var-row input{margin-top:5px}
+.var-row .badge{font-size:10.5px;padding:1px 7px}
+.vars-off p{margin:0}
+
+/* Vistas productor y científico */
+.vista-prod{border-left:5px solid var(--accent,#c0772b)}
+.vista-prod .accion{background:var(--bg-soft);padding:8px 12px;border-radius:var(--r-md)}
+.vista-cien .modelo{display:grid;gap:8px}
+.vista-cien .eq{line-height:1.7}
+.vista-cien .eq-f{font-size:12.5px;color:var(--muted);margin-left:10px;font-style:italic}

@@ -38,12 +38,12 @@ function estadoInicial(){ return {
   exp:{trats:[], bloques:'', plantasParcela:'', bordo:'', etiquetaBloque:'', semilla:'', sorteo:null},        // diseño experimental
   suelo:{textura:'', jarArena:'', jarLimo:'', jarArcilla:'', daMasa:'', daVol:'', da:'', cc:'', pmp:'', zr:'', ze:'', rew:'', infVol:'', infT:'', ph:'', ce:'', mo:''},   // Bloque 2
   clima:{dias:[], fuente:'', kRs:''},                       // Bloque 3: registros diarios de la estación
-  raspa:{etapas:'', brot:'', ajustar:false, fc:'', riegos:[], psi:[], dr0:''},     // Bloque 4
+  raspa:{etapas:'', brot:'', ajustar:false, fc:'', riegos:[], psi:[], dr0:'', poda:'', feno:{}},     // Bloque 4
   fert:{suelo:{n:'', p:'', k:'', ca:'', mg:'', cic:''}, tejido:'', etapa:'', foliar:{}, abonos:[], nObj:''},   // Bloque 5 · foliar: unidad -> {N, P, …}
   bio:{datos:{}, sarm:[], ms:{}, fC:'', resp:'', respDias:''},     // Bloque 6 · datos: unidad -> {poda, af, ndvi}; ms: unidad -> {ini:{…}, fin:{…}}
   prod:{datos:{}},
   est:{cols:[], filas:[], cT:'', cB:'', cF:'', cE:'', var:'', fecha:'', alfa:'0.05'},   // Bloque 9 · datos de campo importados                                          // Bloque 7 · unidad -> {rend, racimos, baya, brix, acidez, ph}
-  revisado:{}
+  revisado:{}, varsOff:{}
 }; }
 /* EJ = modo ejemplo: nunca se guarda y no toca el proyecto del usuario */
 let EJ = false, S_USUARIO = null;

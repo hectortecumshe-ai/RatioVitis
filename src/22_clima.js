@@ -34,7 +34,8 @@ const CLIMA = (()=>{
   function fechaISO(s){ if(!s) return null; let m=s.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})/); if(m) return `${m[1]}-${m[2].padStart(2,'0')}-${m[3].padStart(2,'0')}`;
     m=s.match(/^(\d{1,2})[-/](\d{1,2})[-/](\d{4})/); if(m) return `${m[3]}-${m[2].padStart(2,'0')}-${m[1].padStart(2,'0')}`; return null; }
   /* ET0 de cada día con el motor FAO-56 */
-  function conET0(dias, st){ return dias.map(d=>Object.assign({}, d, {r:FAO.et0(d, st)})); }
+  function conET0(dias, st){ const sinHR=!varOn('hr'), sinU=!varOn('viento'), sinR=!varOn('rad');
+    return dias.map(d=>{ const e=Object.assign({}, d); if(sinHR){ e.hrmax=e.hrmin=e.hrmed=e.tdew=null; } if(sinU) e.u2=null; if(sinR){ e.rs=null; e.n=null; } e.r=FAO.et0(e, st); return e; }); }
   const claseET0 = v=> v==null?null: v<=3?{k:'ok',t:E('Bajo','Low')}: v<=5?{k:'ok',t:E('Moderado','Moderate')}: v<=7?{k:'w',t:E('Alto','High')}:{k:'bad',t:E('Muy alto','Very high')};
   const CLASE_HI = [[1500,E('Muy fresco (HI−3)','Very cool (HI−3)')],[1800,E('Fresco (HI−2)','Cool (HI−2)')],[2100,E('Templado (HI−1)','Temperate (HI−1)')],[2400,E('Templado cálido (HI+1)','Warm temperate (HI+1)')],[3000,E('Cálido (HI+2)','Warm (HI+2)')],[1e9,E('Muy cálido (HI+3)','Very warm (HI+3)')]];
   const CLASE_CI = [[12,E('Noches muy frescas (CI+2)','Very cool nights (CI+2)')],[14,E('Noches frescas (CI+1)','Cool nights (CI+1)')],[18,E('Noches templadas (CI−1)','Temperate nights (CI−1)')],[1e9,E('Noches cálidas (CI−2)','Warm nights (CI−2)')]];

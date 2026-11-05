@@ -10,15 +10,17 @@ const BLOQUES_LLENAR = ['vina','suelo','clima','raspa','fert','bio','prod','est'
 const BLOQUES_RESULTADO = [];
 function avance(id){ let c=[], nota='';
   const v=S.vina, s=S.suelo, r=S.raspa;
-  if(id==='vina') c=[!!S.loc||(S.sitio.manual&&num(S.sitio.lat)!=null&&num(S.sitio.z)!=null), !!v.tipo, !!v.variedad, num(v.entre)!=null, num(v.sobre)!=null, !!v.riego, !!S.exp.sorteo];
-  else if(id==='suelo') c=[!!(s.textura||SUELO.textura(num(s.jarArena),num(s.jarLimo),num(s.jarArcilla))), num(s.da)!=null||(num(s.daMasa)!=null&&num(s.daVol)!=null), num(s.cc)!=null, num(s.pmp)!=null, num(s.zr)!=null, num(s.ph)!=null, num(s.ce)!=null, num(s.mo)!=null];
-  else if(id==='clima'){ c=[S.clima.dias.length>0, S.clima.dias.length>=30, S.clima.dias.length>=180, !!S.clima.fuente]; if(!S.clima.dias.length) nota=T('importa los registros diarios','import the daily records'); }
-  else if(id==='raspa') c=[!!r.etapas, !!r.brot, (r.riegos||[]).length>0, (r.psi||[]).length>0];
-  else if(id==='fert'){ const fo=Object.values(S.fert.foliar||{}); c=[Object.values(S.fert.suelo).some(v=>num(v)!=null), !!S.fert.tejido&&!!S.fert.etapa, fo.some(o=>Object.values(o).some(v=>num(v)!=null)), (S.fert.abonos||[]).length>0]; }
-  else if(id==='bio'){ const d=Object.values(S.bio.datos||{}); c=[d.some(o=>num(o.poda)!=null), d.some(o=>num(o.af)!=null), (S.bio.sarm||[]).length>0, num(S.bio.fC)!=null, Object.keys(S.bio.ms||{}).length>0]; }
-  else if(id==='prod'){ const d=Object.values(S.prod.datos||{}); c=[d.some(o=>num(o.rend)!=null), d.some(o=>num(o.racimos)!=null), d.some(o=>num(o.brix)!=null), d.some(o=>num(o.acidez)!=null)]; }
-  else if(id==='est') c=[S.est.filas.length>0, !!S.est.cT, !!S.est.cB];
+  const v_=(k,b)=>[k,b];
+  if(id==='vina') c=[v_(0,!!S.loc||(S.sitio.manual&&num(S.sitio.lat)!=null&&num(S.sitio.z)!=null)), v_(0,!!v.tipo), v_(0,!!v.variedad), v_(0,num(v.entre)!=null), v_(0,num(v.sobre)!=null), v_(0,!!v.riego), v_(0,!!S.exp.sorteo)];
+  else if(id==='suelo') c=[v_(0,!!(s.textura||SUELO.textura(num(s.jarArena),num(s.jarLimo),num(s.jarArcilla)))), v_('da',num(s.da)!=null||(num(s.daMasa)!=null&&num(s.daVol)!=null)), v_('ccpmp',num(s.cc)!=null), v_('ccpmp',num(s.pmp)!=null), v_(0,num(s.zr)!=null), v_('ph',num(s.ph)!=null), v_('ce',num(s.ce)!=null), v_('mo',num(s.mo)!=null)];
+  else if(id==='clima'){ c=[v_(0,S.clima.dias.length>0), v_(0,S.clima.dias.length>=30), v_(0,S.clima.dias.length>=180), v_(0,!!S.clima.fuente)]; if(!S.clima.dias.length) nota=T('importa los registros diarios','import the daily records'); }
+  else if(id==='raspa') c=[v_(0,!!r.etapas), v_(0,!!r.brot), v_('riegos',(r.riegos||[]).length>0), v_('psi',(r.psi||[]).length>0), v_('feno',Object.values(r.feno||{}).some(o=>Object.values(o).some(Boolean)))];
+  else if(id==='fert'){ const fo=Object.values(S.fert.foliar||{}); c=[v_('fsuelo',Object.values(S.fert.suelo).some(v=>num(v)!=null)), v_('foliar',!!S.fert.tejido&&!!S.fert.etapa), v_('foliar',fo.some(o=>Object.values(o).some(v=>num(v)!=null))), v_('abonos',(S.fert.abonos||[]).length>0)]; }
+  else if(id==='bio'){ const d=Object.values(S.bio.datos||{}); c=[v_('poda',d.some(o=>num(o.poda)!=null)), v_('af',d.some(o=>num(o.af)!=null)), v_('sarm',(S.bio.sarm||[]).length>0), v_('carbono',num(S.bio.fC)!=null), v_('carbono',Object.keys(S.bio.ms||{}).length>0)]; }
+  else if(id==='prod'){ const d=Object.values(S.prod.datos||{}); c=[v_(0,d.some(o=>num(o.rend)!=null)), v_('racimos',d.some(o=>num(o.racimos)!=null)), v_('brix',d.some(o=>num(o.brix)!=null)), v_('acidez',d.some(o=>num(o.acidez)!=null))]; }
+  else if(id==='est') c=[v_(0,S.est.filas.length>0), v_(0,!!S.est.cT), v_(0,!!S.est.cB)];
   else return null;
+  c=c.filter(([k])=>!k||varOn(k)).map(([,b])=>b);
   const t=c.length, h=c.filter(Boolean).length, f=t?h/t:0, estado=!h?'pend':h>=t?'ok':'proc';
   return {h, t, f, estado, nota, txt:{pend:T('Pendiente','Pending'), proc:T('En proceso','In progress'), ok:T('Completo','Complete')}[estado]}; }
 function avanceTotal(){ const l=BLOQUES_LLENAR.map(avance).filter(Boolean); return l.reduce((s,a)=>s+a.f,0)/l.length; }

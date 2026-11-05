@@ -41,11 +41,11 @@ const RED = (()=>{
     ['abonoN','nfol',+1,'hipotesis','Hernández González (2026), hipótesis de trabajo'], ['dens','rend',+1,'ecuacion','t/ha = kg/planta × plantas/ha'] ];
   /* Valor de cada nodo con los datos del proyecto (null = sin dato) */
   function valores(){ const r=RASPA.correr(), ok=!r.falta, U=unidades(), media=(o,k)=>{ const l=U.map(u=>num(((o||{})[u.id]||{})[k])).filter(x=>x!=null); return l.length?l.reduce((a,b)=>a+b,0)/l.length:null; };
-    const sh=sueloHidrico(), psis=(S.raspa.psi||[]).filter(x=>x.tipo==='tallo').map(x=>num(x.mpa)).filter(x=>x!=null), den=densidad();
+    const sh=sueloHidrico(), psis=(varOn('psi')?S.raspa.psi||[]:[]).filter(x=>x.tipo==='tallo').map(x=>num(x.mpa)).filter(x=>x!=null), den=densidad();
     const area=num(S.vina.entre)*num(S.vina.sobre), iafs=U.map(u=>{ const a=num(((S.bio.datos||{})[u.id]||{}).af); return a!=null&&area>0?a/area:null; }).filter(x=>x!=null);
     const en=ok?CAMPO.energia(r.b):[], sum=k=>en.reduce((s,d)=>s+d[k],0), rendKg=media(S.prod.datos,'rend'), tha=rendKg!=null&&den?rendKg*den/1000:null;
     const days=ok?r.b:[], mean=f=>days.length?days.reduce((s,d)=>s+f(d),0)/days.length:null, poda=media(S.bio.datos,'poda');
-    const abN=num(S.fert.nObj), nf=media(S.fert.foliar,'N');
+    const abN=num(S.fert.nObj), nf=varOn('foliar')?media(S.fert.foliar,'N'):null;
     return {rn:ok?sum('rn'):null, et0:ok?r.tot.et0:null, vpd:ok?mean(d=>d.r?d.r.vpd:null):null, temp:S.clima.dias.length?S.clima.dias.reduce((s,d)=>s+(d.tmax+d.tmin)/2,0)/S.clima.dias.length:null, lluvia:ok?r.tot.P:null, bowen:ok&&sum('le')>0?sum('h')/sum('le'):null,
       adt:sh.adt, dr:ok?r.ultimo.Dr:null, evap:ok?r.tot.E:null, ce:num(S.suelo.ce), da:num(S.suelo.da)??(num(S.suelo.daMasa)!=null&&num(S.suelo.daVol)>0?num(S.suelo.daMasa)/num(S.suelo.daVol):null),
       riego:ok?r.tot.I:null, abonoN:abN, dens:den, transp:ok?r.tot.T:null, etc:ok?r.tot.etc:null, ks:ok?r.ksMin:null, psi:psis.length?psis.reduce((a,b)=>a+b,0)/psis.length:null,
