@@ -74,6 +74,7 @@ const REFS = [
   'Forster, P., Storelvmo, T., Armour, K., et al. (2021). The Earth’s energy budget, climate feedbacks, and climate sensitivity. En Climate change 2021: The physical science basis (cap. 7). Cambridge University Press.',
   'Godet, M., y Durance, P. (2007). Prospectiva estratégica: problemas y métodos (Cuadernos de LIPSOR, 20). LIPSOR.',
   'Hernández González, J. (2026). Adaptabilidad del cultivo de uva (Vitis vinifera L.) en Mata de Zarza, Veracruz, como sistema complejo adaptativo (propuesta de tesis de maestría). Universidad Autónoma Chapingo.',
+  'Hersbach, H., Bell, B., Berrisford, P., et al. (2020). The ERA5 global reanalysis. Quarterly Journal of the Royal Meteorological Society, 146(730), 1999–2049. https://doi.org/10.1002/qj.3803',
   'Holland, J. H. (1995). Hidden order: How adaptation builds complexity. Addison-Wesley.',
   'HortScience (1993). An empirical protocol for indirect measurement of leaf area index in grape (Vitis vinifera L.). HortScience, 28(8), 777.',
   'IEC. (2019). IEC 31010:2019 Risk management — Risk assessment techniques. International Electrotechnical Commission.',
@@ -104,6 +105,7 @@ const REFS = [
   'Uriarte et al. (2025). Quantifying the effects of water status on grapevine vegetative growth, yield, and grape composition. Australian Journal of Grape and Wine Research.',
   'USDA-NRCS. (s. f.). Soil health management principles: minimize disturbance, maximize soil cover, maximize biodiversity, maximize continuous living roots. United States Department of Agriculture, Natural Resources Conservation Service.',
   'USDA-NRCS. Soil quality test kit guide: Bulk density, moisture and aeration. https://www.nrcs.usda.gov/sites/default/files/2022-10/Soil%20Bulk%20Density%20Moisture%20Aeration.pdf',
+  'Zippenfeld, P. (2023). Open-Meteo.com Weather API [Software]. Zenodo. https://doi.org/10.5281/zenodo.7970649',
 ];
 function renderTeoria(el){
   const sec=[

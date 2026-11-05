@@ -13,7 +13,7 @@ function serieDiaria(dias, cfg){ const W=980, H=cfg.h||300, L=52, R=cfg.der?52:1
   (cfg.bandas||[]).forEach(bd=>{ s+=`<path d="${dias.map((d,i)=>`${i?'L':'M'}${x(i)} ${y(bd.f(d))}`).join('')}" fill="none" stroke="${bd.c}" stroke-width="1.5" stroke-dasharray="5 4"/>`; });
   (cfg.barras||[]).forEach(bd=>{ dias.forEach((d,i)=>{ const v=bd.f(d); if(v>0) s+=`<rect x="${x(i)-bw/2}" y="${y(v)}" width="${bw}" height="${y(lo)-y(v)}" fill="${bd.c}" opacity=".75" data-tip="${esc(d.f+' · '+bd.n+': '+fmt(v,1)+' mm')}"/>`; }); });
   cfg.series.forEach(se=>{ const pts=dias.map((d,i)=>[x(i),se.f(d)]).filter(p=>p[1]!=null); s+=`<path class="dibuja" d="${pts.map((p,i)=>`${i?'L':'M'}${p[0].toFixed(1)} ${y(p[1]).toFixed(1)}`).join('')}" fill="none" stroke="${se.c}" stroke-width="${se.w||2}" style="--l:4000;stroke-dasharray:4000"/>`; });
-  const meses=[]; dias.forEach((d,i)=>{ if(i===0||d.f.slice(8)==='01') meses.push(i); }); const salto=Math.max(1,Math.ceil(meses.length/12));
+  const meses=[]; dias.forEach((d,i)=>{ if((i===0&&(+d.f.slice(8)<=15||dias.length<20))||(i>0&&d.f.slice(8)==='01')) meses.push(i); }); const salto=Math.max(1,Math.ceil(meses.length/12));
   meses.filter((_,k)=>k%salto===0).forEach(i=>{ s+=`<text x="${x(i)}" y="${H-12}" font-size="11" class="m">${MESES()[+dias[i].f.slice(5,7)-1]} ${dias[i].f.slice(2,4)}</text>`; });
   s+=`<g font-size="12">${cfg.series.concat(cfg.barras||[]).concat(cfg.bandas||[]).map((se,k)=>`<g transform="translate(${L+8+k*170} 4)"><rect width="12" height="4" y="5" fill="${se.c}"/><text x="16" y="11" class="m">${esc(se.n)}</text></g>`).join('')}</g>`;
   return s+'</svg>'; }
