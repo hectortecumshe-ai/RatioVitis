@@ -17,6 +17,7 @@ const BLOQUES = [
   {id:'energia',n:'8', ill:'i-tierra', corto:E('Energía','Energy'), titulo:E('Energía: cómo reparte el viñedo la radiación','Energy: how the vineyard splits radiation'), render:()=>renderEnergia},
   {id:'est',    n:'9', ill:'i-check',  corto:E('Estadística','Statistics'), titulo:E('Estadística descriptiva e inferencial','Descriptive and inferential statistics'), render:()=>renderEst},
   {id:'sca',    n:'10', ill:'i-regen', corto:E('Sistema complejo','Complex system'), titulo:E('Formulación del sistema complejo adaptativo','Complex adaptive system formulation'), render:()=>renderSca},
+  {id:'tablero', n:'11', ill:'i-panel2', corto:E('Tablero','Dashboard'), titulo:E('Tablero del viñedo','Vineyard dashboard'), render:()=>renderTablero},
   {id:'validacion', n:'✓', ill:'i-check', corto:E('Validación','Validation'), titulo:E('Validación','Validation'), render:()=>renderValidacion},
   {id:'teoria', n:'§', ill:'i-book',   corto:E('Teoría','Theory'), titulo:E('Marco teórico y fuentes','Theoretical framework and sources'), render:()=>renderTeoria}
 ];

@@ -8,7 +8,7 @@ function ponerProfundo(p, v){ const k=p.split('.'), u=k.pop(); let o=S; k.forEac
 document.addEventListener('change',e=>{ const t=e.target.closest&&e.target.closest('[data-sp]'); if(!t||EJ) return; ponerProfundo(t.dataset.sp, t.value.trim()); guardar(); render(); });
 const celda = (ruta, ph)=> `<input data-sp="${ruta}" type="number" step="any" inputmode="decimal" value="${esc(leerRuta(ruta)??'')}" placeholder="${esc(ph||'')}" style="width:100%;min-width:64px">`;
 const vU = (obj,u,k)=> num(((obj||{})[u]||{})[k]);
-const badgeC = c=> c ? `<span class="badge ${c.k==='ok'?'ok':c.k==='bad'?'bad':'warn'}" title="${esc(tx(c.n))}">${esc(tx(c.c||c.n))}</span>` : '';
+const badgeC = c=> c ? `<span class="badge ${c.k==='ok'?'ok':c.k==='bad'?'bad':c.k==='neu'?'neu':'warn'}" title="${esc(tx(c.n))}">${esc(tx(c.c||c.n))}</span>` : '';
 const tablaU = (cab, filas)=> `<div class="tbl-c"><table class="tbl"><thead><tr>${cab.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody>${filas.join('')}</tbody></table></div>`;
 
 /* ================= BLOQUE 5 · FERTILIDAD Y ABONOS ================= */

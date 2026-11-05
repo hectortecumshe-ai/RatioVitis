@@ -22,3 +22,6 @@
 @media (max-width:820px){.recorrido{grid-template-columns:minmax(0,1fr)}}
 .recorrido .anillo text{fill:#f3ecdf}
 .recorrido .anillo text.m{fill:#c9d3e0}
+
+/* Tablero: las tablas ocupan todo el ancho de su tarjeta */
+.tablero .tbl-c .tbl{width:100%}
