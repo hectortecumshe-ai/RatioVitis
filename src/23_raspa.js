@@ -25,7 +25,8 @@ const RASPA = (()=>{
     if(tipo==='tallo') return {ives:clasif(TALLO,mpa), ucanr:clasif(UCANR,mpa), uriarte:clasif(URIARTE,mpa)};
     return null; }
   /* Prepara y corre el balance diario con los datos del usuario. Devuelve null y lo que falta si no se puede. */
-  function correr(){ const falta=[], st=sitio(), uv=tipoUva(), sh=sueloHidrico(), et=FAO.ETAPAS_UVA.find(x=>x.id===S.raspa.etapas);
+  /* o (Prospectiva): dT °C sumados a Tmáx, Tmín y Tdew (humedad relativa constante), fP y fI factores de lluvia y riego, dcc y dpmp cambios de θ */
+  function correr(o={}){ const falta=[], st=sitio(), uv=tipoUva(), sh=sueloHidrico(), et=FAO.ETAPAS_UVA.find(x=>x.id===S.raspa.etapas);
     if(!S.clima.dias.length) falta.push(['clima',E('registros diarios de clima','daily climate records')]);
     if(!st.ok) falta.push(['viñedo',E('latitud y altitud del sitio','site latitude and altitude')]);
     if(!uv) falta.push(['viñedo',E('tipo de uva (mesa o vino)','grape type (table or wine)')]);
@@ -34,9 +35,10 @@ const RASPA = (()=>{
     if(!S.raspa.brot) falta.push(['raspa',E('fecha de brotación','budburst date')]);
     if(falta.length) return {falta};
     const fw=(FAO.FW.find(x=>x.id===S.vina.riego)||{v:1}).v, riegos={}; (S.raspa.riegos||[]).forEach(r=>{ if(r.f&&num(r.mm)!=null) riegos[r.f]=(riegos[r.f]||0)+num(r.mm); });
-    const dias=CLIMA.conET0(S.clima.dias.filter(d=>d.f>=S.raspa.brot), st).map(d=>({f:d.f, et0:d.r.et0, prec:d.prec||0, riego:riegos[d.f]||0, u2:d.r.u2, hrmin:d.hrmin, r:d.r}));
+    const dT=o.dT||0, fP=o.fP??1, fI=o.fI??1, clim=dT?S.clima.dias.map(d=>Object.assign({}, d, {tmax:d.tmax+dT, tmin:d.tmin+dT}, d.tdew!=null?{tdew:d.tdew+dT}:{}, d.tmed!=null?{tmed:d.tmed+dT}:{})):S.clima.dias;
+    const dias=CLIMA.conET0(clim.filter(d=>d.f>=S.raspa.brot), st).map(d=>({f:d.f, et0:d.r.et0, prec:(d.prec||0)*fP, riego:(riegos[d.f]||0)*fI, u2:d.r.u2, hrmin:d.hrmin, r:d.r}));
     if(!dias.length) return {falta:[['clima',E('días de clima desde la brotación','climate days from budburst')]]};
-    const L=et.L, par={cc:sh.cc, pmp:sh.pmp, zr:sh.zr, ze:sh.ze, rew:sh.rew, p:uv.p, h:uv.h, fw, fc:num(S.raspa.fc), dr0:num(S.raspa.dr0), ajustar:!!S.raspa.ajustar,
+    const L=et.L, par={cc:sh.cc+(o.dcc||0), pmp:sh.pmp+(o.dpmp||0), zr:sh.zr, ze:sh.ze, rew:sh.rew, p:uv.p, h:uv.h, fw, fc:num(S.raspa.fc), dr0:num(S.raspa.dr0), ajustar:!!S.raspa.ajustar,
       etapas:{Li:L[0], Ld:L[1], Lm:L[2], Lf:L[3], kini:uv.kcb[0], kmed:uv.kcb[1], kfin:uv.kcb[2]}};
     const b=FAO.balance(dias, par), tot=k=>b.reduce((s,d)=>s+d[k],0);
     b.forEach((x,i)=>{ x.rnRef=dias[i].r.rn; x.rs=dias[i].r.rs; });   // radiación neta de la superficie de referencia (FAO-56, Ec. 40)
