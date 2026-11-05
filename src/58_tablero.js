@@ -58,6 +58,7 @@ function renderTablero(el){ const red=RED.construir(), v=red.val, r=v._r, ok=r&&
       ${hayU?tablaU([T('Unidad','Unit'),'t ha⁻¹','°Brix',T('Poda (kg/planta)','Pruning (kg/vine)'),'Ravaz',T('Área foliar/fruto (m² kg⁻¹)','Leaf area/fruit (m² kg⁻¹)'),T('IAF','LAI'),T('N foliar (%)','Leaf N (%)')], filasU)
         +`${U.length>1?`<p class="nota">${T('Medias capturadas por tratamiento. Para saber si las diferencias son reales (ANOVA, Tukey, ANCOVA) ve al','Means entered per treatment. To know whether the differences are real (ANOVA, Tukey, ANCOVA) go to')} <a href="#est" data-ir="est">${T('Bloque 9','Block 9')}</a>.</p>`:''}`
         :`<p class="sindato">${T('Captura rendimiento, poda, área foliar o nitrógeno foliar en los bloques 5 a 7.','Enter yield, pruning, leaf area or leaf nitrogen in Blocks 5 to 7.')}</p>`}</div>
+    ${tarjetaRegenRiesgo()}
     <div class="card t6"><h3>${T('El sistema en números','The system in numbers')}</h3>
       <p>${red.nodos.length} ${T('variables','variables')} · ${red.vinc.length} ${T('vínculos','links')} · ${red.nodos.filter(n=>n.v!=null).length} ${T('con valor de tu viñedo','with a value from your vineyard')}</p>
       <h4 style="margin:.6em 0 .2em">${T('Las que más conectan (intermediación)','The most connecting (betweenness)')}</h4>
