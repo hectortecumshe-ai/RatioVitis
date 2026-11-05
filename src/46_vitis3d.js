@@ -17,7 +17,8 @@ function vitis3D(cont, red, opt={}){
   function dibujar(){ let s=''; const enCiclo=(a,b)=>ciclo&&ciclo.some((x,i)=>x===a&&ciclo[(i+1)%ciclo.length]===b);
     RED.CAPAS.forEach(c=>{ const pts=[]; for(let k=0;k<=48;k++){ const a=2*Math.PI*k/48; pts.push(proy([R0*1.12*Math.cos(a), R0*1.12*Math.sin(a), c.z])); }
       const on=!foco||foco===c.id; s+=`<path d="${pts.map((p,i)=>`${i?'L':'M'}${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join('')}Z" fill="${c.col}" fill-opacity="${on?0.10:0.03}" stroke="${c.col}" stroke-opacity="${on?0.6:0.15}" stroke-width="1.5"/>`;
-      const e=proy([R0*1.16,0,c.z]); s+=`<text x="${(e[0]+8).toFixed(1)}" y="${e[1].toFixed(1)}" font-size="13" font-weight="700" fill="${c.col}" opacity="${on?1:.35}">${esc(tx(c.n))}</text>`; });
+      // Etiqueta de la capa a la izquierda del anillo: las de los nodos corren hacia la derecha y así no se enciman
+      const e=pts.reduce((m,p)=>p[0]<m[0]?p:m); s+=`<text x="${(e[0]-12).toFixed(1)}" y="${(e[1]+4).toFixed(1)}" text-anchor="end" font-size="13" font-weight="700" fill="${c.col}" opacity="${on?1:.35}">${esc(tx(c.n))}</text>`; });
     const vis=red.vinc.filter(e=>P[e.a]&&P[e.b]).map(e=>({e, a:proy(P[e.a]), b:proy(P[e.b])})).sort((x,y)=>(y.a[3]+y.b[3])-(x.a[3]+x.b[3]));
     vis.forEach(({e,a,b})=>{ const enC=enCiclo(e.a,e.b), dim=(foco&&red.nodos.find(n=>n.id===e.a).capa!==foco&&red.nodos.find(n=>n.id===e.b).capa!==foco)||(ciclo&&!enC)||(marcados.size&&!(marcados.has(e.a)&&marcados.has(e.b))&&!enC);
       const col=COL_VINC[e.t]||'#888', sw=enC?4:1.2+1.6*(e.w||1);
