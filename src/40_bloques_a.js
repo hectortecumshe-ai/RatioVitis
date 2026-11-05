@@ -20,6 +20,7 @@ const BLOQUES = [
   {id:'tablero', n:'11', ill:'i-panel2', corto:E('Tablero','Dashboard'), titulo:E('Tablero del viñedo','Vineyard dashboard'), render:()=>renderTablero},
   {id:'regen',   n:'12', ill:'i-semilla', corto:E('Regeneración','Regeneration'), titulo:E('Regeneración y resiliencia','Regeneration and resilience'), render:()=>renderRegen},
   {id:'riesgos', n:'13', ill:'i-riesgo', corto:E('Riesgos','Risks'), titulo:E('Riesgos del viñedo','Vineyard risks'), render:()=>renderRiesgos},
+  {id:'sost',    n:'14', ill:'i-valor', corto:E('Sostenibilidad','Sustainability'), titulo:E('Sostenibilidad por tratamiento','Sustainability by treatment'), render:()=>renderSost},
   {id:'validacion', n:'✓', ill:'i-check', corto:E('Validación','Validation'), titulo:E('Validación','Validation'), render:()=>renderValidacion},
   {id:'teoria', n:'§', ill:'i-book',   corto:E('Teoría','Theory'), titulo:E('Marco teórico y fuentes','Theoretical framework and sources'), render:()=>renderTeoria}
 ];

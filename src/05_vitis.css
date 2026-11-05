@@ -24,7 +24,7 @@
 .recorrido .anillo text.m{fill:#c9d3e0}
 
 /* Tablero: las tablas ocupan todo el ancho de su tarjeta */
-.tbl-c .tbl{width:100%}
+.tbl-c table.tbl{display:table;width:100%}
 
 /* Variables del estudio */
 .vars-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
