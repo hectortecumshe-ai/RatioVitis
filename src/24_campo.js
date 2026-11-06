@@ -4,6 +4,8 @@
    Cada constante está cotejada con el texto de su fuente:
    · Rangos de suficiencia foliar de Garnacha tinta (La Rioja), limbo y peciolo en floración y envero:
      OENO One, «Sufficiency ranges (SR) and deviation from optimum percentage (DOP) references…», Tablas 5 a 8.
+   · Índice DOP = C·100/Cref − 100 (Montañés et al., 1993, J. Plant Nutr. 16: 1289–1308; en Goodarzi, 2005);
+     Cref de Garnacha tinta: OENO One, Tabla 9 (media de la población de referencia). Σ|DOP| = equilibrio global.
    · Rangos de suficiencia de peciolo en floración: NC State Extension, Winegrape Grower’s Guide, cap. 9.
    · Riesgo de deficiencia de Mg cuando K/Mg del peciolo pasa de 5 a 1: NC State Extension, cap. 9.
    · Peso de poda de 0.3 a 0.4 libras por pie de hilera: NC State Extension.
@@ -21,6 +23,13 @@ const CAMPO = (()=>{
     'peciolo|floracion':{N:[1.24,1.46,1.64,1.86],P:[0.34,0.41,0.46,0.52],K:[1.15,1.38,1.61,1.93],Ca:[1.75,1.98,2.19,2.43],Mg:[0.62,0.82,1.06,1.24],Fe:[26,32,38,46],Mn:[30,44,61,88],Zn:[11,13,16,20],Cu:[7,8,9,11],B:[39,43,45,49]},
     'limbo|envero':     {N:[1.99,2.09,2.18,2.28],P:[0.14,0.15,0.17,0.19],K:[0.92,1.14,1.34,1.56],Ca:[2.63,2.86,3.06,3.28],Mg:[0.21,0.29,0.40,0.47],Fe:[129,159,191,235],Mn:[91,124,153,187],Zn:[12,14,16,18],Cu:[14,68,127,275],B:[32,39,45,54]},
     'peciolo|envero':   {N:[0.57,0.64,0.70,0.77],P:[0.12,0.17,0.22,0.30],K:[0.83,1.73,2.64,3.87],Ca:[2.19,2.40,2.52,2.77],Mg:[0.77,1.03,1.43,1.70],Fe:[30,37,45,55],Mn:[47,90,148,218],Zn:[16,21,25,29],Cu:[10,18,39,66],B:[34,37,40,43]} };
+  /* Tabla 9: referencias DOP (macro en g/100 g = %, micro en mg/kg; base seca). Cu: sin significado fisiológico real (residuos de fungicidas cúpricos) */
+  const DOPREF = {
+    'limbo|floracion':  {N:3.04,P:0.268,K:0.976,Ca:2.12,Mg:0.309,Fe:139,Mn:113,Zn:16.3,Cu:8.14,B:66.5},
+    'peciolo|floracion':{N:1.55,P:0.433,K:1.49,Ca:2.09,Mg:0.905,Fe:35.0,Mn:51.7,Zn:14.8,Cu:8.73,B:44.0},
+    'limbo|envero':     {N:2.14,P:0.162,K:1.24,Ca:2.96,Mg:0.347,Fe:174,Mn:139,Zn:14.9,Cu:89.5,B:41.9},
+    'peciolo|envero':   {N:0.669,P:0.191,K:2.09,Ca:2.46,Mg:1.28,Fe:40.7,Mn:116,Zn:22.7,Cu:29.0,B:38.4} };
+  const dop = (clave, nut, v)=>{ const r=(DOPREF[clave]||{})[nut]; return r&&v!=null ? v*100/r-100 : null; };
   const CLASES_SR = [E('Bajo','Low'),E('Bajo el óptimo','Below optimal'),E('Óptimo','Optimal'),E('Sobre el óptimo','Above optimal'),E('Alto','High')];
   function claseGarnacha(clave, nut, v){ const t=(GARNACHA[clave]||{})[nut]; if(!t||v==null) return null; const i=t.findIndex(x=>v<x); return {i:i<0?4:i, n:CLASES_SR[i<0?4:i]}; }
   /* NC State: peciolo en floración, rango de suficiencia [mín, máx] (null = sin límite publicado) */
@@ -40,7 +49,7 @@ const CAMPO = (()=>{
   function carbono(msIni, msFin, fC){ if(msFin==null||fC==null) return null; const dC=(msFin-(msIni||0))*fC, co2=dC*44/12; return {dC, co2, o2:co2*32/44}; }
   /* Energía diaria de la superficie con la ET del viñedo: LE = λ ETc; H = Rn − G − LE (residuo); β = H / LE */
   function energia(b){ return b.map(d=>{ const rn=d.rnRef, le=2.45*d.etc, h=rn-le; return {f:d.f, rn, le, h, beta:le>0?h/le:null}; }); }
-  return {NUT, GARNACHA, CLASES_SR, claseGarnacha, NCSTATE, claseNC, kmg, PODA_KGM, clasePoda, claseRavaz, claseAF, claseBrix, fcNDVI, kcNDVI, carbono, energia};
+  return {NUT, GARNACHA, CLASES_SR, claseGarnacha, NCSTATE, claseNC, kmg, PODA_KGM, clasePoda, claseRavaz, claseAF, claseBrix, fcNDVI, kcNDVI, carbono, energia, DOPREF, dop};
 })();
 /* Unidades de comparación: los tratamientos del experimento, o el viñedo completo si no hay */
 const unidades = ()=> (S.exp.trats||[]).filter(t=>t.id).length ? S.exp.trats.filter(t=>t.id).map(t=>({id:t.id, n:t.id+(t.n?' · '+t.n:'')})) : [{id:'V', n:T('Viñedo','Vineyard')}];

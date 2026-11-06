@@ -8,6 +8,8 @@
    · Índice de frescor nocturno: CI = Tmín media de septiembre (Tonietto y Carbonneau, 2004).
    · Grados día de Winkler: W = Σ 1 abr–31 oct max(0, T − 10) (Amerine y Winkler, 1944).
    · Temperatura media de la temporada: GST = media de T del 1 abr al 31 oct.
+   · Regiones de Winkler y clases de GST: leyendas de las Figuras 6 y 7 de del Río et al. (2023),
+     «Zoning of the Querétaro wine region», BIO Web of Conferences 68: 01029 (1 abr–31 oct, base 10 °C).
    · Relación P/ET0 mensual: ≥ 1 húmedo; < 0.5 seco (FAO-56).
    Hemisferio sur: los periodos se desplazan seis meses (oct–abr).
    Los índices se desarrollaron para la viticultura templada; en climas sin
@@ -39,6 +41,9 @@ const CLIMA = (()=>{
   const claseET0 = v=> v==null?null: v<=3?{k:'ok',t:E('Bajo','Low')}: v<=5?{k:'ok',t:E('Moderado','Moderate')}: v<=7?{k:'w',t:E('Alto','High')}:{k:'bad',t:E('Muy alto','Very high')};
   const CLASE_HI = [[1500,E('Muy fresco (HI−3)','Very cool (HI−3)')],[1800,E('Fresco (HI−2)','Cool (HI−2)')],[2100,E('Templado (HI−1)','Temperate (HI−1)')],[2400,E('Templado cálido (HI+1)','Warm temperate (HI+1)')],[3000,E('Cálido (HI+2)','Warm (HI+2)')],[1e9,E('Muy cálido (HI+3)','Very warm (HI+3)')]];
   const CLASE_CI = [[12,E('Noches muy frescas (CI+2)','Very cool nights (CI+2)')],[14,E('Noches frescas (CI+1)','Cool nights (CI+1)')],[18,E('Noches templadas (CI−1)','Temperate nights (CI−1)')],[1e9,E('Noches cálidas (CI−2)','Warm nights (CI−2)')]];
+  const e=1e-9;
+  const CLASE_W = [[850-e,E('Demasiado frío (< 850)','Too cold (< 850)')],[1389,E('Región I (850–1389)','Region I (850–1389)')],[1667,E('Región II (1390–1667)','Region II (1390–1667)')],[1944,E('Región III (1668–1944)','Region III (1668–1944)')],[2222,E('Región IV (1945–2222)','Region IV (1945–2222)')],[2700,E('Región V (2223–2700)','Region V (2223–2700)')],[1e9,E('Demasiado cálido (> 2700)','Too hot (> 2700)')]];
+  const CLASE_GST = [[13-e,E('Demasiado frío (< 13)','Too cold (< 13)')],[15,E('Frío (13–15)','Cold (13–15)')],[17,E('Intermedio (15–17)','Intermediate (15–17)')],[19,E('Templado (17–19)','Temperate (17–19)')],[21,E('Cálido (19–21)','Warm (19–21)')],[24,E('Muy cálido (21–24)','Very warm (21–24)')],[1e9,E('Demasiado cálido (> 24)','Too hot (> 24)')]];
   const clase = (tabla, v)=> v==null ? null : (tabla.find(x=>v<=x[0]) || tabla[tabla.length-1]);
   const dHuglin = lat=>{ const a=Math.abs(lat); return a<=40?1.00:a<=42?1.02:a<=44?1.03:a<=46?1.04:a<=48?1.05:1.06; };
   /* Índices de una temporada: año y hemisferio; cobertura = días con dato / días del periodo */
@@ -61,5 +66,5 @@ const CLIMA = (()=>{
       return {mes:k, n:l.length, tmax:l.reduce((s,d)=>s+d.tmax,0)/l.length, tmin:l.reduce((s,d)=>s+d.tmin,0)/l.length, prec:pr, et0:et, pe:pr!=null&&et>0?pr/et:null}; }); }
   /* Exportación para PhenologyPro (Barrera-Guzmán, 2026): fecha,tmax,tmin,prec,hr,viento */
   function csvPhenology(dias){ return 'fecha,tmax,tmin,prec,hr,viento\n'+dias.map(d=>[d.f,d.tmax,d.tmin,d.prec??'',d.hrmed??(d.hrmax!=null&&d.hrmin!=null?(d.hrmax+d.hrmin)/2:''),d.u2??''].join(',')).join('\n'); }
-  return {leerCSV, conET0, claseET0, CLASE_HI, CLASE_CI, clase, dHuglin, indices, mensual, csvPhenology};
+  return {leerCSV, conET0, claseET0, CLASE_HI, CLASE_CI, CLASE_W, CLASE_GST, clase, dHuglin, indices, mensual, csvPhenology};
 })();
