@@ -133,8 +133,8 @@ def caso():
         [('Plantación; riego', 'Planting; irrigation'), ('Febrero de 2025 (día aproximado: 24); goteo', 'February 2025 (approximate day: 24); drip'), 'Mojica-Zárate et al. (2026)'],
         [('Suelo', 'Soil'), ('Clase arcillosa; θ del Cuadro 19 (sugerido); Zr 0.70 m (◆)', 'Clay class; θ from Table 19 (suggested); Zr 0.70 m (◆)'), 'Mojica-Zárate et al. (2026); FAO-56'],
         [('Variedad y diseño', 'Variety and design'), ('Perlet; BCA 4 × 3, parcelas de 7, bordo 1; sorteo del croquis', 'Perlet; RCBD 4 × 3, 7-vine plots, 1 border; draw from the layout'), 'Hernández González (2026)'],
-        [('Clima diario', 'Daily climate'), ('2025, 365 días: Tmáx, Tmín, HRmáx, HRmín, Tdew, u10, Rs, P', '2025, 365 days: Tmax, Tmin, RHmax, RHmin, Tdew, u10, Rs, P'), 'ERA5 (Hersbach et al., 2020) vía Open-Meteo (Zippenfeld, 2023)'],
-        [('Etapas', 'Stages'), ('Latitudes bajas, 20/40/120/60 d, desde la plantación (◆)', 'Low latitudes, 20/40/120/60 d, from planting (◆)'), 'FAO-56, Cuadro 11']])
+        [('Clima diario', 'Daily climate'), ('2025, 365 días: Tmáx, Tmín, HRmáx, HRmín, Tdew, u10, Rs, P', '2025, 365 days: Tmax, Tmin, RHmax, RHmin, Tdew, u10, Rs, P'), ('ERA5 (Hersbach et al., 2020) vía Open-Meteo (Zippenfeld, 2023)', 'ERA5 (Hersbach et al., 2020) via Open-Meteo (Zippenfeld, 2023)')],
+        [('Etapas', 'Stages'), ('Latitudes bajas, 20/40/120/60 d, desde la plantación (◆)', 'Low latitudes, 20/40/120/60 d, from planting (◆)'), ('FAO-56, Cuadro 11', 'FAO-56, Table 11')]])
     c += P('El clima es la celda ERA5 de 19.25° N y 96.75° O ajustada a 467 m, descargada el 5 de noviembre de 2026; el viento a 10 m se lleva a 2 m con la Ec. 47. Resultados que da la app:',
            'The climate is the ERA5 cell at 19.25° N, 96.75° W adjusted to 467 m, downloaded on 5 November 2026; 10 m wind is taken to 2 m with Eq. 47. Results the app gives:')
     c += TABLA([('Salida', 'Output'), ('Valor', 'Value')], [

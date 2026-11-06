@@ -62,8 +62,8 @@ def css():
 figure.svgfig{padding:18px 18px 4px}
 figure.svgfig svg{display:block;width:100%;height:auto;font-family:var(--sans)}
 figure.svgfig svg text:not([fill]){fill:var(--text)}
-.eq{position:relative;display:flex;align-items:center;justify-content:center;gap:20px;margin:22px 0 24px;padding:18px 64px 18px 24px;background:var(--paper);border:1px solid var(--line);border-left:3px solid var(--c,var(--pri));border-radius:12px;font-size:19px;overflow-x:auto}
-.eq .no{position:absolute;right:18px;top:50%;transform:translateY(-50%);font:600 13px var(--sans);color:var(--faint);white-space:nowrap}
+.eq{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;margin:22px 0 24px;padding:16px 24px 12px;background:var(--paper);border:1px solid var(--line);border-left:3px solid var(--c,var(--pri));border-radius:12px;font-size:19px;overflow-x:auto}
+.eq .no{align-self:flex-end;font:600 12.5px var(--sans);color:var(--faint);text-align:right}
 .eq sub,.eq sup{font-size:.7em}
 .where{font-size:16px;color:var(--muted);margin:-8px 0 22px}
 .legal{font-size:14.5px;line-height:1.6;color:var(--muted)}
@@ -75,7 +75,7 @@ figure.svgfig svg text:not([fill]){fill:var(--text)}
 .code .bar{padding:8px 14px;background:#1e2924;font:600 12px var(--sans);color:#9fb0a6;letter-spacing:.06em}
 .code pre{margin:0;padding:16px 18px;overflow-x:auto;font-size:13px;line-height:1.6;white-space:pre-wrap}
 table.hoja td{height:34px;border:1px solid var(--line)}
-@media print{.eq{break-inside:avoid}.code{break-inside:avoid}table.hoja td{height:9mm}}
+@media print{.eq{break-inside:avoid}.code{break-inside:avoid}table.hoja td{height:9mm}#creditos .legal{font-size:10pt;line-height:1.4}#creditos .legal p{margin:3px 0}#creditos h3{margin-top:14px}#creditos .qrbox svg{width:110px;height:110px}}
 '''
     return c
 
@@ -134,8 +134,18 @@ def REGLA(t_es, t_en, filas):
     return (f'<div class="box rule"><span class="bi">→</span><span class="bt" lang="es">{t_es}</span><span class="bt" lang="en">{t_en}</span>'
             f'<table><tbody>{tr}</tbody></table></div>\n')
 
+EQ_EN = [('media de T<sub>med</sub> del 1 abr al 31 oct', 'mean T<sub>mean</sub> from 1 Apr to 31 Oct'), ('T<sub>mín</sub> media de septiembre', 'mean September T<sub>min</sub>'),
+         ('desequilibrio global', 'overall imbalance'), ('dosis', 'dose'), ('planta', 'vine'), ('(uva)', '(grape)'), ('(diario)', '(daily)'), ('ANCOVA en bloques', 'Block ANCOVA'),
+         ('si D', 'if D'), ('; si no,', '; otherwise'), ('vid:', 'vine:'), ('Ec.', 'Eq.'), ('Cuadro', 'Table'), ('Tabla', 'Table'), ('cap.', 'ch.'), (' y ', ' and '),
+         ('1 abr', '1 Apr'), ('31 oct', '31 Oct'), ('30 sep', '30 Sep'), ('<sub>máx</sub>', '<sub>max</sub>'), ('<sub>mín</sub>', '<sub>min</sub>'), ('<sub>med</sub>', '<sub>mean</sub>'),
+         ('c,máx', 'c,max'), ('c aj', 'c adj'), (' MO', ' OM'), ('·MO', '·OM'), ('(MO', '(OM'), ('umbral', 'threshold'),
+         ('ADT', 'TAW'), ('AFA', 'RAW'), ('θ<sub>CC</sub>', 'θ<sub>FC</sub>'), ('θ<sub>PMP</sub>', 'θ<sub>WP</sub>'), ('IAF = AF', 'LAI = LA'), ('ΔMS', 'ΔDM'), ('CE<sub>e', 'EC<sub>e')]
+def en_eq(t):
+    for a, b in EQ_EN: t = t.replace(a, b)
+    return t
+
 def EQ(html, no=''):
-    return f'<div class="eq"><span>{html}</span>' + (f'<span class="no">{no}</span>' if no else '') + '</div>\n'
+    return f'<div class="eq"><span>{L(html, en_eq(html))}</span>' + (f'<span class="no">{L(no, en_eq(no))}</span>' if no else '') + '</div>\n'
 
 def CHAP(id_, toc, color, eb_es, eb_en, t_es, t_en, in_es, in_en, cuerpo, inchap=True):
     return (f'<section class="chap" id="{id_}" data-toc="{toc}" style="--c:{color}">\n  <div class="chap-head"><span class="big">{toc}</span>\n'

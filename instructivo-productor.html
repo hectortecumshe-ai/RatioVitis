@@ -398,8 +398,8 @@ mark{background:color-mix(in srgb,var(--acc) 30%,transparent);color:inherit;bord
 figure.svgfig{padding:18px 18px 4px}
 figure.svgfig svg{display:block;width:100%;height:auto;font-family:var(--sans)}
 figure.svgfig svg text:not([fill]){fill:var(--text)}
-.eq{position:relative;display:flex;align-items:center;justify-content:center;gap:20px;margin:22px 0 24px;padding:18px 64px 18px 24px;background:var(--paper);border:1px solid var(--line);border-left:3px solid var(--c,var(--pri));border-radius:12px;font-size:19px;overflow-x:auto}
-.eq .no{position:absolute;right:18px;top:50%;transform:translateY(-50%);font:600 13px var(--sans);color:var(--faint);white-space:nowrap}
+.eq{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;margin:22px 0 24px;padding:16px 24px 12px;background:var(--paper);border:1px solid var(--line);border-left:3px solid var(--c,var(--pri));border-radius:12px;font-size:19px;overflow-x:auto}
+.eq .no{align-self:flex-end;font:600 12.5px var(--sans);color:var(--faint);text-align:right}
 .eq sub,.eq sup{font-size:.7em}
 .where{font-size:16px;color:var(--muted);margin:-8px 0 22px}
 .legal{font-size:14.5px;line-height:1.6;color:var(--muted)}
@@ -411,7 +411,7 @@ figure.svgfig svg text:not([fill]){fill:var(--text)}
 .code .bar{padding:8px 14px;background:#1e2924;font:600 12px var(--sans);color:#9fb0a6;letter-spacing:.06em}
 .code pre{margin:0;padding:16px 18px;overflow-x:auto;font-size:13px;line-height:1.6;white-space:pre-wrap}
 table.hoja td{height:34px;border:1px solid var(--line)}
-@media print{.eq{break-inside:avoid}.code{break-inside:avoid}table.hoja td{height:9mm}}
+@media print{.eq{break-inside:avoid}.code{break-inside:avoid}table.hoja td{height:9mm}#creditos .legal{font-size:10pt;line-height:1.4}#creditos .legal p{margin:3px 0}#creditos h3{margin-top:14px}#creditos .qrbox svg{width:110px;height:110px}}
 
 </style>
 </head>
