@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>captura</title>
+<!-- Auxiliar para las capturas de los instructivos de Ratio Vitis.
+     Abre la app en un iframe (mismo origen), prepara el estado, se desplaza a una sección
+     y dibuja marcas numeradas sobre los elementos indicados. Lo usa capturar.py con Edge sin interfaz.
+     Parámetros: b (bloque) · v (prod|cien) · l (es|en) · h (alto) · w (ancho) · sel (selector al que desplazarse)
+                 off (margen superior) · m (selectores de marcas separados por «|») · prep (preparaciones separadas por «,») · js (código extra) -->
+<style>
+html,body{margin:0;padding:0;background:#f6f5f0;overflow:hidden}
+#app{border:0;display:block}
+#capa{position:absolute;left:0;top:0;pointer-events:none}
+.mk{position:absolute;border:3px solid #c0772b;border-radius:10px;box-shadow:0 0 0 3px rgba(255,255,255,.75)}
+.mk b{position:absolute;left:-15px;top:-15px;width:28px;height:28px;border-radius:50%;background:#c0772b;color:#fff;font:700 15px/28px "Segoe UI",Arial,sans-serif;text-align:center;box-shadow:0 0 0 3px #fff}
+</style>
+</head>
+<body>
+<iframe id="app"></iframe>
+<div id="capa"></div>
+<script>
+const P = new URLSearchParams(location.search);
+const W = +(P.get('w') || 1280), H = +(P.get('h') || 860);
+const app = document.getElementById('app'), capa = document.getElementById('capa');
+app.width = W; app.height = H; capa.style.width = W + 'px'; capa.style.height = H + 'px';
+try { localStorage.clear(); localStorage.setItem('vitis_lang', P.get('l') || 'es'); localStorage.setItem('vitis_modo', P.get('v') || 'prod'); localStorage.setItem('vitis_tema', 'light'); } catch (e) {}
+const espera = ms => new Promise(r => setTimeout(r, ms));
+const PREP = {   // código que corre dentro de la app después del caso base (modo ejemplo de Mata de Zarza)
+  vacio: "",
+  quieto: "window.__m3dQuieto=true;",
+  oscuro: "window.__oscuro=true;",
+  ayuda: "window.__dialogo='ayuda';",
+  cien: "",
+  parcial: "S.vina.tipo='mesa'; S.vina.variedad='Perlet'; S.edo='30'; S.mun='134'; S.loc='0018';"
+};
+app.addEventListener('load', async () => {
+  const w = app.contentWindow, d = app.contentDocument;
+  // «@3.2» = la tarjeta cuyo título empieza con «3.2»; cualquier otro texto es un selector CSS
+  const q = s => { if (!s.startsWith('@')) return d.querySelector(s); const t = s.slice(1); const h = [...d.querySelectorAll('main h2, main h3')].find(x => x.textContent.trim().startsWith(t)); return h ? (h.closest('.card') || h) : null; };
+  const st = d.createElement('style');
+  st.textContent = '*,*::before,*::after{animation:none!important;transition:none!important;caret-color:transparent}.aparece,main>*{opacity:1!important;transform:none!important}.dibuja,.clado .rama,.prosp-g .linea-p{stroke-dashoffset:0!important}.toast{display:none!important}';
+  d.head.appendChild(st); d.documentElement.style.scrollBehavior = 'auto';
+  await espera(400);
+  // Caso resuelto: el caso publicado de Mata de Zarza (Mojica-Zárate et al., 2026) en modo ejemplo, con las sugerencias aceptadas.
+  // Con «vacio» la captura muestra la app como la ve una persona nueva.
+  const preps = (P.get('prep') || '').split(',').filter(Boolean), vacio = preps.includes('vacio');
+  const base = vacio ? '' : "const _b=S.bloque; entrarEjemplo(); S.bloque=_b;";
+  const codigo = base + ';' + preps.map(k => PREP[k] || '').join(';') + ';' + (P.get('js') || '');
+  try { w.eval(codigo + ';render();'); } catch (e) { document.title = 'error: ' + e.message; }
+  if (w.__oscuro) w.aplicarTema('dark'); else w.aplicarTema('light');
+  await espera(300);
+  (w.__abrir || []).forEach(s => { const x = d.querySelector(s); if (x) x.open = true; });
+    await espera(300);
+  const sel = P.get('sel'), off = +(P.get('off') || 132);
+  const ir = () => { if (sel) { const el = q(sel); if (el) w.scrollTo({ top: Math.max(0, el.getBoundingClientRect().top + w.scrollY - off), left: 0, behavior: 'instant' }); } else w.scrollTo({ top: 0, left: 0, behavior: 'instant' }); d.querySelectorAll('.bar,main,.steps-nav').forEach(x => { if (x.scrollLeft && !x.matches('.steps-nav')) x.scrollLeft = 0; }); };
+  ir(); await espera(250); ir();
+  if (w.__dialogo === 'ayuda') { const qq = d.querySelector(P.get('q') || '.qh'); if (qq) qq.click(); await espera(300); }
+  await espera(300);
+  capa.innerHTML = '';
+  (P.get('m') || '').split('|').filter(Boolean).forEach((s, i) => {
+    const el = q(s); if (!el) return;
+    const r = el.getBoundingClientRect(), pad = 5;
+    const mk = document.createElement('div'); mk.className = 'mk';
+    mk.style.left = (r.left - pad) + 'px'; mk.style.top = (r.top - pad) + 'px'; mk.style.width = (r.width + 2 * pad) + 'px'; mk.style.height = (r.height + 2 * pad) + 'px';
+    mk.innerHTML = `<b>${i + 1}</b>`; if (r.top - pad < 18) { const b = mk.querySelector('b'); b.style.top = 'auto'; b.style.bottom = '-15px'; } if (r.left - pad < 18) { mk.querySelector('b').style.left = '-4px'; } capa.appendChild(mk);
+  });
+  document.title = 'listo';
+});
+app.src = '../../index.html?v=' + Date.now() + '#' + (P.get('b') || 'inicio') + '/' + (P.get('v') || 'prod') + '/' + (P.get('l') || 'es');
+</script>
+</body>
+</html>

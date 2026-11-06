@@ -49,7 +49,7 @@ function renderClima(el){ const st=sitio(), dd=S.clima.dias, hay=dd.length>0;
       <p class="nota">ET0 = [0.408 Δ (Rn − G) + γ 900/(T + 273) u2 (es − ea)] / [Δ + γ (1 + 0.34 u2)] · FAO-56, Ec. 6.</p></div>
     ${fuente('Allen et al. (2006), FAO Riego y Drenaje 56.')}</div>
   <div class="card"><h2>${T('3.3 Índices vitícolas','3.3 Viticultural indices')}</h2>
-    <div class="tbl-c"><table class="tbl"><thead><tr><th>${T('Temporada','Season')}</th><th>Huglin${ayuda('huglin')}</th><th>${T('Frescor nocturno','Cool nights')}${ayuda('ci')}</th><th>Winkler${ayuda('winkler')}</th><th>GST (°C)</th></tr></thead><tbody>
+    <div class="tbl-c"><table class="tbl"><thead><tr><th>${T('Temporada','Season')}</th><th>Huglin${ayuda('huglin')}</th><th>${T('Frescor nocturno','Cool nights')}${ayuda('ci')}</th><th>Winkler${ayuda('winkler')}</th><th>GST (°C)${ayuda('gst')}</th></tr></thead><tbody>
       ${idx.map(r=>{ const ch=CLIMA.clase(CLIMA.CLASE_HI,r.HI), cc=CLIMA.clase(CLIMA.CLASE_CI,r.CI);
         return `<tr><td>${r.anio}</td><td>${r.cobH>=0.9?`<b>${fmt(r.HI,0)}</b><br><small>${esc(tx(ch[1]))}</small>`:`<span class="sindato">${T('cobertura','coverage')} ${fmt(100*r.cobH,0)} %</span>`}</td>
           <td>${r.nCI>=27?`<b>${fmt(r.CI,1)} °C</b><br><small>${esc(tx(cc[1]))}</small>`:`<span class="sindato">${r.nCI} ${T('días de septiembre','September days')}</span>`}</td>

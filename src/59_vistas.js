@@ -54,14 +54,14 @@ const vistas = ()=>({
     f:'Masera et al. (1999); Sarandón (2002); IPCC (2006, 2019); Forster et al. (2021).'},
   prosp:{p:[E('Tres futuros posibles (deseable, tendencial y no deseado) para ver qué tratamiento aguanta mejor la sequía y sigue siendo sostenible a 1, 2 y 5 años.','Three possible futures (desirable, trend and undesired) to see which treatment best withstands drought and stays sustainable at 1, 2 and 5 years.'),
       E('Escribe cuánto sube o baja la materia orgánica de cada tratamiento por año: es lo que más cambia el agua que guarda tu suelo.','Write how much each treatment’s organic matter rises or falls per year: it is what most changes the water your soil holds.')],
-    c:[['θ<sub>33</sub>, θ<sub>1500</sub> = f(S, C, MO)','Saxton y Rawls (2006), Ec. 1–2'],['T + ΔT·t/10 ; P·(1+ΔP) ; I·f<sub>I</sub> → FAO-56','IPCC (2018); Allen et al. (2006)'],['Tr/Tpot = 1 − Σ K<sub>cb</sub>ET₀(1 − K<sub>s</sub>) / Σ K<sub>cb</sub>ET₀','Allen et al. (2006), Ec. 84'],['1 − Y/Y<sub>m</sub> = K<sub>y</sub>(1 − ET/ET<sub>m</sub>)','Doorenbos y Kassam (1979)']],
+    c:[['θ<sub>33</sub>, θ<sub>1500</sub> = f(S, C, MO)','Saxton y Rawls (2006), Ec. 1–2'],['T + ΔT·t/10 ; P·(1+ΔP) ; I·f<sub>I</sub> → FAO-56','IPCC (2018); Allen et al. (2006)'],['Tr/Tpot = 1 − Σ K<sub>cb</sub>ET₀(1 − K<sub>s</sub>) / Σ K<sub>cb</sub>ET₀','Allen et al. (2006), Ec. 84'],['1 − Y/Y<sub>m</sub> = K<sub>y</sub>(1 − ET/ET<sub>m</sub>) ; K<sub>y</sub> = 0.85','FAO-56, Ec. 90 y Cuadro 24; Doorenbos y Kassam (1979)']],
     f:'Godet y Durance (2007); Hernández González (2026), objetivo 6 y sección 6.8.'},
   informe:{p:[E('Tu viñedo en un documento para llevar a la reunión, al asesor o al comité de tesis: resumen, acciones y resultados.','Your vineyard in one document for the meeting, the adviser or the thesis committee: summary, actions and results.'),
       E('Empieza por la hoja de acciones; imprime o guarda en PDF con el botón de arriba.','Start with the action sheet; print or save as PDF with the button above.')],
     c:[[T('Sin cálculos nuevos: reúne los resultados de los bloques 1 a 15 con sus fuentes','No new calculations: gathers Blocks 1–15 results with their sources')],[T('JSON reproducible = entradas + parámetros + resultados + referencias','Reproducible JSON = inputs + parameters + results + references')]],
     f:'APA, 7.ª ed.'},
   riesgos:{p:[E('Califica qué tan probable y qué tan dañino sería cada problema; al lado ves lo que dicen tus datos. Atiende primero lo que cae en rojo.','Rate how likely and how harmful each problem would be; beside it you see what your data say. Address first what falls in red.')],
-    c:[['r = P · I · (1 − 0.4 CA) · (1 − 0.15 c)',T('0.4 y 0.15: supuestos de Ratio Viña','0.4 and 0.15: Ratio Viña assumptions')],[E('Índice = media de r / 25 de los riesgos respondidos.','Index = mean r / 25 over answered risks.')]],
+    c:[['r = P · I · (1 − 0.4 CA) · (1 − 0.15 c)',T('0.4 y 0.15: supuestos de Ratio Vitis (los mismos de Ratio Viña)','0.4 and 0.15: Ratio Vitis assumptions (the same as Ratio Viña)')],[E('Índice = media de r / 25 de los riesgos respondidos.','Index = mean r / 25 over answered risks.')]],
     f:'IEC 31010:2019; ISO 31000:2018; IPCC (2014).'}
 });
 function ponerVistas(id, el){ const v=vistas()[id]; if(!v) return;

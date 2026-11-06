@@ -1574,7 +1574,9 @@ const AYUDA = {
   ci:{c:E('Índice de frescor nocturno: temperatura mínima media de septiembre, el mes de maduración en el hemisferio norte (Tonietto y Carbonneau, 2004).','Cool night index: mean minimum temperature of September, the ripening month in the northern hemisphere (Tonietto and Carbonneau, 2004).'),
     s:[['info',E('Noches muy frescas ≤ 12 °C · frescas 12–14 · templadas 14–18 · cálidas > 18. Cerca de 14.2 °C hay un umbral para el color y los aromas terpénicos.','Very cool nights ≤ 12 °C · cool 12–14 · temperate 14–18 · warm > 18. Around 14.2 °C there is a threshold for colour and terpenic aromas.')]]},
   winkler:{c:E('Grados día de Winkler: suma del 1 de abril al 31 de octubre de (T media − 10 °C), sin valores negativos (Amerine y Winkler, 1944).','Winkler degree days: sum from 1 April to 31 October of (mean T − 10 °C), negatives excluded (Amerine and Winkler, 1944).'),
-    s:[['info',E('Las regiones se mostrarán cuando estén verificadas contra su fuente.','Regions will be shown once verified against their source.')]]},
+    s:[['info',E('Regiones I a V: 850–1389, 1390–1667, 1668–1944, 1945–2222 y 2223–2700; menos de 850, demasiado frío; más de 2700, demasiado cálido (del Río et al., 2023, Fig. 6).','Regions I to V: 850–1389, 1390–1667, 1668–1944, 1945–2222 and 2223–2700; below 850, too cold; above 2700, too hot (del Río et al., 2023, Fig. 6).')]]},
+  gst:{c:E('Temperatura media de la temporada (GST): media de la temperatura media diaria del 1 de abril al 31 de octubre.','Growing season temperature (GST): mean of daily mean temperature from 1 April to 31 October.'),
+    s:[['info',E('Clases: menos de 13 demasiado frío · 13–15 frío · 15–17 intermedio · 17–19 templado · 19–21 cálido · 21–24 muy cálido · más de 24 demasiado cálido (°C; del Río et al., 2023, Fig. 7).','Classes: below 13 too cold · 13–15 cold · 15–17 intermediate · 17–19 temperate · 19–21 warm · 21–24 very warm · above 24 too hot (°C; del Río et al., 2023, Fig. 7).')]]},
   pe:{c:E('Relación lluvia / ET0 del mes (FAO-56).','Monthly rainfall / ET0 ratio (FAO-56).'),
     s:[['ok',E('1 o más: mes húmedo.','1 or more: humid month.')],['bad',E('Menos de 0.5: mes seco.','Below 0.5: dry month.')]]},
   kcb:{c:E('Coeficiente basal: la transpiración de la vid cuando el suelo superficial está seco y no hay estrés (FAO-56, cap. 7). Kc = Kcb + Ke.','Basal coefficient: vine transpiration when the surface soil is dry and there is no stress (FAO-56, ch. 7). Kc = Kcb + Ke.'),
@@ -2822,7 +2824,7 @@ function renderClima(el){ const st=sitio(), dd=S.clima.dias, hay=dd.length>0;
       <p class="nota">ET0 = [0.408 Δ (Rn − G) + γ 900/(T + 273) u2 (es − ea)] / [Δ + γ (1 + 0.34 u2)] · FAO-56, Ec. 6.</p></div>
     ${fuente('Allen et al. (2006), FAO Riego y Drenaje 56.')}</div>
   <div class="card"><h2>${T('3.3 Índices vitícolas','3.3 Viticultural indices')}</h2>
-    <div class="tbl-c"><table class="tbl"><thead><tr><th>${T('Temporada','Season')}</th><th>Huglin${ayuda('huglin')}</th><th>${T('Frescor nocturno','Cool nights')}${ayuda('ci')}</th><th>Winkler${ayuda('winkler')}</th><th>GST (°C)</th></tr></thead><tbody>
+    <div class="tbl-c"><table class="tbl"><thead><tr><th>${T('Temporada','Season')}</th><th>Huglin${ayuda('huglin')}</th><th>${T('Frescor nocturno','Cool nights')}${ayuda('ci')}</th><th>Winkler${ayuda('winkler')}</th><th>GST (°C)${ayuda('gst')}</th></tr></thead><tbody>
       ${idx.map(r=>{ const ch=CLIMA.clase(CLIMA.CLASE_HI,r.HI), cc=CLIMA.clase(CLIMA.CLASE_CI,r.CI);
         return `<tr><td>${r.anio}</td><td>${r.cobH>=0.9?`<b>${fmt(r.HI,0)}</b><br><small>${esc(tx(ch[1]))}</small>`:`<span class="sindato">${T('cobertura','coverage')} ${fmt(100*r.cobH,0)} %</span>`}</td>
           <td>${r.nCI>=27?`<b>${fmt(r.CI,1)} °C</b><br><small>${esc(tx(cc[1]))}</small>`:`<span class="sindato">${r.nCI} ${T('días de septiembre','September days')}</span>`}</td>
@@ -3948,14 +3950,14 @@ const vistas = ()=>({
     f:'Masera et al. (1999); Sarandón (2002); IPCC (2006, 2019); Forster et al. (2021).'},
   prosp:{p:[E('Tres futuros posibles (deseable, tendencial y no deseado) para ver qué tratamiento aguanta mejor la sequía y sigue siendo sostenible a 1, 2 y 5 años.','Three possible futures (desirable, trend and undesired) to see which treatment best withstands drought and stays sustainable at 1, 2 and 5 years.'),
       E('Escribe cuánto sube o baja la materia orgánica de cada tratamiento por año: es lo que más cambia el agua que guarda tu suelo.','Write how much each treatment’s organic matter rises or falls per year: it is what most changes the water your soil holds.')],
-    c:[['θ<sub>33</sub>, θ<sub>1500</sub> = f(S, C, MO)','Saxton y Rawls (2006), Ec. 1–2'],['T + ΔT·t/10 ; P·(1+ΔP) ; I·f<sub>I</sub> → FAO-56','IPCC (2018); Allen et al. (2006)'],['Tr/Tpot = 1 − Σ K<sub>cb</sub>ET₀(1 − K<sub>s</sub>) / Σ K<sub>cb</sub>ET₀','Allen et al. (2006), Ec. 84'],['1 − Y/Y<sub>m</sub> = K<sub>y</sub>(1 − ET/ET<sub>m</sub>)','Doorenbos y Kassam (1979)']],
+    c:[['θ<sub>33</sub>, θ<sub>1500</sub> = f(S, C, MO)','Saxton y Rawls (2006), Ec. 1–2'],['T + ΔT·t/10 ; P·(1+ΔP) ; I·f<sub>I</sub> → FAO-56','IPCC (2018); Allen et al. (2006)'],['Tr/Tpot = 1 − Σ K<sub>cb</sub>ET₀(1 − K<sub>s</sub>) / Σ K<sub>cb</sub>ET₀','Allen et al. (2006), Ec. 84'],['1 − Y/Y<sub>m</sub> = K<sub>y</sub>(1 − ET/ET<sub>m</sub>) ; K<sub>y</sub> = 0.85','FAO-56, Ec. 90 y Cuadro 24; Doorenbos y Kassam (1979)']],
     f:'Godet y Durance (2007); Hernández González (2026), objetivo 6 y sección 6.8.'},
   informe:{p:[E('Tu viñedo en un documento para llevar a la reunión, al asesor o al comité de tesis: resumen, acciones y resultados.','Your vineyard in one document for the meeting, the adviser or the thesis committee: summary, actions and results.'),
       E('Empieza por la hoja de acciones; imprime o guarda en PDF con el botón de arriba.','Start with the action sheet; print or save as PDF with the button above.')],
     c:[[T('Sin cálculos nuevos: reúne los resultados de los bloques 1 a 15 con sus fuentes','No new calculations: gathers Blocks 1–15 results with their sources')],[T('JSON reproducible = entradas + parámetros + resultados + referencias','Reproducible JSON = inputs + parameters + results + references')]],
     f:'APA, 7.ª ed.'},
   riesgos:{p:[E('Califica qué tan probable y qué tan dañino sería cada problema; al lado ves lo que dicen tus datos. Atiende primero lo que cae en rojo.','Rate how likely and how harmful each problem would be; beside it you see what your data say. Address first what falls in red.')],
-    c:[['r = P · I · (1 − 0.4 CA) · (1 − 0.15 c)',T('0.4 y 0.15: supuestos de Ratio Viña','0.4 and 0.15: Ratio Viña assumptions')],[E('Índice = media de r / 25 de los riesgos respondidos.','Index = mean r / 25 over answered risks.')]],
+    c:[['r = P · I · (1 − 0.4 CA) · (1 − 0.15 c)',T('0.4 y 0.15: supuestos de Ratio Vitis (los mismos de Ratio Viña)','0.4 and 0.15: Ratio Vitis assumptions (the same as Ratio Viña)')],[E('Índice = media de r / 25 de los riesgos respondidos.','Index = mean r / 25 over answered risks.')]],
     f:'IEC 31010:2019; ISO 31000:2018; IPCC (2014).'}
 });
 function ponerVistas(id, el){ const v=vistas()[id]; if(!v) return;

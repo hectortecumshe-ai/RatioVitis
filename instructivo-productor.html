@@ -1,0 +1,1223 @@
+<!doctype html>
+<html lang="es" data-lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ratio Vitis · Instructivo del Productor</title>
+<meta name="description" content="Instructivo del Productor de Ratio Vitis: mide tu viñedo del suelo al aire, con el caso de Mata de Zarza, Veracruz. · Ratio Vitis Producer Guide.">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<style>
+
+/* =====================================================================
+   Ratio Vitis · Instructivos
+   Misma familia visual que la app: serif clásica, verde pino y cobre.
+   ===================================================================== */
+:root{
+  color-scheme: light;
+  --bg:#f6f5f0; --paper:#fffefb; --soft:#efede5; --text:#1d2420; --muted:#5a645e; --faint:#8a918b;
+  --line:#e0ded4; --line2:#c9c6b8;
+  --pri:#2f5d50; --pri-d:#21453b; --pri-s:rgba(47,93,80,.09);
+  --acc:#9a4f2c; --acc-d:#7a3a1c; --acc-s:rgba(154,79,44,.12);
+  --ok:#2f8f4a; --ok-s:#e9f5ec; --warn:#b5730c; --warn-s:#fcf3e2; --bad:#b8382e; --bad-s:#fbeae8; --info:#2d78b0; --info-s:#e8f1f8;
+  --b1:#6b3fa0; --b2:#7a5230; --b3:#3f7a9a; --b4:#2f7d6a; --b5:#8a6d1f; --b6:#4f7d3a; --b7:#b0703e; --b8:#c0772b; --b9:#39718a; --b10:#2f5d50; --b11:#3f6fb0; --b12:#2f8f6a; --b13:#b8562e; --b14:#2f7d4a; --b15:#8a3f5a; --b16:#5a4a3a;
+  --font:"Palatino Linotype",Palatino,"Book Antiqua","URW Palladio L",P052,"TeX Gyre Pagella",Georgia,serif;
+  --sans:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  --shadow:0 1px 2px rgba(30,36,24,.06),0 10px 30px rgba(30,36,24,.08);
+  --shadow-lg:0 2px 6px rgba(30,36,24,.08),0 24px 60px rgba(30,36,24,.14);
+  --r:14px; --side:290px; --col:780px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --bg:#121614; --paper:#191e1b; --soft:#202622; --text:#e7ebe5; --muted:#a9b2ab; --faint:#7c857e;
+    --line:#2c342f; --line2:#3b453f;
+    --pri:#8fc2ad; --pri-d:#b5dccb; --pri-s:rgba(143,194,173,.12);
+    --acc:#e2a15c; --acc-d:#f0c08a; --acc-s:rgba(226,161,92,.14);
+    --ok:#6cc488; --ok-s:rgba(108,196,136,.12); --warn:#e7b052; --warn-s:rgba(231,176,82,.12); --bad:#ee8a7f; --bad-s:rgba(238,138,127,.12); --info:#78b8e4; --info-s:rgba(120,184,228,.12);
+    --b1:#c4a6ea; --b2:#d8b08c; --b3:#8fc8e6; --b4:#86d1bf; --b5:#e0c06e; --b6:#a9cf7e; --b7:#e0a878; --b8:#e2a15c; --b9:#86c3dc; --b10:#8fc2ad; --b11:#9dbbe8; --b12:#86d1a2; --b13:#ec9a72; --b14:#86d1a2; --b15:#e08aa8; --b16:#c9b6a3;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.35); --shadow-lg:0 2px 6px rgba(0,0,0,.45),0 24px 60px rgba(0,0,0,.5);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --bg:#121614; --paper:#191e1b; --soft:#202622; --text:#e7ebe5; --muted:#a9b2ab; --faint:#7c857e;
+  --line:#2c342f; --line2:#3b453f;
+  --pri:#8fc2ad; --pri-d:#b5dccb; --pri-s:rgba(143,194,173,.12);
+  --acc:#e2a15c; --acc-d:#f0c08a; --acc-s:rgba(226,161,92,.14);
+  --ok:#6cc488; --ok-s:rgba(108,196,136,.12); --warn:#e7b052; --warn-s:rgba(231,176,82,.12); --bad:#ee8a7f; --bad-s:rgba(238,138,127,.12); --info:#78b8e4; --info-s:rgba(120,184,228,.12);
+  --b1:#c4a6ea; --b2:#d8b08c; --b3:#8fc8e6; --b4:#86d1bf; --b5:#e0c06e; --b6:#a9cf7e; --b7:#e0a878; --b8:#e2a15c; --b9:#86c3dc; --b10:#8fc2ad; --b11:#9dbbe8; --b12:#86d1a2; --b13:#ec9a72; --b14:#86d1a2; --b15:#e08aa8; --b16:#c9b6a3;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.35); --shadow-lg:0 2px 6px rgba(0,0,0,.45),0 24px 60px rgba(0,0,0,.5);
+}
+
+/* ---------- idioma: solo se ve el activo ---------- */
+html[data-lang="es"] [lang="en"]:not(html), html[data-lang="en"] [lang="es"]:not(html){display:none!important}
+
+*{box-sizing:border-box}
+html,body{overflow-x:clip}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);font-size:18px;line-height:1.68;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;font-variant-numeric:lining-nums proportional-nums}
+img{max-width:100%;display:block}
+a{color:var(--pri);text-decoration-thickness:1px;text-underline-offset:3px}
+b,strong{font-weight:700}
+h1,h2,h3,h4{font-weight:700;line-height:1.18;color:var(--text);font-variant-numeric:lining-nums}
+table,.num,.kpi b,figure figcaption .fn{font-variant-numeric:lining-nums tabular-nums}
+.sc{font-variant:small-caps;letter-spacing:.06em}
+.eyebrow{font-family:var(--sans);font-size:11.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--acc)}
+
+/* ---------- barra superior ---------- */
+.top{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:12px;padding:10px 22px;
+  background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:saturate(1.4) blur(12px);-webkit-backdrop-filter:saturate(1.4) blur(12px);border-bottom:1px solid var(--line)}
+.top .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text);min-width:0}
+.top .brand img{width:34px;height:34px;border-radius:9px;flex:none}
+.top .brand span{font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top .brand i{color:var(--acc)}
+.top .brand small{color:var(--muted);font-style:italic;font-size:14px}
+.top .sp{flex:1}
+.seg{display:inline-flex;border:1px solid var(--line2);border-radius:999px;padding:3px;background:var(--paper)}
+.seg button{border:0;background:none;font:700 12.5px/1 var(--sans);letter-spacing:.06em;color:var(--muted);padding:7px 12px;border-radius:999px;cursor:pointer}
+.seg button.on{background:var(--pri);color:var(--paper)}
+:root[data-theme="dark"] .seg button.on{color:#10221b}
+.ib{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:50%;border:1px solid var(--line2);background:var(--paper);color:var(--text);cursor:pointer;font-size:16px;text-decoration:none}
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--pri);background:var(--pri);color:var(--paper);font:700 13.5px/1 var(--sans);letter-spacing:.02em;padding:10px 16px;border-radius:999px;cursor:pointer;text-decoration:none}
+.btn.ghost{background:var(--paper);color:var(--pri);border-color:var(--line2)}
+.btn svg{width:16px;height:16px}
+#leido{position:absolute;left:0;bottom:-1px;height:2px;width:0;background:linear-gradient(90deg,var(--pri),var(--acc))}
+#menuBtn{display:none}
+
+/* ---------- maqueta ---------- */
+.layout{display:grid;grid-template-columns:var(--side) minmax(0,1fr);max-width:1320px;margin:0 auto}
+aside.toc{position:sticky;top:59px;align-self:start;height:calc(100vh - 59px);overflow:auto;padding:26px 18px 40px 22px;border-right:1px solid var(--line);font-family:var(--sans);font-size:13.5px}
+.search{position:relative;margin-bottom:18px}
+.search input{width:100%;padding:10px 12px 10px 36px;border:1px solid var(--line2);border-radius:10px;background:var(--paper);color:var(--text);font:14px var(--sans)}
+.search svg{position:absolute;left:11px;top:50%;width:16px;height:16px;transform:translateY(-50%);color:var(--faint)}
+.search .hits{font-size:12px;color:var(--muted);margin:6px 2px 0;min-height:1em}
+.toc ol{list-style:none;margin:0;padding:0}
+.toc li{margin:1px 0}
+.toc a{display:flex;gap:10px;align-items:baseline;padding:6px 10px;border-radius:8px;color:var(--muted);text-decoration:none;line-height:1.35}
+.toc a:hover{background:var(--soft);color:var(--text)}
+.toc a.act{background:var(--pri-s);color:var(--text);font-weight:600}
+.toc .n{flex:none;display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;font-size:11.5px;font-weight:700;color:#fff;background:var(--c,var(--faint))}
+:root[data-theme="dark"] .toc .n{color:#111}
+.toc .sub a{padding-left:42px;font-size:12.8px}
+.toc .sub a.act{font-weight:600}
+.toc .grp{margin:18px 10px 6px;font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.toc li.hide{display:none}
+
+main{min-width:0;padding:0 40px 120px}
+.doc{max-width:var(--col);margin:0 auto}
+
+/* ---------- portada ---------- */
+.cover{position:relative;margin:34px auto 30px;max-width:1040px;border-radius:24px;overflow:hidden;background:var(--paper);box-shadow:var(--shadow-lg);border:1px solid var(--line)}
+.cover .band{display:flex;height:8px}.cover .band i{flex:1}
+.cover .in{display:grid;grid-template-columns:1.1fr .9fr;gap:34px;padding:52px 56px 46px}
+.cover .kick{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.cover .kick img{width:52px;height:52px;border-radius:13px}
+.cover h1{font-size:clamp(38px,4.6vw,56px);margin:0 0 6px;letter-spacing:-.015em;line-height:1.02}
+.cover h1 em{font-style:italic;color:var(--pri);font-weight:600}
+.cover h1 .a{color:var(--acc)}
+.cover .sub{font-size:21px;color:var(--muted);margin:14px 0 22px;max-width:30ch;line-height:1.45}
+.cover .meta{font-family:var(--sans);font-size:13px;color:var(--muted);line-height:1.7}
+.cover .meta b{color:var(--text)}
+.cover .who{margin-top:26px;padding-top:18px;border-top:1px solid var(--line);font-size:15.5px}
+.cover .who span{color:var(--muted);font-style:italic}
+.cover .art{position:relative;min-height:380px}
+.cover .art .frame{position:absolute;right:-110px;top:16px;width:calc(100% + 110px);border-radius:14px;overflow:hidden;box-shadow:var(--shadow-lg);border:1px solid var(--line);transform:rotate(-2.2deg)}
+.cover .art .frame.b{top:210px;right:auto;left:-14px;width:46%;transform:rotate(3deg)}
+.cover .steps{display:grid;grid-template-columns:repeat(16,minmax(0,1fr));border-top:1px solid var(--line);font-family:var(--sans)}
+.cover .steps div{padding:10px 5px 12px;border-right:1px solid var(--line);font-size:12.5px;color:var(--muted);line-height:1.3}
+.cover .steps div:last-child{border-right:0}
+.cover .steps b{display:block;font-size:20px;font-family:var(--font);color:var(--c);margin-bottom:2px}
+
+/* ---------- capítulos ---------- */
+.chap{position:relative;margin-top:80px;padding-top:4px}
+.chap-head{position:relative;display:grid;grid-template-columns:auto 1fr;gap:4px 26px;align-items:end;padding:34px 0 26px;margin-bottom:26px;border-bottom:1px solid var(--line)}
+.chap-head .big{grid-row:span 3;font-size:118px;line-height:.8;font-weight:400;color:var(--c);font-variant-numeric:lining-nums;letter-spacing:-.04em}
+.chap-head .eyebrow{color:var(--c)}
+.chap-head h2{font-size:clamp(30px,3.6vw,42px);margin:4px 0 0;letter-spacing:-.01em;padding-right:76px}
+.chap-head p{grid-column:2;margin:10px 0 0;color:var(--muted);font-size:19px;line-height:1.5;max-width:56ch}
+.chap-head .rule{position:absolute;left:0;bottom:-1px;width:120px;height:3px;background:var(--c)}
+.chap-head .ico{position:absolute;right:0;top:20px;width:64px;height:64px;color:var(--c);opacity:.9}
+.inchap{display:flex;flex-wrap:wrap;gap:6px 18px;margin:-6px 0 28px;font-family:var(--sans);font-size:13px}
+.inchap a{color:var(--muted);text-decoration:none}
+.inchap a::before{content:attr(data-n)" ";color:var(--c);font-weight:700}
+.inchap a:hover{color:var(--text)}
+
+h3{font-size:25px;margin:46px 0 12px;letter-spacing:-.005em;scroll-margin-top:84px}
+h3 .sn{font-family:var(--sans);font-size:14px;font-weight:700;color:var(--c,var(--acc));margin-right:12px;vertical-align:3px;letter-spacing:.04em}
+h4{font-size:19px;margin:28px 0 8px}
+p{margin:0 0 16px}
+.lead{font-size:20.5px;line-height:1.6;color:var(--text)}
+.lead::first-letter{float:left;font-size:3.35em;line-height:.9;padding:6px 10px 0 0;color:var(--c,var(--pri));font-weight:600}
+ul,ol{padding-left:24px;margin:0 0 18px}
+li{margin:5px 0}
+li::marker{color:var(--c,var(--acc))}
+kbd,.ui{font-family:var(--sans);font-size:.78em;font-weight:700;letter-spacing:.01em;white-space:nowrap;padding:3px 9px 3px;border-radius:7px;border:1px solid var(--line2);border-bottom-width:2px;background:var(--paper);color:var(--text);vertical-align:1px}
+.ui.pri{background:var(--pri);border-color:var(--pri-d);color:var(--paper)}
+.path{font-family:var(--sans);font-size:.8em;font-weight:600;color:var(--pri);white-space:nowrap}
+.path i{font-style:normal;color:var(--faint);margin:0 5px}
+.val{font-family:var(--sans);font-size:.84em;font-weight:600;background:var(--soft);padding:1px 7px;border-radius:5px;white-space:nowrap}
+
+/* ---------- recuadros ---------- */
+.box{position:relative;margin:24px 0;padding:18px 22px 16px 62px;border-radius:var(--r);background:var(--paper);border:1px solid var(--line);box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.box::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:0 3px 3px 0;background:var(--k)}
+.box .bi{position:absolute;left:18px;top:18px;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--ks);color:var(--k);font:700 14px/1 var(--sans)}
+.box .bt{display:block;font:700 11.5px/1.2 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--k);margin:6px 0 8px}
+.box p:last-child,.box ul:last-child,.box ol:last-child{margin-bottom:0}
+.box.tip{--k:var(--pri);--ks:var(--pri-s)}
+.box.warn{--k:var(--warn);--ks:var(--warn-s);background:color-mix(in srgb,var(--warn-s) 55%,var(--paper))}
+.box.why{--k:var(--info);--ks:var(--info-s)}
+.box.farm{--k:var(--acc);--ks:var(--acc-s);background:linear-gradient(135deg,color-mix(in srgb,var(--acc-s) 70%,var(--paper)),var(--paper) 60%)}
+.box.rule{--k:var(--ok);--ks:var(--ok-s)}
+.box.rule table{margin:6px 0 2px}
+.box.rule td:first-child{min-width:200px}
+
+/* ---------- reglas de decisión ---------- */
+table{width:100%;border-collapse:collapse;margin:14px 0 22px;font-size:16px}
+th{font:700 11.5px/1.3 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:left;padding:10px 12px;border-bottom:2px solid var(--line2)}
+td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+td.r,th.r{text-align:right}
+tr.hl td{background:var(--acc-s)}
+.tbl{overflow-x:auto;margin:0 -4px}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px;vertical-align:1px;background:var(--k)}
+.dot.ok{--k:var(--ok)} .dot.warn{--k:var(--warn)} .dot.bad{--k:var(--bad)} .dot.info{--k:var(--info)}
+.badge{display:inline-block;font:700 12px/1 var(--sans);padding:5px 10px;border-radius:999px;white-space:nowrap}
+.badge.ok{background:var(--ok-s);color:var(--ok)} .badge.warn{background:var(--warn-s);color:var(--warn)} .badge.info{background:var(--info-s);color:var(--info)} .badge.acc{background:var(--acc-s);color:var(--acc-d)} .badge.pri{background:var(--pri-s);color:var(--pri)}
+
+/* ---------- figuras con marcas ---------- */
+figure{margin:28px -40px 30px;padding:0}
+figure.narrow{margin-left:0;margin-right:0}
+.shot{position:relative;border-radius:12px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);background:var(--paper);cursor:zoom-in}
+.shot img{width:100%;height:auto}
+.mk{position:absolute;pointer-events:none}
+.mk .ring{position:absolute;inset:-5px;border:2.5px solid var(--acc);border-radius:10px;box-shadow:0 0 0 4px color-mix(in srgb,var(--acc) 18%,transparent)}
+.mk .num{position:absolute;left:-14px;top:-14px;width:28px;height:28px;border-radius:50%;background:var(--acc);color:#fff;font:700 14px/28px var(--sans);text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.25);border:2px solid #fff}
+.mk.dotonly .ring{display:none}
+figcaption{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:14px 40px 0;font-size:15.5px;color:var(--muted);line-height:1.5}
+figure.narrow figcaption{margin-left:0;margin-right:0}
+figcaption .fn{font:700 12px/1.6 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--c,var(--acc));white-space:nowrap;padding-top:2px}
+figcaption b{color:var(--text)}
+.legend{list-style:none;counter-reset:lg;margin:14px 40px 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px 22px;font-size:16px}
+figure.narrow .legend{margin-left:0;margin-right:0}
+.legend li{counter-increment:lg;display:grid;grid-template-columns:28px 1fr;gap:12px;margin:0;align-items:start}
+.legend li::before{content:counter(lg);display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;font:700 13px/1 var(--sans);margin-top:1px}
+.legend li::marker{content:none}
+.pair{display:grid;grid-template-columns:1.7fr 1fr;gap:22px;align-items:start;margin:28px -40px}
+.pair figure{margin:0}
+.pair figcaption{margin:12px 0 0}
+.phone{border-radius:28px;padding:10px;background:#1b1f1c;box-shadow:var(--shadow-lg);max-width:290px;margin:0 auto}
+.phone .shot{border-radius:20px;border:0}
+
+/* ---------- tarjetas de datos ---------- */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0 24px}
+.kpi{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi span{display:block;font:600 11.5px/1.3 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.kpi b{display:block;font-size:26px;color:var(--pri-d);margin-top:4px;line-height:1.1}
+.kpi small{color:var(--muted);font-size:13.5px}
+.case{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--paper);margin:20px 0 26px}
+.case div{padding:14px 18px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.case div:nth-child(3n){border-right:0}
+.case div:nth-last-child(-n+3){border-bottom:0}
+.case span{display:block;font:600 11px/1.3 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.case b{font-size:19px}
+
+/* ---------- flujo de 8 pasos ---------- */
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:22px 0 28px;counter-reset:f}
+.flow a{position:relative;display:block;padding:16px 16px 14px;border-radius:12px;background:var(--paper);border:1px solid var(--line);text-decoration:none;color:var(--text);transition:transform .15s,box-shadow .15s}
+.flow a:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.flow a::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;border-radius:12px 12px 0 0;background:var(--c)}
+.flow b{display:block;font-size:17px}
+.flow .k{font:700 11px/1 var(--sans);letter-spacing:.12em;color:var(--c);text-transform:uppercase}
+.flow small{display:block;color:var(--muted);font-size:14px;line-height:1.4;margin-top:4px}
+.flow .t{position:absolute;right:12px;top:14px;font:600 11px/1 var(--sans);color:var(--faint)}
+
+/* ---------- comparación antes/después ---------- */
+.versus{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:center;margin:22px 0}
+.versus .s{border:1px solid var(--line);border-radius:12px;padding:16px 18px;background:var(--paper)}
+.versus .s span{font:600 11.5px/1.3 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.versus .s b{display:block;font-size:28px;line-height:1.2;margin-top:4px}
+.versus .s.win{border-color:var(--ok);background:color-mix(in srgb,var(--ok-s) 60%,var(--paper))}
+.versus .s.win b{color:var(--ok)}
+.versus .arrow{font-size:28px;color:var(--faint)}
+
+/* ---------- diagrama de decisión ---------- */
+.dtree{margin:24px 0 30px;padding:22px;border-radius:var(--r);background:var(--paper);border:1px solid var(--line)}
+.dtree .q{font-weight:700;font-size:17.5px;margin-bottom:12px}
+.dtree ol{list-style:none;padding:0;margin:0;display:grid;gap:10px;counter-reset:d}
+.dtree li{counter-increment:d;display:grid;grid-template-columns:34px 1fr;gap:12px;margin:0;padding:12px 14px;border-radius:10px;background:var(--soft)}
+.dtree li::before{content:counter(d);display:grid;place-items:center;width:30px;height:30px;border-radius:8px;background:var(--c,var(--acc));color:#fff;font:700 14px/1 var(--sans)}
+.dtree li b{display:block}
+.dtree li span{color:var(--muted);font-size:16px}
+
+/* ---------- checklist ---------- */
+.check{list-style:none;padding:0}
+.check li{position:relative;padding-left:34px;margin:10px 0}
+.check li::before{content:"";position:absolute;left:0;top:4px;width:20px;height:20px;border:2px solid var(--line2);border-radius:5px;background:var(--paper)}
+
+/* ---------- FAQ ---------- */
+details{border:1px solid var(--line);border-radius:12px;background:var(--paper);margin:10px 0;padding:0 18px}
+summary{cursor:pointer;list-style:none;padding:14px 0;font-weight:700;display:flex;gap:12px;align-items:baseline}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"+";font:700 18px/1 var(--sans);color:var(--acc);width:14px;flex:none}
+details[open] summary::before{content:"−"}
+details>div{padding:0 0 14px 26px;color:var(--text)}
+
+/* ---------- glosario ---------- */
+dl.glos{display:grid;grid-template-columns:minmax(150px,220px) 1fr;gap:0;margin:16px 0}
+dl.glos dt,dl.glos dd{padding:11px 0;border-bottom:1px solid var(--line);margin:0}
+dl.glos dt{font-weight:700;padding-right:18px}
+dl.glos dt small{display:block;font-weight:400;font-style:italic;color:var(--muted);font-size:14px}
+
+/* ---------- hoja de inicio rápido ---------- */
+.quick{margin:40px -40px 0;padding:40px 44px;border-radius:22px;background:var(--paper);border:1px solid var(--line);box-shadow:var(--shadow-lg)}
+.quick .qh{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;border-bottom:2px solid var(--text);padding-bottom:14px;margin-bottom:18px}
+.quick h2{margin:0;font-size:32px}
+.quick .qr{display:flex;gap:12px;align-items:center;font-family:var(--sans);font-size:12px;color:var(--muted);text-align:right}
+.quick .qr #qr{width:92px;height:92px;border-radius:6px;overflow:hidden;flex:none}
+.quick .qr #qr img{width:100%;height:100%;display:block;image-rendering:pixelated}
+.quick ol{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:1fr 1fr;gap:0 30px}
+.quick ol li{display:grid;grid-template-columns:40px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);margin:0;break-inside:avoid}
+.quick ol li i{font-style:normal;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--c);color:#fff;font:700 15px/1 var(--sans)}
+.quick ol li b{display:block;font-size:17px}
+.quick ol li span{font-size:15px;color:var(--muted);line-height:1.45}
+.quick .foot{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:20px;font-size:15px}
+.quick .foot h4{margin:0 0 6px;font-size:15px;font-family:var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--acc)}
+.quick .foot ul{margin:0;padding-left:18px}
+.quick .foot li{margin:3px 0}
+
+/* ---------- colofón ---------- */
+.colophon{margin:90px 0 0;padding-top:24px;border-top:1px solid var(--line);font-size:14.5px;color:var(--muted)}
+.colophon p{margin:0 0 8px}
+
+/* ---------- visor de imagen ---------- */
+#zoom{position:fixed;inset:0;z-index:100;background:rgba(10,14,12,.86);display:none;place-items:center;padding:24px;cursor:zoom-out}
+#zoom.on{display:grid}
+#zoom .zi{position:relative;max-width:min(1600px,96vw)}
+#zoom img{max-height:92vh;width:auto;border-radius:10px}
+
+.totop{position:fixed;right:22px;bottom:22px;z-index:40;opacity:0;pointer-events:none;transition:opacity .2s}
+.totop.on{opacity:1;pointer-events:auto}
+mark{background:color-mix(in srgb,var(--acc) 30%,transparent);color:inherit;border-radius:3px;padding:0 1px}
+
+/* ---------- pantallas medianas y celular ---------- */
+@media screen and (max-width:1100px){
+  .layout{grid-template-columns:1fr}
+  aside.toc{position:fixed;left:0;top:59px;width:min(330px,88vw);z-index:45;background:var(--bg);transform:translateX(-102%);transition:transform .25s;box-shadow:var(--shadow-lg)}
+  aside.toc.open{transform:none}
+  #menuBtn{display:inline-grid}
+  main{padding:0 28px 100px}
+  figure,.pair,.quick{margin-left:0;margin-right:0}
+  figcaption,.legend{margin-left:0;margin-right:0}
+}
+@media screen and (max-width:760px){
+  body{font-size:17px}
+  .top{padding:8px 14px;gap:8px}
+  .top .brand small,.top .pdf span,.top .btn.ghost{display:none}
+  .top .brand span{font-size:15.5px}
+  .seg button{padding:6px 9px}
+  .top .btn.pdf{padding:9px 11px}
+  .cover h1{font-size:34px}
+  .cover .sub{font-size:18px}
+  main{padding:0 16px 80px}
+  .cover{margin:16px 0 20px;border-radius:18px}
+  .cover .in{grid-template-columns:1fr;padding:30px 22px 26px}
+  .cover .art{min-height:240px;overflow:hidden}
+  .cover .art .frame{position:relative;right:auto;top:0;width:100%;transform:none}
+  .cover .art .frame.b{display:none}
+  .cover .steps{grid-template-columns:repeat(4,1fr)}
+  .cover .steps div:nth-child(4n){border-right:0}
+  .cover .steps div:nth-child(-n+12){border-bottom:1px solid var(--line)}
+  .chap-head{grid-template-columns:1fr}
+  .chap-head .big{grid-row:auto;font-size:76px}
+  .chap-head p{grid-column:1}
+  .chap-head .ico{width:44px;height:44px}
+  .kpis,.flow{grid-template-columns:1fr 1fr}
+  .case{grid-template-columns:1fr 1fr}
+  .case div{border-right:1px solid var(--line)!important;border-bottom:1px solid var(--line)!important}
+  .pair{grid-template-columns:1fr}
+  .versus{grid-template-columns:1fr}
+  .versus .arrow{transform:rotate(90deg);justify-self:center}
+  .quick{padding:24px 18px}
+  .quick ol{grid-template-columns:1fr}
+  .quick .foot{grid-template-columns:1fr}
+  .quick .qh{flex-direction:column}
+  dl.glos{grid-template-columns:1fr}
+  dl.glos dt{border-bottom:0;padding-bottom:0}
+  .box{padding:16px 16px 14px 54px}
+  .box .bi{left:14px}
+  .mk .num{width:22px;height:22px;font-size:12px;line-height:22px;left:-11px;top:-11px}
+  .mk .ring{border-width:2px;inset:-3px}
+  .box.rule td:first-child{min-width:0}
+  .box.rule table,.box.rule tbody,.box.rule tr,.box.rule td{display:block}
+  .box.rule thead{display:none}
+  .box.rule td{padding:4px 0;border:0}
+  .box.rule tr{padding:8px 0;border-bottom:1px solid var(--line)}
+}
+
+/* ---------- impresión / PDF ---------- */
+@page{size:A4;margin:18mm 17mm 20mm}
+@page{@bottom-center{content:counter(page);font-family:"Palatino Linotype",Palatino,serif;font-size:9pt;color:#777}}
+@page :first{margin:0;@bottom-center{content:none}}
+@media print{
+  :root{--bg:#fff;--paper:#fff}
+  html{scroll-behavior:auto}
+  body{font-size:10.6pt;line-height:1.55;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .top,aside.toc,.totop,#zoom,.no-print,.inchap{display:none!important}
+  .layout{display:block;max-width:none}
+  main{padding:0}
+  .doc{max-width:none}
+  .cover{margin:0;border-radius:0;box-shadow:none;border:0;min-height:297mm;display:flex;flex-direction:column;page-break-after:always}
+  .cover .in{flex:1;padding:24mm 18mm 10mm}
+  .cover .in{grid-template-columns:1fr;gap:6mm}
+  .cover h1{font-size:40pt}
+  .cover .sub{max-width:none}
+  .cover .art{min-height:92mm}
+  .cover .art .frame{right:-18mm;top:0;width:150mm}
+  .cover .art .frame.b{left:4mm;right:auto;top:14mm;width:52mm}
+  .chap{margin-top:0;break-before:page}
+  .chap-head{padding-top:0}
+  .chap-head .big{font-size:84pt}
+  h3{break-after:avoid;margin-top:26px}
+  figure,.box,.dtree,.kpis,.case,.versus,table,details,.flow,.pair{break-inside:avoid}
+  figure{margin:16px 0 18px}
+  figcaption,.legend{margin-left:0;margin-right:0}
+  .pair{margin:16px 0}
+  .shot{box-shadow:none}
+  details{border:0;padding:0}
+  details>div{display:block!important;padding-left:0}
+  summary::before{content:none}
+  .quick{margin:0;break-before:page;box-shadow:none;border:0;padding:0}
+  a{color:inherit;text-decoration:none}
+  .lead::first-letter{font-size:3.1em}
+}
+
+@media print{html .cover{height:297mm;overflow:hidden}html .cover .in{flex:1 1 auto;min-height:0;overflow:hidden}html .cover .steps{flex:none}html .cover .steps div{padding:3mm .6mm 3.5mm 1.2mm}html .cover .steps div span{font-size:5.8pt;letter-spacing:-.01em}html .cover .steps b{font-size:12pt}}
+/* ---------- Ratio Vitis: ecuaciones, fichas, código, ficha legal ---------- */
+.cover .steps div span{font-size:11.5px}
+.chap-head .big{min-width:1.2ch}
+figure.svgfig{padding:18px 18px 4px}
+figure.svgfig svg{display:block;width:100%;height:auto;font-family:var(--sans)}
+figure.svgfig svg text:not([fill]){fill:var(--text)}
+.eq{position:relative;display:flex;align-items:center;justify-content:center;gap:20px;margin:22px 0 24px;padding:18px 64px 18px 24px;background:var(--paper);border:1px solid var(--line);border-left:3px solid var(--c,var(--pri));border-radius:12px;font-size:19px;overflow-x:auto}
+.eq .no{position:absolute;right:18px;top:50%;transform:translateY(-50%);font:600 13px var(--sans);color:var(--faint);white-space:nowrap}
+.eq sub,.eq sup{font-size:.7em}
+.where{font-size:16px;color:var(--muted);margin:-8px 0 22px}
+.legal{font-size:14.5px;line-height:1.6;color:var(--muted)}
+.legal b{color:var(--text)}
+.legal .isbn{font:700 15px var(--sans);letter-spacing:.04em;color:var(--text)}
+.qrbox{display:flex;gap:22px;align-items:center;margin:18px 0}
+.qrbox svg{width:150px;height:150px;flex:0 0 auto;background:#fff;padding:8px;border-radius:10px;border:1px solid var(--line)}
+.code{position:relative;margin:20px 0 26px;border-radius:12px;background:#17201c;color:#e4ebe6;overflow:hidden;border:1px solid #26302b}
+.code .bar{padding:8px 14px;background:#1e2924;font:600 12px var(--sans);color:#9fb0a6;letter-spacing:.06em}
+.code pre{margin:0;padding:16px 18px;overflow-x:auto;font-size:13px;line-height:1.6;white-space:pre-wrap}
+table.hoja td{height:34px;border:1px solid var(--line)}
+@media print{.eq{break-inside:avoid}.code{break-inside:avoid}table.hoja td{height:9mm}}
+
+</style>
+</head>
+<body>
+
+<header class="top">
+  <button class="ib" id="menuBtn" aria-label="Índice / Contents">☰</button>
+  <a class="brand" href="./" title="Ratio Vitis">
+    <img src="logo.svg" alt="">
+    <span>Ratio<i>Vitis</i> <small lang="es">· Instructivo del Productor</small><small lang="en">· Producer Guide</small></span>
+  </a>
+  <span class="sp"></span>
+  <a class="btn ghost no-print" href="./" target="_blank" rel="noopener"><span lang="es">Abrir la app</span><span lang="en">Open the app</span> ↗</a>
+  <div class="seg" role="group" aria-label="Idioma / Language"><button data-lang="es">ES</button><button data-lang="en">EN</button></div>
+  <a class="btn pdf" id="pdfBtn" title="PDF" href="instructivo/RatioVitis-Instructivo-Productor.pdf" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg><span>PDF</span></a>
+  <button class="ib" id="temaBtn" aria-label="Tema / Theme">☾</button>
+  <div id="leido"></div>
+</header>
+
+<div class="layout">
+<aside class="toc" id="toc">
+  <div class="search">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-5-5"/></svg>
+    <input id="q" type="search" autocomplete="off" placeholder="Buscar en el instructivo…" aria-label="Buscar / Search">
+    <div class="hits" id="hits"></div>
+  </div>
+  <ol id="tocList"></ol>
+</aside>
+
+<main>
+<section class="cover" id="portada">
+  <div class="band"><i style="background:var(--b1)"></i><i style="background:var(--b2)"></i><i style="background:var(--b3)"></i><i style="background:var(--b4)"></i><i style="background:var(--b5)"></i><i style="background:var(--b6)"></i><i style="background:var(--b7)"></i><i style="background:var(--b8)"></i><i style="background:var(--b9)"></i><i style="background:var(--b10)"></i><i style="background:var(--b11)"></i><i style="background:var(--b12)"></i><i style="background:var(--b13)"></i><i style="background:var(--b14)"></i><i style="background:var(--b15)"></i><i style="background:var(--b16)"></i></div>
+  <div class="in">
+    <div>
+      <div class="kick"><img src="logo.svg" alt="Ratio Vitis"><div><div class="eyebrow" lang="es">Instructivo del Productor</div><div class="eyebrow" lang="en">Producer Guide</div><div style="font-size:15px;color:var(--muted)">Ratio Vitis 0.1.0 · Ratio Complexus</div></div></div>
+      <h1 lang="es">El viñedo <em>que se mide</em> <span class="a">del suelo al aire</span></h1>
+      <h1 lang="en">The vineyard <em>you measure</em> <span class="a">from soil to air</span></h1>
+      <p class="sub" lang="es">Una guía práctica para medir tu viñedo con Ratio Vitis —suelo, clima, agua, nutrición, biomasa, cosecha y energía— y leerlo como un sistema que se puede comparar y proyectar.</p>
+      <p class="sub" lang="en">A practical guide to measuring your vineyard with Ratio Vitis —soil, climate, water, nutrition, biomass, harvest and energy— and reading it as a system you can compare and project.</p>
+      <div class="meta">
+        <div lang="es"><b>1.ª edición</b> · noviembre de 2026 · describe Ratio Vitis 0.1.0</div>
+        <div lang="en"><b>1st edition</b> · November 2026 · covers Ratio Vitis 0.1.0</div>
+        <div><span lang="es">Texto CC BY 4.0 · app MIT</span><span lang="en">Text CC BY 4.0 · app MIT</span></div>
+      </div>
+      <div class="who">Héctor Tecumshé Mojica-Zárate · Jorge Hernández-González · Oscar Díaz-José · Adán Guillermo Ramírez-García<br><span lang="es">Hay otra guía para investigación y docencia: el <a href="instructivo-cientifico.html">Instructivo del Científico</a>.</span><span lang="en">There is a companion guide for research and teaching: the <a href="instructivo-cientifico.html">Scientist Guide</a>.</span></div>
+    </div>
+    <div class="art" aria-hidden="true">
+      <div class="frame"><img lang="es" src="instructivo/img/balance-es.jpg" alt=""><img lang="en" src="instructivo/img/balance-en.jpg" alt=""></div>
+      <div class="frame b"><img lang="es" src="instructivo/img/diseno-es.jpg" alt="" style="height:300px;object-fit:cover;object-position:top"><img lang="en" src="instructivo/img/diseno-en.jpg" alt="" style="height:300px;object-fit:cover;object-position:top"></div>
+    </div>
+  </div>
+  <div class="steps"><div style="--c:var(--b1)"><b>1</b><span lang="es">Viñedo y experimento</span><span lang="en">Vineyard and trial</span></div><div style="--c:var(--b2)"><b>2</b><span lang="es">Suelo</span><span lang="en">Soil</span></div><div style="--c:var(--b3)"><b>3</b><span lang="es">Clima</span><span lang="en">Climate</span></div><div style="--c:var(--b4)"><b>4</b><span lang="es">RASPA</span><span lang="en">SPAC</span></div><div style="--c:var(--b5)"><b>5</b><span lang="es">Fertilidad</span><span lang="en">Fertility</span></div><div style="--c:var(--b6)"><b>6</b><span lang="es">Biomasa</span><span lang="en">Biomass</span></div><div style="--c:var(--b7)"><b>7</b><span lang="es">Productividad</span><span lang="en">Productivity</span></div><div style="--c:var(--b8)"><b>8</b><span lang="es">Energía</span><span lang="en">Energy</span></div><div style="--c:var(--b9)"><b>9</b><span lang="es">Estadística</span><span lang="en">Statistics</span></div><div style="--c:var(--b10)"><b>10</b><span lang="es">Sistema complejo</span><span lang="en">Complex system</span></div><div style="--c:var(--b11)"><b>11</b><span lang="es">Tablero</span><span lang="en">Dashboard</span></div><div style="--c:var(--b12)"><b>12</b><span lang="es">Regeneración</span><span lang="en">Regeneration</span></div><div style="--c:var(--b13)"><b>13</b><span lang="es">Riesgos</span><span lang="en">Risks</span></div><div style="--c:var(--b14)"><b>14</b><span lang="es">Sostenibilidad</span><span lang="en">Sustainability</span></div><div style="--c:var(--b15)"><b>15</b><span lang="es">Prospectiva</span><span lang="en">Outlook</span></div><div style="--c:var(--b16)"><b>16</b><span lang="es">Informe</span><span lang="en">Report</span></div></div>
+</section>
+<div class="doc">
+<section class="chap" id="leer" data-toc="P" style="--c:var(--acc)">
+  <div class="chap-head"><span class="big">P</span>
+    <div class="eyebrow" lang="es">Antes de leer</div><div class="eyebrow" lang="en">Before reading</div>
+    <h2 lang="es">Cómo usar este instructivo</h2><h2 lang="en">How to use this guide</h2>
+    <p lang="es">Para quién es, cómo está organizado y qué significa cada señal.</p>
+    <p lang="en">Who it is for, how it is organised and what each sign means.</p>
+    <span class="rule"></span></div>
+<p lang="es" class="lead">Este instructivo es para quien trabaja un viñedo y quiere medirlo: el viticultor y la viticultora, el técnico de campo, el estudiante que hace su tesis en una parcela cooperante. No necesitas saber programar ni estadística; necesitas una cinta métrica, un frasco, una báscula y ganas de anotar.</p>
+<p lang="en" class="lead">This guide is for whoever works a vineyard and wants to measure it: growers, field technicians, students doing their thesis on a cooperating plot. You need no coding or statistics; you need a tape measure, a jar, a scale and the will to take notes.</p>
+<p lang="es">Ratio Vitis es la hermana cuantitativa de Ratio Viña. Ratio Viña recoge lo que sabe la gente del viñedo; Ratio Vitis mide lo que pasa en él: el agua que entra por la lluvia y el riego, la que guarda el suelo, la que sube por la vid y la que se lleva el aire; la energía del sol, el carbono que se queda en la planta y la uva que sale. Cada número viene de tu campo o de una fuente citada.</p>
+<p lang="en">Ratio Vitis is the quantitative sister of Ratio Viña. Ratio Viña gathers what people know about the vineyard; Ratio Vitis measures what happens in it: the water coming in as rain and irrigation, the water the soil holds, the water rising through the vine and the water the air takes away; the sun’s energy, the carbon kept in the plant and the grapes that leave. Every number comes from your field or from a cited source.</p>
+<p lang="es">Sigue el mismo orden que la app: un capítulo por bloque, del 1 al 16, cada uno con su color. Todos los ejemplos usan <b>un caso real</b>: el viñedo cooperante de <b>Mata de Zarza, Puente Nacional, Veracruz</b>, con uva de mesa Perlet plantada en febrero de 2025 y el experimento de abonos de la tesis de Jorge Hernández-González.</p>
+<p lang="en">It follows the app’s order: one chapter per block, 1 to 16, each with its colour. Every example uses <b>one real case</b>: the cooperating vineyard of <b>Mata de Zarza, Puente Nacional, Veracruz</b>, with Perlet table grapes planted in February 2025 and the manure trial of Jorge Hernández-González’s thesis.</p>
+<h3 id="convenciones"><span lang="es">Convenciones</span><span lang="en">Conventions</span></h3>
+<div class="tbl"><table class=""><thead><tr><th><span lang="es">Así se escribe</span><span lang="en">Written as</span></th><th><span lang="es">Significa</span><span lang="en">Means</span></th></tr></thead><tbody><tr><td><span class="ui pri"><span lang="es">Sortear de nuevo</span><span lang="en">Draw again</span></span></td><td><span lang="es">Un botón o casilla de la app, con su texto tal como aparece.</span><span lang="en">An app button or field, with its text as it appears.</span></td></tr><tr><td><span class="path"><span lang="es">Informe<i>›</i>Guardar proyecto</span><span lang="en">Report<i>›</i>Save project</span></span></td><td><span lang="es">Una ruta: abre el primero y luego el siguiente.</span><span lang="en">A path: open the first item, then the next.</span></td></tr><tr><td><span class="val">1.40</span></td><td><span lang="es">Un valor que escribes tal cual.</span><span lang="en">A value you type as shown.</span></td></tr><tr><td><b style="display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:#c0772b;color:#fff;font:700 12px var(--sans)">1</b></td><td><span lang="es">Una marca sobre la captura; su explicación va debajo con el mismo número.</span><span lang="en">A marker on a screenshot; its explanation is below with the same number.</span></td></tr><tr><td><span lang="es"><b>● Dato publicado</b> · <b>◆ Lectura de Ratio Vitis</b> · <b>sin dato</b></span><span lang="en"><b>● Published data</b> · <b>◆ Ratio Vitis reading</b> · <b>no data</b></span></td><td><span lang="es">Las mismas etiquetas de la app: dato con fuente, supuesto marcado y editable, o algo que aún no se ha medido.</span><span lang="en">The app’s own labels: sourced data, flagged editable assumption, or something not yet measured.</span></td></tr></tbody></table></div>
+<h3 id="recuadros"><span lang="es">Los cinco recuadros</span><span lang="en">The five boxes</span></h3>
+<div class="box farm"><span class="bi">◆</span><span class="bt" lang="es">En Mata de Zarza</span><span class="bt" lang="en">In Mata de Zarza</span><p lang="es">El caso de ejemplo, con los números reales que da la app.</p><p lang="en">The worked case, with the real numbers the app gives.</p></div>
+<div class="box tip"><span class="bi">✓</span><span class="bt" lang="es">Consejo</span><span class="bt" lang="en">Tip</span><p lang="es">Atajos y buenas prácticas de campo.</p><p lang="en">Field shortcuts and good practice.</p></div>
+<div class="box warn"><span class="bi">!</span><span class="bt" lang="es">Atención</span><span class="bt" lang="en">Caution</span><p lang="es">Errores frecuentes que llevan a una conclusión equivocada.</p><p lang="en">Common mistakes that lead to a wrong conclusion.</p></div>
+<div class="box why"><span class="bi">?</span><span class="bt" lang="es">¿Por qué?</span><span class="bt" lang="en">Why?</span><p lang="es">La razón detrás de una recomendación. Puedes saltarla.</p><p lang="en">The reason behind a recommendation. You can skip it.</p></div>
+<div class="box rule"><span class="bi">→</span><span class="bt" lang="es">Regla de decisión</span><span class="bt" lang="en">Decision rule</span><p lang="es">Si ves esto, haz aquello.</p><p lang="en">If you see this, do that.</p></div>
+<div class="box why"><span class="bi">?</span><span class="bt" lang="es">Ratio Vitis no inventa datos</span><span class="bt" lang="en">Ratio Vitis does not make up data</span><p lang="es">Lo que no tiene medición ni fuente aparece como <b>sin dato</b>. En el caso de Mata de Zarza el experimento de abonos todavía no se ha medido: por eso los bloques de suelo, fertilidad, biomasa, cosecha y sostenibilidad se ven vacíos en las capturas. Este instructivo te dice qué capturar en cada uno.</p><p lang="en">Whatever has no measurement or source shows as <b>no data</b>. In the Mata de Zarza case the manure trial has not been measured yet: that is why the soil, fertility, biomass, harvest and sustainability blocks look empty in the screenshots. This guide tells you what to enter in each.</p></div>
+</section>
+
+<section class="chap" id="empezar" data-toc="0" style="--c:var(--pri)">
+  <div class="chap-head"><span class="big">0</span>
+    <div class="eyebrow" lang="es">Primeros pasos</div><div class="eyebrow" lang="en">Getting started</div>
+    <h2 lang="es">Abre la app y conoce la pantalla</h2><h2 lang="en">Open the app and meet the screen</h2>
+    <p lang="es">Ratio Vitis es una página web que funciona sola en tu navegador. No se instala, no pide cuenta y no manda tus datos a ningún lado.</p>
+    <p lang="en">Ratio Vitis is a web page that runs on its own in your browser. Nothing to install, no account, and your data goes nowhere.</p>
+    <span class="rule"></span></div>
+  <nav class="inchap"></nav>
+<h3 id="abrir" data-n="0.1"><span lang="es">Abrir Ratio Vitis</span><span lang="en">Opening Ratio Vitis</span></h3>
+<p lang="es">Entra a <a href="https://hectortecumshe-ai.github.io/RatioVitis/"><b>hectortecumshe-ai.github.io/RatioVitis</b></a> desde la computadora, la tableta o el celular, o escanea el código QR de la página «Ratio Vitis en una página». Es un solo archivo: funciona sin internet mientras la pestaña siga abierta, no se instala y no pide cuenta.</p>
+<p lang="en">Go to <a href="https://hectortecumshe-ai.github.io/RatioVitis/"><b>hectortecumshe-ai.github.io/RatioVitis</b></a> from a computer, tablet or phone, or scan the QR code on the “Ratio Vitis on one page” page. It is a single file: it works offline while the tab stays open, needs no installation and no account.</p>
+<div class="box why"><span class="bi">?</span><span class="bt" lang="es">¿Dónde quedan mis datos?</span><span class="bt" lang="en">Where is my data kept?</span><p lang="es">Solo en el navegador que usas; nada se sube a internet. Para pasarlos a otra computadora o al asesor usa <span class="path">Informe<i>›</i>Guardar proyecto</span> y en la otra, <span class="path">Informe<i>›</i>Abrir proyecto</span>.</p><p lang="en">Only in the browser you use; nothing is uploaded. To move it to another computer or to your adviser use <span class="path">Report<i>›</i>Save project</span> and on the other one, <span class="path">Report<i>›</i>Open project</span>.</p></div>
+<h3 id="pantalla" data-n="0.2"><span lang="es">La pantalla de inicio</span><span lang="en">The home screen</span></h3>
+<figure data-fig="inicio"><figcaption><span class="fn"></span><span lang="es"><b>Inicio.</b> Todo lo que necesitas para moverte está arriba.</span><span lang="en"><b>Home.</b> Everything you need to get around is at the top.</span></figcaption><ol class="legend"><li><span lang="es"><b>ES / EN</b> cambia el idioma de toda la app, informe incluido.</span><span lang="en"><b>ES / EN</b> switches the whole app’s language, report included.</span></li><li><span lang="es"><b>Productor / Científico</b> cambia la vista; tus datos no se pierden.</span><span lang="en"><b>Producer / Scientist</b> switches the view; your data is kept.</span></li><li><span lang="es"><b>☀ / ☾</b> tema de día o de noche.</span><span lang="en"><b>☀ / ☾</b> day or night theme.</span></li><li><span lang="es"><b>?</b> abre la ayuda general.</span><span lang="en"><b>?</b> opens the general help.</span></li><li><span lang="es">La <b>barra de bloques</b>, del 1 al 16, más Validación y Teoría. Junto a cada bloque que se llena, una marca dice si está pendiente, en proceso o completo.</span><span lang="en">The <b>block bar</b>, 1 to 16, plus Validation and Theory. Next to each block you fill, a mark says whether it is pending, in progress or complete.</span></li><li><span lang="es"><b>Llenado por ti</b>: cuenta solo lo que tú capturaste, nunca el ejemplo ni las sugerencias.</span><span lang="en"><b>Filled in by you</b>: counts only what you entered, never the example or suggestions.</span></li></ol></figure>
+<h3 id="ayudas" data-n="0.3"><span lang="es">Las ayudas «?»</span><span lang="en">The “?” helps</span></h3>
+<p lang="es">Junto a cada número importante hay un <b>?</b>. Al pasar el cursor o tocarlo aparece qué significa, cómo se calcula y cómo leerlo, con su fuente.</p>
+<p lang="en">Next to every important figure there is a <b>?</b>. Hover or tap it to see what it means, how it is computed and how to read it, with its source.</p>
+<figure data-fig="ayuda"><figcaption><span class="fn"></span><span lang="es"><b>Ayuda de un dato.</b> El «?» de Winkler en el Bloque 3, con las regiones I a V.</span><span lang="en"><b>Help for a figure.</b> The Winkler “?” in Block 3, with regions I to V.</span></figcaption></figure>
+<h3 id="vistas" data-n="0.4"><span lang="es">Vista productor y vista científica</span><span lang="en">Producer and scientist views</span></h3>
+<p lang="es">La <b>vista productor</b> muestra lo esencial en lenguaje sencillo, con «En pocas palabras» y «Qué hacer» al inicio de cada bloque; es la que describe este instructivo. La <b>vista científica</b> agrega ecuaciones, supuestos, tablas completas y exportaciones; la explica el Instructivo del Científico.</p>
+<p lang="en">The <b>producer view</b> shows the essentials in plain language, with “In a few words” and “What to do” at the top of each block; it is the one this guide describes. The <b>scientist view</b> adds equations, assumptions, full tables and exports; the Scientist Guide explains it.</p>
+<figure data-fig="vistas"><figcaption><span class="fn"></span><span lang="es"><b>Vista científica (en inglés).</b> El balance hídrico del Bloque 4 con sus ecuaciones.</span><span lang="en"><b>Scientist view (in English).</b> The Block 4 water balance with its equations.</span></figcaption></figure>
+<h3 id="ruta" data-n="0.5"><span lang="es">La ruta completa</span><span lang="en">The full route</span></h3>
+<div class="flow"><a href="#b1" style="--c:var(--b1)"><span class="k" lang="es">Bloque 1</span><span class="k" lang="en">Block 1</span><span class="t">10 min</span><b lang="es">Viñedo y experimento</b><b lang="en">Vineyard and trial</b><small lang="es">Sitio, marco y sorteo</small><small lang="en">Site, spacing and draw</small></a><a href="#b2" style="--c:var(--b2)"><span class="k" lang="es">Bloque 2</span><span class="k" lang="en">Block 2</span><span class="t">10 min</span><b lang="es">Suelo</b><b lang="en">Soil</b><small lang="es">El tanque de agua</small><small lang="en">The water tank</small></a><a href="#b3" style="--c:var(--b3)"><span class="k" lang="es">Bloque 3</span><span class="k" lang="en">Block 3</span><span class="t">5 min</span><b lang="es">Clima</b><b lang="en">Climate</b><small lang="es">Lo que pide la atmósfera</small><small lang="en">What the air demands</small></a><a href="#b4" style="--c:var(--b4)"><span class="k" lang="es">Bloque 4</span><span class="k" lang="en">Block 4</span><span class="t">10 min</span><b lang="es">RASPA</b><b lang="en">SPAC</b><small lang="es">Agua del suelo a la atmósfera</small><small lang="en">Water from soil to air</small></a><a href="#b5" style="--c:var(--b5)"><span class="k" lang="es">Bloque 5</span><span class="k" lang="en">Block 5</span><span class="t">8 min</span><b lang="es">Fertilidad</b><b lang="en">Fertility</b><small lang="es">Hoja, suelo y abonos</small><small lang="en">Leaf, soil and manures</small></a><a href="#b6" style="--c:var(--b6)"><span class="k" lang="es">Bloque 6</span><span class="k" lang="en">Block 6</span><span class="t">8 min</span><b lang="es">Biomasa</b><b lang="en">Biomass</b><small lang="es">Vigor, dosel y carbono</small><small lang="en">Vigour, canopy and carbon</small></a><a href="#b7" style="--c:var(--b7)"><span class="k" lang="es">Bloque 7</span><span class="k" lang="en">Block 7</span><span class="t">6 min</span><b lang="es">Productividad</b><b lang="en">Productivity</b><small lang="es">Fruta, calidad y agua</small><small lang="en">Fruit, quality and water</small></a><a href="#b8" style="--c:var(--b8)"><span class="k" lang="es">Bloque 8</span><span class="k" lang="en">Block 8</span><span class="t">3 min</span><b lang="es">Energía</b><b lang="en">Energy</b><small lang="es">Cómo se reparte el sol</small><small lang="en">How sunlight is shared</small></a><a href="#b9" style="--c:var(--b9)"><span class="k" lang="es">Bloque 9</span><span class="k" lang="en">Block 9</span><span class="t">10 min</span><b lang="es">Estadística</b><b lang="en">Statistics</b><small lang="es">¿Diferencia real o azar?</small><small lang="en">Real difference or chance?</small></a><a href="#b10" style="--c:var(--b10)"><span class="k" lang="es">Bloque 10</span><span class="k" lang="en">Block 10</span><span class="t">5 min</span><b lang="es">Sistema complejo</b><b lang="en">Complex system</b><small lang="es">La red del viñedo</small><small lang="en">The vineyard network</small></a><a href="#b11" style="--c:var(--b11)"><span class="k" lang="es">Bloque 11</span><span class="k" lang="en">Block 11</span><span class="t">3 min</span><b lang="es">Tablero</b><b lang="en">Dashboard</b><small lang="es">Todo en una página</small><small lang="en">All on one page</small></a><a href="#b12" style="--c:var(--b12)"><span class="k" lang="es">Bloque 12</span><span class="k" lang="en">Block 12</span><span class="t">6 min</span><b lang="es">Regeneración</b><b lang="en">Regeneration</b><small lang="es">Prácticas y resultados</small><small lang="en">Practices and outcomes</small></a><a href="#b13" style="--c:var(--b13)"><span class="k" lang="es">Bloque 13</span><span class="k" lang="en">Block 13</span><span class="t">6 min</span><b lang="es">Riesgos</b><b lang="en">Risks</b><small lang="es">Probabilidad × impacto</small><small lang="en">Likelihood × impact</small></a><a href="#b14" style="--c:var(--b14)"><span class="k" lang="es">Bloque 14</span><span class="k" lang="en">Block 14</span><span class="t">8 min</span><b lang="es">Sostenibilidad</b><b lang="en">Sustainability</b><small lang="es">Ambiental, económica, social</small><small lang="en">Environmental, economic, social</small></a><a href="#b15" style="--c:var(--b15)"><span class="k" lang="es">Bloque 15</span><span class="k" lang="en">Block 15</span><span class="t">6 min</span><b lang="es">Prospectiva</b><b lang="en">Outlook</b><small lang="es">A 1, 2 y 5 años</small><small lang="en">At 1, 2 and 5 years</small></a><a href="#b16" style="--c:var(--b16)"><span class="k" lang="es">Bloque 16</span><span class="k" lang="en">Block 16</span><span class="t">3 min</span><b lang="es">Informe</b><b lang="en">Report</b><small lang="es">Acciones, PDF y datos</small><small lang="en">Actions, PDF and data</small></a></div>
+<p lang="es">Los bloques 1 a 9 son de <b>captura</b>: ahí escribes lo que mides. Los bloques 10 a 16 son de <b>resultados</b>: juntan lo capturado y lo leen como un sistema. Puedes saltar entre bloques cuando quieras; lo que falte aparecerá como «sin dato».</p>
+<p lang="en">Blocks 1 to 9 are for <b>entry</b>: that is where you type what you measure. Blocks 10 to 16 are <b>results</b>: they gather what you entered and read it as a system. You can jump between blocks at any time; whatever is missing shows as “no data”.</p>
+<h3 id="ejemplo" data-n="0.6"><span lang="es">El modo ejemplo de Mata de Zarza</span><span lang="en">The Mata de Zarza example mode</span></h3>
+<p lang="es">La app empieza en blanco: nunca viene llenada. Si quieres ver primero un viñedo real, toca <span class="ui">Ver el ejemplo de Mata de Zarza</span> en el Inicio. Entras al <b>modo ejemplo</b>: una franja naranja te recuerda que esos datos no son tuyos y que nada se guarda; <span class="ui">Salir del ejemplo</span> te regresa a tu proyecto tal como lo dejaste.</p>
+<p lang="en">The app starts blank: it never comes pre-filled. To first see a real vineyard, tap <span class="ui">View the Mata de Zarza example</span> on Home. You enter <b>example mode</b>: an orange band reminds you those data are not yours and nothing is saved; <span class="ui">Leave the example</span> takes you back to your project as you left it.</p>
+<figure data-fig="ejemplo"><figcaption><span class="fn"></span><span lang="es"><b>Entrar al ejemplo.</b> El enlace del Inicio.</span><span lang="en"><b>Entering the example.</b> The link on Home.</span></figcaption><ol class="legend"><li><span lang="es">Ver el ejemplo de Mata de Zarza.</span><span lang="en">View the Mata de Zarza example.</span></li></ol></figure>
+<figure data-fig="franja"><figcaption><span class="fn"></span><span lang="es"><b>Modo ejemplo.</b> La franja y el aviso de cada bloque.</span><span lang="en"><b>Example mode.</b> The band and each block’s notice.</span></figcaption><ol class="legend"><li><span lang="es">Franja naranja con el botón para salir.</span><span lang="en">Orange band with the button to leave.</span></li><li><span lang="es">«Ejemplo · estos datos no son tuyos».</span><span lang="en">“Example · these data are not yours”.</span></li></ol></figure>
+<p lang="es">Dentro del ejemplo, el Inicio te dice de dónde sale cada dato:</p>
+<p lang="en">Inside the example, Home tells you where each datum comes from:</p>
+<figure data-fig="fuentesej"><figcaption><span class="fn"></span><span lang="es"><b>Fuentes del ejemplo.</b> Guía de establecimiento, propuesta de tesis, reanálisis ERA5 y FAO-56; abajo, las lecturas marcadas.</span><span lang="en"><b>Example sources.</b> Establishment guide, thesis proposal, ERA5 reanalysis and FAO-56; below, the flagged readings.</span></figcaption></figure>
+<div class="box warn"><span class="bi">!</span><span class="bt" lang="es">El clima del ejemplo es reanálisis</span><span class="bt" lang="en">The example climate is a reanalysis</span><p lang="es">Mata de Zarza no tiene estación meteorológica propia. El clima diario de 2025 viene del reanálisis ERA5 (Hersbach et al., 2020), descargado de Open-Meteo para la celda de 19.25° N y 96.75° O ajustada a 467 m. Sirve para aprender, pero para tu tesis o tu riego usa los registros de una estación cercana o la tuya.</p><p lang="en">Mata de Zarza has no weather station of its own. The 2025 daily climate comes from the ERA5 reanalysis (Hersbach et al., 2020), downloaded from Open-Meteo for the 19.25° N, 96.75° W cell adjusted to 467 m. It is fine for learning, but for your thesis or irrigation use records from a nearby station or your own.</p></div>
+</section>
+
+<section class="chap" id="b1" data-toc="1" style="--c:var(--b1)">
+  <div class="chap-head"><span class="big">1</span>
+    <div class="eyebrow" lang="es">Bloque 1 · Viñedo y experimento</div><div class="eyebrow" lang="en">Block 1 · Vineyard and trial</div>
+    <h2 lang="es">Dónde está, cómo está plantado y qué vas a comparar</h2><h2 lang="en">Where it is, how it is planted and what you will compare</h2>
+    <p lang="es">El sitio da la latitud y la altitud; el viñedo, los coeficientes del agua; el diseño, la comparación justa entre tratamientos.</p>
+    <p lang="en">The site gives latitude and altitude; the vineyard, the water coefficients; the design, a fair comparison between treatments.</p>
+    <span class="rule"></span></div>
+  <nav class="inchap"></nav>
+<h3 id="b1-sitio" data-n="1.1"><span lang="es">El sitio</span><span lang="en">The site</span></h3>
+<p lang="es">Elige el estado, el municipio y la localidad del INEGI; con eso la app toma la latitud y la altitud, que necesita para calcular la radiación del sol y la presión del aire. Si tu viñedo está lejos de la localidad, marca <span class="ui">Escribir latitud y altitud medidas (GPS)</span> y escríbelas tú.</p>
+<p lang="en">Choose the INEGI state, municipality and locality; from them the app takes the latitude and altitude it needs to compute solar radiation and air pressure. If your vineyard is far from the locality, tick <span class="ui">Enter measured latitude and altitude (GPS)</span> and type them in.</p>
+<figure data-fig="sitio"><figcaption><span class="fn"></span><span lang="es"><b>1.1 Sitio.</b> Mata de Zarza, Puente Nacional, Veracruz: 19.230° N y 467 m.</span><span lang="en"><b>1.1 Site.</b> Mata de Zarza, Puente Nacional, Veracruz: 19.230° N and 467 m.</span></figcaption></figure>
+<h3 id="b1-vinedo" data-n="1.2"><span lang="es">El viñedo</span><span lang="en">The vineyard</span></h3>
+<p lang="es">Escoge si la uva es <b>de mesa o pasa</b> o <b>para vino</b>: eso fija los coeficientes de FAO-56 que usa el balance de agua. Escribe la variedad, el portainjerto, el año de plantación, la distancia entre hileras y entre plantas, la conducción y el tipo de riego. La app calcula las plantas por hectárea.</p>
+<p lang="en">Choose whether the grape is <b>table or raisin</b> or <b>wine</b>: that sets the FAO-56 coefficients the water balance uses. Enter the variety, rootstock, planting year, row and vine spacing, training system and irrigation type. The app works out vines per hectare.</p>
+<figure data-fig="vinedo"><figcaption><span class="fn"></span><span lang="es"><b>1.2 El viñedo de Mata de Zarza.</b> 3.0 m × 1.40 m dan 2,381 plantas por hectárea.</span><span lang="en"><b>1.2 The Mata de Zarza vineyard.</b> 3.0 m × 1.40 m give 2,381 vines per hectare.</span></figcaption></figure>
+<div class="box tip"><span class="bi">✓</span><span class="bt" lang="es">Plantas por hectárea</span><span class="bt" lang="en">Vines per hectare</span><p lang="es">Divide 10,000 m² entre la distancia entre hileras por la distancia entre plantas: 10,000 ÷ (3.0 × 1.40) = <span class="val">2381</span>.</p><p lang="en">Divide 10,000 m² by row spacing times vine spacing: 10,000 ÷ (3.0 × 1.40) = <span class="val">2381</span>.</p></div>
+<h3 id="b1-diseno" data-n="1.3"><span lang="es">Diseño experimental y sorteo</span><span lang="en">Trial design and draw</span></h3>
+<p lang="es">Si vas a comparar tratamientos, escríbelos aquí (incluye siempre un <b>testigo</b>), di cuántos bloques hay, cuántas plantas tiene cada parcela y cuántas de bordo dejas en cada extremo. <span class="ui pri">Sortear de nuevo</span> reparte los tratamientos al azar dentro de cada bloque; la misma semilla da siempre el mismo croquis. Descarga la <span class="ui">Plantilla de campo</span>: es la hoja donde anotarás cada planta.</p>
+<p lang="en">If you will compare treatments, enter them here (always include a <b>control</b>), say how many blocks there are, how many vines per plot and how many border vines you leave at each end. <span class="ui pri">Draw again</span> assigns treatments at random within each block; the same seed always gives the same layout. Download the <span class="ui">Field sheet</span>: it is where you will record each vine.</p>
+<figure data-fig="diseno"><figcaption><span class="fn"></span><span lang="es"><b>1.3 El experimento de Mata de Zarza.</b> Cuatro tratamientos en tres hileras: 12 parcelas y 84 plantas medidas.</span><span lang="en"><b>1.3 The Mata de Zarza trial.</b> Four treatments in three rows: 12 plots and 84 vines measured.</span></figcaption></figure>
+<div class="box farm"><span class="bi">◆</span><span class="bt" lang="es">En Mata de Zarza</span><span class="bt" lang="en">In Mata de Zarza</span><p lang="es">Cada hilera de unas 30 plantas es un bloque con los cuatro tratamientos: <b>T0</b> testigo sin abono, <b>T1</b> excreta de ovino + pulpa de café, <b>T2</b> de cerdo + pulpa y <b>T3</b> de ave + pulpa. Parcelas de 7 plantas y una de bordo en cada extremo. El ejemplo usa exactamente el sorteo del croquis de la propuesta de tesis (Hernández González, 2026).</p><p lang="en">Each row of about 30 vines is a block with the four treatments: <b>T0</b> control without manure, <b>T1</b> sheep manure + coffee pulp, <b>T2</b> pig + pulp and <b>T3</b> poultry + pulp. Plots of 7 vines and one border vine at each end. The example uses exactly the draw from the thesis proposal layout (Hernández González, 2026).</p></div>
+<div class="box why"><span class="bi">?</span><span class="bt" lang="es">¿Por qué no un abono por hilera?</span><span class="bt" lang="en">Why not one manure per row?</span><p lang="es">Si cada hilera recibe un solo abono, el efecto del abono se mezcla con el de la hilera (mejor suelo, más sombra) y no hay repeticiones verdaderas. Con bloques al azar cada tratamiento se repite en las tres hileras.</p><p lang="en">If each row gets a single manure, the manure effect is mixed with the row effect (better soil, more shade) and there are no true replicates. With randomised blocks each treatment is repeated in all three rows.</p></div>
+<h3 id="b1-vars" data-n="1.4"><span lang="es">Variables del estudio</span><span lang="en">Study variables</span></h3>
+<p lang="es">Cada caso de estudio mide lo que puede. Aquí apagas las variables que no vas a medir: desaparecen de los bloques y de los conteos de avance, y nada se calcula con ellas. Las fechas fenológicas también se encienden o apagan aquí.</p>
+<p lang="en">Each case study measures what it can. Here you switch off the variables you will not measure: they disappear from the blocks and from the progress counts, and nothing is computed with them. Phenological dates are switched on or off here too.</p>
+<figure data-fig="variables"><figcaption><span class="fn"></span><span lang="es"><b>1.4 Variables del estudio.</b> Cada una dice qué tan difícil es medirla: fácil, media o con instrumento.</span><span lang="en"><b>1.4 Study variables.</b> Each says how hard it is to measure: easy, medium or needs an instrument.</span></figcaption></figure>
+</section>
+
+<section class="chap" id="b2" data-toc="2" style="--c:var(--b2)">
+  <div class="chap-head"><span class="big">2</span>
+    <div class="eyebrow" lang="es">Bloque 2 · Suelo</div><div class="eyebrow" lang="en">Block 2 · Soil</div>
+    <h2 lang="es">El tanque de agua de la vid</h2><h2 lang="en">The vine’s water tank</h2>
+    <p lang="es">Con la textura y la profundidad de raíces ya sabes cuánta agua guarda tu suelo; el pH y la sal te dicen si algo frena a la raíz.</p>
+    <p lang="en">With texture and rooting depth you already know how much water your soil holds; pH and salt tell you whether anything holds the roots back.</p>
+    <span class="rule"></span></div>
+  <nav class="inchap"></nav>
+<h3 id="b2-textura" data-n="2.1"><span lang="es">Textura: la prueba del frasco</span><span lang="en">Texture: the jar test</span></h3>
+<p lang="es">Llena un tercio de un frasco de vidrio recto con suelo seco y cernido de la zona de raíces, agrega agua hasta casi llenarlo y una cucharadita de jabón para trastes, tapa y agita varios minutos. Mide la altura de la arena al minuto, la del limo a las dos horas y la de la arcilla cuando el agua se aclare (uno o dos días). Escribe las tres alturas: la app saca los porcentajes y la clase textural del USDA.</p>
+<p lang="en">Fill a third of a straight glass jar with dry, sieved soil from the root zone, add water almost to the top and a teaspoon of dish soap, close and shake for several minutes. Measure the sand height after a minute, silt after two hours and clay when the water clears (one or two days). Enter the three heights: the app gives the percentages and the USDA texture class.</p>
+<figure data-fig="textura"><figcaption><span class="fn"></span><span lang="es"><b>2.1 y 2.2 Textura y densidad aparente.</b> En el ejemplo solo hay la clase «Arcilloso» de la guía.</span><span lang="en"><b>2.1 and 2.2 Texture and bulk density.</b> The example has only the “Clay” class from the guide.</span></figcaption></figure>
+<h3 id="b2-densidad" data-n="2.2"><span lang="es">Densidad aparente</span><span lang="en">Bulk density</span></h3>
+<p lang="es">Entierra un cilindro de volumen conocido (una lata sin fondo sirve), sácalo lleno sin compactarlo, seca el suelo al sol o en horno y pésalo. Masa seca entre volumen da la densidad; el semáforo dice si ya frena a las raíces según tu textura (USDA-NRCS).</p>
+<p lang="en">Drive in a cylinder of known volume (a bottomless can will do), lift it full without compacting it, dry the soil in the sun or an oven and weigh it. Dry mass over volume gives bulk density; the traffic light says whether it already restricts roots for your texture (USDA-NRCS).</p>
+<h3 id="b2-agua" data-n="2.3"><span lang="es">Agua disponible</span><span lang="en">Available water</span></h3>
+<p lang="es">El agua que la vid puede usar está entre la <b>capacidad de campo</b> y el <b>punto de marchitez</b>. Si tienes esos valores del laboratorio, escríbelos; si no, la app sugiere el centro del rango de tu textura (FAO-56, Cuadro 19), siempre marcado como sugerido. Con la <b>profundidad de raíces</b> calcula el agua disponible total (ADT) y la fácilmente aprovechable (AFA).</p>
+<p lang="en">The water the vine can use lies between <b>field capacity</b> and <b>wilting point</b>. If you have those values from the laboratory, enter them; if not, the app suggests the centre of your texture’s range (FAO-56, Table 19), always flagged as suggested. With the <b>rooting depth</b> it computes total available water (TAW) and readily available water (RAW).</p>
+<figure data-fig="agua"><figcaption><span class="fn"></span><span lang="es"><b>2.3 Agua disponible en Mata de Zarza.</b> 98 mm en total, 34 mm fáciles de tomar.</span><span lang="en"><b>2.3 Available water in Mata de Zarza.</b> 98 mm in total, 34 mm easy to take up.</span></figcaption></figure>
+<div class="box farm"><span class="bi">◆</span><span class="bt" lang="es">En Mata de Zarza</span><span class="bt" lang="en">In Mata de Zarza</span><p lang="es">La guía describe la zona como de <b>suelos arcillosos</b>; con esa clase la app sugiere θCC y θPMP del Cuadro 19. La profundidad de raíces de <span class="val">0.70</span> m es la de la cepa de plantación (70 cm) y está marcada como lectura de Ratio Vitis. Con eso: ADT = 98 mm y AFA = 34 mm. Cuando llegue el análisis de suelo, sus valores sustituyen a los sugeridos.</p><p lang="en">The guide describes the area as having <b>clay soils</b>; with that class the app suggests θFC and θWP from Table 19. The rooting depth of <span class="val">0.70</span> m is the planting-hole depth (70 cm) and is flagged as a Ratio Vitis reading. With that: TAW = 98 mm and RAW = 34 mm. When the soil analysis arrives, its values replace the suggested ones.</p></div>
+<h3 id="b2-quimica" data-n="2.4"><span lang="es">Infiltración, pH, sal y materia orgánica</span><span lang="en">Infiltration, pH, salt and organic matter</span></h3>
+<p lang="es">Con un tubo enterrado y una lámina de agua mides cuánto tarda en infiltrarse. El pH, la conductividad eléctrica y la materia orgánica vienen del laboratorio. La app clasifica el pH para la vid (ideal 5.5–6.5) y estima cuánto rendimiento se pierde por sal (FAO-56: umbral de 1.5 dS m⁻¹ y 9.6 % menos por cada dS m⁻¹ arriba).</p>
+<p lang="en">With a buried tube and a depth of water you measure how long it takes to infiltrate. pH, electrical conductivity and organic matter come from the laboratory. The app classes pH for the vine (ideal 5.5–6.5) and estimates the yield lost to salt (FAO-56: threshold of 1.5 dS m⁻¹ and 9.6 % less per dS m⁻¹ above).</p>
+<div class="box rule"><span class="bi">→</span><span class="bt" lang="es">Si el semáforo del suelo marca…</span><span class="bt" lang="en">If the soil traffic light shows…</span><table><tbody><tr><td><span lang="es">Compactación</span><span lang="en">Compaction</span></td><td><span lang="es">Afloja antes de fertilizar: la raíz no aprovecha lo que no alcanza.</span><span lang="en">Loosen before fertilising: roots cannot use what they cannot reach.</span></td></tr><tr><td><span lang="es">pH fuera de 5.5–6.5</span><span lang="en">pH outside 5.5–6.5</span></td><td><span lang="es">Confirma con otra muestra; corrige con cal o materia orgánica según el caso.</span><span lang="en">Confirm with another sample; correct with lime or organic matter as appropriate.</span></td></tr><tr><td><span lang="es">CE arriba de 1.5 dS m⁻¹</span><span lang="en">EC above 1.5 dS m⁻¹</span></td><td><span lang="es">Revisa el agua de riego y el lavado de sales.</span><span lang="en">Check irrigation water and salt leaching.</span></td></tr></tbody></table></div>
+</section>
+
+<section class="chap" id="b3" data-toc="3" style="--c:var(--b3)">
+  <div class="chap-head"><span class="big">3</span>
+    <div class="eyebrow" lang="es">Bloque 3 · Clima</div><div class="eyebrow" lang="en">Block 3 · Climate</div>
+    <h2 lang="es">Registros diarios, ET0 e índices vitícolas</h2><h2 lang="en">Daily records, ET0 and viticultural indices</h2>
+    <p lang="es">La atmósfera pide agua y el sol da la energía. Con los registros diarios de tu estación la app calcula la demanda de cada día y qué tan cálida es tu región para la uva.</p>
+    <p lang="en">The air demands water and the sun supplies energy. From your station’s daily records the app computes each day’s demand and how warm your region is for grapes.</p>
+    <span class="rule"></span></div>
+  <nav class="inchap"></nav>
+<h3 id="b3-csv" data-n="3.1"><span lang="es">Registros diarios</span><span lang="en">Daily records</span></h3>
+<p lang="es">Importa un archivo CSV con una fila por día. Las columnas obligatorias son la <b>fecha</b>, la <b>temperatura máxima</b> y la <b>mínima</b>; si tu estación da humedad, viento, radiación o lluvia, inclúyelas y el cálculo mejora. La app reconoce los encabezados en español o inglés y te dice qué estimó con FAO-56 cuando falta algo. <span class="ui">CSV para PhenologyPro</span> exporta los mismos datos para la app de Luis Ángel Barrera-Guzmán.</p>
+<p lang="en">Import a CSV file with one row per day. Required columns are <b>date</b>, <b>maximum</b> and <b>minimum temperature</b>; if your station gives humidity, wind, radiation or rain, include them and the calculation improves. The app recognises headers in Spanish or English and tells you what it estimated with FAO-56 when something is missing. <span class="ui">CSV for PhenologyPro</span> exports the same data for Luis Ángel Barrera-Guzmán’s app.</p>
+<figure data-fig="clima"><figcaption><span class="fn"></span><span lang="es"><b>3.1 y 3.2 Clima de Mata de Zarza, 2025.</b> 365 días de ERA5; ET0 media de 3.80 mm al día y 1,765 mm de lluvia.</span><span lang="en"><b>3.1 and 3.2 Mata de Zarza climate, 2025.</b> 365 days of ERA5; mean ET0 of 3.80 mm a day and 1,765 mm of rain.</span></figcaption></figure>
+<h3 id="b3-et0" data-n="3.2"><span lang="es">Lo que pide la atmósfera</span><span lang="en">What the air demands</span></h3>
+<p lang="es">La <b>ET0</b> es el agua que la atmósfera le pide a un pasto bien regado en un día; la app la calcula con FAO Penman–Monteith. De 1 a 3 mm al día es demanda baja; de 3 a 5, moderada; de 5 a 7, alta; arriba de 7, muy alta (FAO-56). La gráfica pone junto a ella la lluvia de cada día.</p>
+<p lang="en"><b>ET0</b> is the water the air demands from a well-watered grass in a day; the app computes it with FAO Penman–Monteith. 1 to 3 mm a day is low demand; 3 to 5, moderate; 5 to 7, high; above 7, very high (FAO-56). The chart shows each day’s rain beside it.</p>
+<h3 id="b3-indices" data-n="3.3"><span lang="es">Índices vitícolas</span><span lang="en">Viticultural indices</span></h3>
+<figure data-fig="indices"><figcaption><span class="fn"></span><span lang="es"><b>3.3 Índices de 2025 en Mata de Zarza.</b> Todos caen en la clase más cálida.</span><span lang="en"><b>3.3 Indices for 2025 in Mata de Zarza.</b> All fall in the warmest class.</span></figcaption></figure>
+<div class="tbl"><table class=""><thead><tr><th><span lang="es">Índice</span><span lang="en">Index</span></th><th><span lang="es">Qué mide</span><span lang="en">What it measures</span></th><th><span lang="es">Mata de Zarza 2025</span><span lang="en">Mata de Zarza 2025</span></th><th><span lang="es">Fuente</span><span lang="en">Source</span></th></tr></thead><tbody><tr><td>Winkler</td><td><span lang="es">Calor útil del 1 abr al 31 oct, arriba de 10 °C. Regiones I (850–1389) a V (2223–2700) °C·d.</span><span lang="en">Useful heat 1 Apr–31 Oct, above 10 °C. Regions I (850–1389) to V (2223–2700) °C·d.</span></td><td><span lang="es">3,308 °C·d · demasiado cálido (&gt; 2700)</span><span lang="en">3,308 °C·d · too hot (&gt; 2700)</span></td><td>del Río et al. (2023), Fig. 6</td></tr><tr><td>GST</td><td><span lang="es">Temperatura media del 1 abr al 31 oct.</span><span lang="en">Mean temperature 1 Apr–31 Oct.</span></td><td><span lang="es">25.5 °C · demasiado cálido (&gt; 24)</span><span lang="en">25.5 °C · too hot (&gt; 24)</span></td><td>del Río et al. (2023), Fig. 7</td></tr><tr><td>Huglin</td><td><span lang="es">Calor de abril a septiembre con más peso a las horas de sol.</span><span lang="en">April–September heat weighting sunny hours.</span></td><td><span lang="es">3,307 · muy cálido (HI+3)</span><span lang="en">3,307 · very warm (HI+3)</span></td><td>Tonietto y Carbonneau (2004)</td></tr><tr><td><span lang="es">Frescor nocturno</span><span lang="en">Cool nights</span></td><td><span lang="es">Mínima media de septiembre.</span><span lang="en">Mean September minimum.</span></td><td><span lang="es">21.6 °C · noches cálidas (CI−2)</span><span lang="en">21.6 °C · warm nights (CI−2)</span></td><td>Tonietto y Carbonneau (2004)</td></tr></tbody></table></div>
+<div class="box warn"><span class="bi">!</span><span class="bt" lang="es">Índices hechos para climas templados</span><span class="bt" lang="en">Indices built for temperate climates</span><p lang="es">Estos índices nacieron en la viticultura de invierno marcado. En un clima cálido subhúmedo como el de Mata de Zarza, donde la vid casi no descansa, dicen «demasiado cálido» para el calendario abril–octubre, pero no dicen que la uva no se pueda cultivar: la guía documenta su establecimiento. Léelos como comparación con otras regiones, no como sentencia.</p><p lang="en">These indices were born in viticulture with a marked winter. In a warm sub-humid climate like Mata de Zarza’s, where the vine barely rests, they read “too hot” for the April–October calendar, but they do not say grapes cannot be grown: the guide documents their establishment. Read them as a comparison with other regions, not as a verdict.</p></div>
+</section>
+
+<section class="chap" id="b4" data-toc="4" style="--c:var(--b4)">
+  <div class="chap-head"><span class="big">4</span>
+    <div class="eyebrow" lang="es">Bloque 4 · RASPA</div><div class="eyebrow" lang="en">Block 4 · SPAC</div>
+    <h2 lang="es">Relación agua–suelo–planta–atmósfera</h2><h2 lang="en">Soil–plant–atmosphere water relations</h2>
+    <p lang="es">El agua entra por la lluvia y el riego, se guarda en el suelo, sube por la vid y sale al aire. Aquí se sigue día a día con el coeficiente dual de FAO-56.</p>
+    <p lang="en">Water enters as rain and irrigation, is stored in the soil, rises through the vine and leaves to the air. Here it is followed day by day with the FAO-56 dual coefficient.</p>
+    <span class="rule"></span></div>
+  <nav class="inchap"></nav>
+<h3 id="b4-etapas" data-n="4.1"><span lang="es">Etapas y brotación</span><span lang="en">Stages and budburst</span></h3>
+<p lang="es">Elige la duración de las etapas del Cuadro 11 de FAO-56 que más se parezca a tu región y escribe la <b>fecha de brotación</b>: desde ese día corre el balance de agua.</p>
+<p lang="en">Choose the FAO-56 Table 11 stage lengths closest to your region and enter the <b>budburst date</b>: the water balance runs from that day.</p>
+<figure data-fig="etapas"><figcaption><span class="fn"></span><span lang="es"><b>4.1 Etapas en Mata de Zarza.</b> Latitudes bajas (20/40/120/60 días) desde la plantación.</span><span lang="en"><b>4.1 Stages in Mata de Zarza.</b> Low latitudes (20/40/120/60 days) from planting.</span></figcaption></figure>
+<h3 id="b4-riegos" data-n="4.2"><span lang="es">Riegos aplicados</span><span lang="en">Irrigations applied</span></h3>
+<p lang="es">Anota cada riego con su fecha y su lámina en milímetros. Si mides litros por planta, divide entre el área de cada planta: litros ÷ (distancia entre hileras × distancia entre plantas) = mm. En Mata de Zarza, 10 litros por planta son 10 ÷ (3.0 × 1.40) = 2.4 mm.</p>
+<p lang="en">Record each irrigation with its date and depth in millimetres. If you measure litres per vine, divide by each vine’s area: litres ÷ (row spacing × vine spacing) = mm. In Mata de Zarza, 10 litres per vine is 10 ÷ (3.0 × 1.40) = 2.4 mm.</p>
+<h3 id="b4-balance" data-n="4.3"><span lang="es">El balance diario</span><span lang="en">The daily balance</span></h3>
+<p lang="es">Aquí se junta todo: la atmósfera pide (Bloque 3), el suelo guarda (Bloque 2) y la vid bebe. Cada día la app resta lo que se evapotranspira y suma la lluvia y el riego. El <b>agotamiento</b> dice cuánta agua le falta al suelo; cuando pasa del AFA, el <b>coeficiente de estrés Ks</b> baja de 1 y la vid empieza a cerrar sus estomas.</p>
+<p lang="en">Everything comes together here: the air demands (Block 3), the soil stores (Block 2) and the vine drinks. Each day the app subtracts what is evapotranspired and adds rain and irrigation. <b>Depletion</b> says how much water the soil lacks; when it exceeds RAW, the <b>stress coefficient Ks</b> drops below 1 and the vine starts closing its stomata.</p>
+<figure data-fig="balance"><figcaption><span class="fn"></span><span lang="es"><b>4.3 Balance de Mata de Zarza, 2025, sin riegos registrados.</b> 43 de cada 100 litros salieron del suelo sin pasar por la vid.</span><span lang="en"><b>4.3 Mata de Zarza balance, 2025, with no irrigation recorded.</b> 43 of every 100 litres left the soil without passing through the vine.</span></figcaption></figure>
+<div class="box farm"><span class="bi">◆</span><span class="bt" lang="es">En Mata de Zarza</span><span class="bt" lang="en">In Mata de Zarza</span><p lang="es">Desde el 24 de febrero de 2025 se evapotranspiraron 1,085 mm: <b>620</b> por transpiración de la vid y <b>465</b> evaporados del suelo. Hubo <b>125 días con estrés</b> de 311, con un Ks mínimo de 0.22, sobre todo en la temporada seca antes de las lluvias de junio. Como no hay riegos registrados, el balance muestra la vid como si fuera de temporal; la guía pide riego constante los primeros tres meses, así que en la realidad el estrés de primavera debió ser menor. Anotar cada riego es lo que hace fiel al balance.</p><p lang="en">From 24 February 2025, 1,085 mm were evapotranspired: <b>620</b> as vine transpiration and <b>465</b> evaporated from the soil. There were <b>125 stress days</b> out of 311, with a minimum Ks of 0.22, mostly in the dry season before the June rains. Because no irrigation is recorded, the balance shows the vine as if rainfed; the guide calls for constant irrigation in the first three months, so in reality spring stress must have been lower. Recording each irrigation is what makes the balance faithful.</p></div>
+<div class="box warn"><span class="bi">!</span><span class="bt" lang="es">Una vid joven transpira menos</span><span class="bt" lang="en">A young vine transpires less</span><p lang="es">Los coeficientes de FAO-56 son de una vid adulta. Con plantas de uno o dos años, escribe en la vista científica la fracción de suelo cubierto (fc) o mide el NDVI en el Bloque 6; si no, la transpiración sale alta.</p><p lang="en">FAO-56 coefficients are for a mature vine. With one- or two-year-old vines, enter the ground-cover fraction (fc) in the scientist view or measure NDVI in Block 6; otherwise transpiration comes out high.</p></div>
+<div class="box rule"><span class="bi">→</span><span class="bt" lang="es">Cuándo regar</span><span class="bt" lang="en">When to irrigate</span><table><tbody><tr><td><span lang="es">Ks = 1</span><span lang="en">Ks = 1</span></td><td><span lang="es">Sin estrés: no hace falta regar todavía.</span><span lang="en">No stress: no need to irrigate yet.</span></td></tr><tr><td><span lang="es">Ks &lt; 1</span><span lang="en">Ks &lt; 1</span></td><td><span lang="es">Riega la lámina del «Agotamiento hoy (Dr)» y anótala en 4.2.</span><span lang="en">Irrigate the “Depletion today (Dr)” depth and record it in 4.2.</span></td></tr><tr><td><span lang="es">Mucha agua bajo la raíz</span><span lang="en">Much water below the root zone</span></td><td><span lang="es">Riegas de más o llovió fuerte: espacia los riegos.</span><span lang="en">You over-irrigate or it rained hard: space out irrigations.</span></td></tr></tbody></table></div>
+<h3 id="b4-psi" data-n="4.4"><span lang="es">Potencial hídrico y fenología</span><span lang="en">Water potential and phenology</span></h3>
+<p lang="es">Si tienes cámara de presión, mide el potencial de <b>tallo a mediodía</b> (hoja tapada con una bolsa una hora antes) o de <b>hoja al alba</b>. La app lo clasifica con cuatro escalas publicadas (IVES, UC ANR y Uriarte et al., 2025). Si tu cámara marca bar, divide entre 10. En 4.5 anota la fecha en que la mitad de las plantas de cada parcela llegó a floración, cuajado, envero y cosecha.</p>
+<p lang="en">If you have a pressure chamber, measure <b>midday stem</b> potential (leaf bagged an hour before) or <b>predawn leaf</b> potential. The app classes it on four published scales (IVES, UC ANR and Uriarte et al., 2025). If your chamber reads bar, divide by 10. In 4.5 record the date on which half the vines of each plot reached flowering, fruit set, veraison and harvest.</p>
+<figure data-fig="psi"><figcaption><span class="fn"></span><span lang="es"><b>4.4 y 4.5 Potencial hídrico y fenología.</b> Aún sin mediciones en el ejemplo.</span><span lang="en"><b>4.4 and 4.5 Water potential and phenology.</b> No measurements yet in the example.</span></figcaption></figure>
+</section>
+
+<section class="chap" id="b5" data-toc="5" style="--c:var(--b5)">
+  <div class="chap-head"><span class="big">5</span>
+    <div class="eyebrow" lang="es">Bloque 5 · Fertilidad</div><div class="eyebrow" lang="en">Block 5 · Fertility</div>
+    <h2 lang="es">Lo que ofrece el suelo y lo que tomó la vid</h2><h2 lang="en">What the soil offers and what the vine took up</h2>
+    <p lang="es">El análisis de suelo dice qué hay; el de hoja o peciolo dice qué llegó a la planta.</p>
+    <p lang="en">The soil analysis says what is there; the leaf or petiole analysis says what reached the plant.</p>
+    <span class="rule"></span></div>
+  <nav class="inchap"></nav>
+<h3 id="b5-suelo" data-n="5.1"><span lang="es">Análisis de suelo</span><span lang="en">Soil analysis</span></h3>
+<p lang="es">Escribe el nitrógeno total, el fósforo Olsen, las bases intercambiables y la CIC del laboratorio. Servirán para calcular la dosis de abono y para el índice de sostenibilidad.</p>
+<p lang="en">Enter the laboratory’s total nitrogen, Olsen phosphorus, exchangeable bases and CEC. They are used to compute the manure dose and the sustainability index.</p>
+<h3 id="b5-foliar" data-n="5.2"><span lang="es">Análisis foliar y DOP</span><span lang="en">Tissue analysis and DOP</span></h3>
+<p lang="es">Elige el tejido (peciolo o lámina) y el momento (floración, con la hoja opuesta al racimo, o envero) y escribe la concentración de cada nutriente por tratamiento. La app los lee con los rangos de suficiencia publicados y con el <b>índice DOP</b>: negativo, el nutriente falta; positivo, sobra; el más negativo es el más limitante, y la suma de todos (Σ|DOP|) mide el desequilibrio.</p>
+<p lang="en">Choose the tissue (petiole or blade) and the time (flowering, with the leaf opposite the cluster, or veraison) and enter each nutrient’s concentration per treatment. The app reads them against published sufficiency ranges and with the <b>DOP index</b>: negative, the nutrient is lacking; positive, in excess; the most negative is the most limiting, and the sum of all (Σ|DOP|) measures imbalance.</p>
+<figure data-fig="fert"><figcaption><span class="fn"></span><span lang="es"><b>5.2 Análisis foliar.</b> Una fila por tratamiento.</span><span lang="en"><b>5.2 Tissue analysis.</b> One row per treatment.</span></figcaption></figure>
+<div class="box warn"><span class="bi">!</span><span class="bt" lang="es">Referencias de otra variedad</span><span class="bt" lang="en">References from another variety</span><p lang="es">Los rangos y las referencias DOP son de Garnacha tinta en La Rioja (Benito et al., 2015). Sirven para comparar, no son normas para Perlet ni para México. Un nutriente bajo se confirma con el análisis de suelo antes de corregir.</p><p lang="en">The ranges and DOP references are for red Grenache in La Rioja (Benito et al., 2015). They are useful for comparison, not standards for Perlet or Mexico. A low nutrient is confirmed with the soil analysis before correcting.</p></div>
+<h3 id="b5-abonos" data-n="5.3"><span lang="es">Abonos y dosis igualada en nitrógeno</span><span lang="en">Manures and nitrogen-matched dose</span></h3>
+<p lang="es">Para que la diferencia entre tratamientos se deba al tipo de abono y no a que uno aporte más nitrógeno, la app calcula la dosis de cada abono para dar el mismo N por planta. Captura el análisis de cada mezcla (N, carbono, humedad) y el N que quieres aportar.</p>
+<p lang="en">So that the difference between treatments comes from the type of manure and not from one supplying more nitrogen, the app computes each manure dose to give the same N per vine. Enter each mixture’s analysis (N, carbon, moisture) and the N you want to supply.</p>
+<figure data-fig="abonos"><figcaption><span class="fn"></span><span lang="es"><b>5.3 Dosis igualada en nitrógeno.</b></span><span lang="en"><b>5.3 Nitrogen-matched dose.</b></span></figcaption></figure>
+<div class="box tip"><span class="bi">✓</span><span class="bt" lang="es">Composta antes de aplicar</span><span class="bt" lang="en">Compost before applying</span><p lang="es">La propuesta de tesis recomienda compostar cada mezcla de excreta y pulpa de café con una relación C/N inicial cercana a 25–30 y analizarla antes de aplicarla.</p><p lang="en">The thesis proposal recommends composting each manure–coffee pulp mixture at an initial C/N near 25–30 and analysing it before application.</p></div>
+</section>
+
+<section class="chap" id="b6" data-toc="6" style="--c:var(--b6)">
+  <div class="chap-head"><span class="big">6</span>
+    <div class="eyebrow" lang="es">Bloque 6 · Biomasa</div><div class="eyebrow" lang="en">Block 6 · Biomass</div>
+    <h2 lang="es">Vigor, dosel y carbono</h2><h2 lang="en">Vigour, canopy and carbon</h2>
+    <p lang="es">El vigor se ve en la poda y en las hojas; la materia seca dice cuánto carbono guardó la planta.</p>
+    <p lang="en">Vigour shows in the prunings and the leaves; dry matter says how much carbon the vine stored.</p>
+    <span class="rule"></span></div>
+  <nav class="inchap"></nav>
+<h3 id="b6-vigor" data-n="6.1"><span lang="es">Vigor y dosel</span><span lang="en">Vigour and canopy</span></h3>
+<p lang="es">Pesa la poda de invierno de las plantas marcadas de cada parcela: es el dato más barato y más útil del bloque. Si puedes, mide el área foliar y el NDVI; con el NDVI la app estima qué fracción del suelo cubre la vid (Er-Raki et al., 2013), que corrige el balance de agua de una vid joven.</p>
+<p lang="en">Weigh the winter prunings of the tagged vines in each plot: it is the cheapest and most useful datum of the block. If you can, measure leaf area and NDVI; from NDVI the app estimates the ground cover fraction (Er-Raki et al., 2013), which corrects the water balance of a young vine.</p>
+<figure data-fig="bio"><figcaption><span class="fn"></span><span lang="es"><b>6.1 Vigor y dosel.</b> Peso de poda, área foliar y NDVI por tratamiento.</span><span lang="en"><b>6.1 Vigour and canopy.</b> Pruning weight, leaf area and NDVI per treatment.</span></figcaption></figure>
+<h3 id="b6-carbono" data-n="6.2"><span lang="es">Sarmiento y carbono</span><span lang="en">Shoot growth and carbon</span></h3>
+<p lang="es">Mide el sarmiento más largo de cada planta en varias fechas para ver su ritmo de crecimiento. Al inicio y al final del ciclo, la tesis saca plantas para pesar la materia seca de raíz, tallo, hojas y fruto; con la fracción de carbono la app calcula el carbono acumulado, el CO₂ fijado (×44/12) y el O₂ liberado (×32/44).</p>
+<p lang="en">Measure each vine’s longest shoot on several dates to see its growth rate. At the start and end of the cycle, the thesis samples vines to weigh root, stem, leaf and fruit dry matter; with the carbon fraction the app computes accumulated carbon, fixed CO₂ (×44/12) and released O₂ (×32/44).</p>
+<figure data-fig="carbono"><figcaption><span class="fn"></span><span lang="es"><b>6.3 Carbono, CO₂ y O₂.</b> Materia seca inicial y final por tratamiento.</span><span lang="en"><b>6.3 Carbon, CO₂ and O₂.</b> Initial and final dry matter per treatment.</span></figcaption></figure>
+</section>
+
+<section class="chap" id="b7" data-toc="7" style="--c:var(--b7)">
+  <div class="chap-head"><span class="big">7</span>
+    <div class="eyebrow" lang="es">Bloque 7 · Productividad</div><div class="eyebrow" lang="en">Block 7 · Productivity</div>
+    <h2 lang="es">Cuánta fruta, de qué calidad y con cuánta agua</h2><h2 lang="en">How much fruit, of what quality and with how much water</h2>
+    <p lang="es">Lo que sale del viñedo y lo que costó en agua.</p>
+    <p lang="en">What leaves the vineyard and what it cost in water.</p>
+    <span class="rule"></span></div>
+  <nav class="inchap"></nav>
+<h3 id="b7-cosecha" data-n="7.1"><span lang="es">Cosecha y calidad</span><span lang="en">Harvest and quality</span></h3>
+<p lang="es">Cosecha las mismas plantas marcadas de cada parcela y anota el mismo día el rendimiento por planta, los racimos, el peso de baya y los °Brix. La app calcula toneladas por hectárea, peso de racimo, índice de Ravaz (con la poda del Bloque 6), relación área foliar/fruto y productividad del agua.</p>
+<p lang="en">Harvest the same tagged vines of each plot and record on the same day yield per vine, clusters, berry weight and °Brix. The app computes tonnes per hectare, cluster weight, Ravaz index (with Block 6 prunings), leaf area/fruit ratio and water productivity.</p>
+<h3 id="b7-agua" data-n="7.2"><span lang="es">Cuánto se pierde por falta de agua</span><span lang="en">How much is lost to water shortage</span></h3>
+<p lang="es">Con el balance del Bloque 4, la app estima qué parte del rendimiento máximo se pierde solo por falta de agua, con el factor Ky de la uva (0.85, FAO-56, Cuadro 24).</p>
+<p lang="en">From the Block 4 balance, the app estimates what share of maximum yield is lost to water shortage alone, with the grape Ky factor (0.85, FAO-56, Table 24).</p>
+<figure data-fig="prod"><figcaption><span class="fn"></span><span lang="es"><b>7.2 Resultados en Mata de Zarza.</b> Sin cosecha medida aún, pero con la pérdida esperada por agua: 10 %.</span><span lang="en"><b>7.2 Results in Mata de Zarza.</b> No harvest measured yet, but with the expected loss from water: 10 %.</span></figcaption></figure>
+<div class="box farm"><span class="bi">◆</span><span class="bt" lang="es">En Mata de Zarza</span><span class="bt" lang="en">In Mata de Zarza</span><p lang="es">En 2025 la vid evapotranspiró 89 % de lo que habría usado sin estrés (1,085 de 1,221 mm). Con Ky = 0.85, el rendimiento alcanzable por agua es <b>90 %</b> del máximo: la falta de agua sola costaría alrededor de <b>10 %</b>. Plagas, nutrición y manejo no entran en esta cuenta.</p><p lang="en">In 2025 the vine evapotranspired 89 % of what it would have used without stress (1,085 of 1,221 mm). With Ky = 0.85, water-limited attainable yield is <b>90 %</b> of maximum: water shortage alone would cost about <b>10 %</b>. Pests, nutrition and management are not part of this figure.</p></div>
+<div class="box rule"><span class="bi">→</span><span class="bt" lang="es">Cómo leer la cosecha</span><span class="bt" lang="en">How to read the harvest</span><table><tbody><tr><td><span lang="es">Ravaz &lt; 5</span><span lang="en">Ravaz &lt; 5</span></td><td><span lang="es">Mucho vigor para la fruta: revisa nitrógeno y riego.</span><span lang="en">Much vigour for the fruit: check nitrogen and irrigation.</span></td></tr><tr><td><span lang="es">Ravaz &gt; 10</span><span lang="en">Ravaz &gt; 10</span></td><td><span lang="es">Planta sobrecargada: aclarea racimos.</span><span lang="en">Overcropped vine: thin clusters.</span></td></tr><tr><td><span lang="es">°Brix de 14 a 17.5 en uva de mesa</span><span lang="en">°Brix 14 to 17.5 in table grapes</span></td><td><span lang="es">Dentro de la ventana de cosecha (Permanhani et al., 2016).</span><span lang="en">Within the harvest window (Permanhani et al., 2016).</span></td></tr></tbody></table></div>
+</section>
+
+<section class="chap" id="b8" data-toc="8" style="--c:var(--b8)">
+  <div class="chap-head"><span class="big">8</span>
+    <div class="eyebrow" lang="es">Bloque 8 · Energía</div><div class="eyebrow" lang="en">Block 8 · Energy</div>
+    <h2 lang="es">Cómo reparte el viñedo la radiación</h2><h2 lang="en">How the vineyard shares out radiation</h2>
+    <p lang="es">Sin capturas nuevas: este bloque se calcula con el clima y el balance de agua.</p>
+    <p lang="en">No new entries: this block is computed from climate and the water balance.</p>
+    <span class="rule"></span></div>
+  <nav class="inchap"></nav>
+<p lang="es">El sol entrega energía al viñedo. La parte que se gasta en evaporar agua (calor latente) lo enfría; la que sobra calienta el aire (calor sensible). La app reparte la radiación neta de cada día con el balance de agua del Bloque 4 y calcula la relación de Bowen: cuanto más baja, más energía se va en agua.</p>
+<p lang="en">The sun delivers energy to the vineyard. The part spent evaporating water (latent heat) cools it; the rest heats the air (sensible heat). The app splits each day’s net radiation using the Block 4 water balance and computes the Bowen ratio: the lower it is, the more energy goes into water.</p>
+<figure data-fig="energia"><figcaption><span class="fn"></span><span lang="es"><b>8.1 Energía en Mata de Zarza, 2025.</b> 3,755 MJ m⁻² de radiación neta: 2,657 en calor latente y 1,098 en calor sensible; Bowen de 0.41.</span><span lang="en"><b>8.1 Energy in Mata de Zarza, 2025.</b> 3,755 MJ m⁻² of net radiation: 2,657 as latent heat and 1,098 as sensible heat; Bowen of 0.41.</span></figcaption></figure>
+<div class="box why"><span class="bi">?</span><span class="bt" lang="es">¿Por qué importa?</span><span class="bt" lang="en">Why does it matter?</span><p lang="es">Un viñedo con agua suficiente gasta más energía en enfriarse; cuando falta agua, el Bowen sube y las hojas se calientan. Es otra forma de ver el estrés del Bloque 4.</p><p lang="en">A well-watered vineyard spends more energy cooling itself; when water runs short, Bowen rises and leaves heat up. It is another way to see Block 4 stress.</p></div>
+</section>
+
+<section class="chap" id="b9" data-toc="9" style="--c:var(--b9)">
+  <div class="chap-head"><span class="big">9</span>
+    <div class="eyebrow" lang="es">Bloque 9 · Estadística</div><div class="eyebrow" lang="en">Block 9 · Statistics</div>
+    <h2 lang="es">¿La diferencia es real o pudo ser azar?</h2><h2 lang="en">Is the difference real or could it be chance?</h2>
+    <p lang="es">La estadística compara los tratamientos tomando en cuenta la variación entre hileras y entre plantas.</p>
+    <p lang="en">Statistics compares treatments taking into account variation between rows and between vines.</p>
+    <span class="rule"></span></div>
+  <nav class="inchap"></nav>
+<p lang="es">Cuando ya tengas datos de campo, llena la plantilla que descargaste en el Bloque 1 (una fila por parcela o planta, con columnas de tratamiento, bloque, fecha y variables) e impórtala aquí. Elige qué columna es el tratamiento, cuál el bloque y qué variable analizar. La app hace estadística descriptiva, el ANOVA de bloques al azar, la prueba de Tukey, el ANCOVA con la edad de la planta y medidas repetidas en el tiempo.</p>
+<p lang="en">Once you have field data, fill in the sheet you downloaded in Block 1 (one row per plot or vine, with treatment, block, date and variable columns) and import it here. Choose which column is the treatment, which the block and which variable to analyse. The app does descriptive statistics, the randomised-block ANOVA, Tukey’s test, ANCOVA with vine age and repeated measures over time.</p>
+<figure data-fig="est"><figcaption><span class="fn"></span><span lang="es"><b>Bloque 9.</b> Sin datos de campo, solo aparecen la importación y los enlaces a otras herramientas.</span><span lang="en"><b>Block 9.</b> Without field data, only the import and the links to other tools appear.</span></figcaption></figure>
+<div class="box rule"><span class="bi">→</span><span class="bt" lang="es">Cómo leer el resultado</span><span class="bt" lang="en">How to read the result</span><table><tbody><tr><td><span lang="es">p &lt; 0.05 en el ANOVA</span><span lang="en">p &lt; 0.05 in the ANOVA</span></td><td><span lang="es">Al menos un tratamiento es distinto; mira las letras de Tukey.</span><span lang="en">At least one treatment differs; look at Tukey’s letters.</span></td></tr><tr><td><span lang="es">Letras distintas</span><span lang="en">Different letters</span></td><td><span lang="es">Diferencia real entre esos dos tratamientos.</span><span lang="en">Real difference between those two treatments.</span></td></tr><tr><td><span lang="es">Misma letra</span><span lang="en">Same letter</span></td><td><span lang="es">La diferencia pudo ser azar.</span><span lang="en">The difference could be chance.</span></td></tr></tbody></table></div>
+<div class="box tip"><span class="bi">✓</span><span class="bt" lang="es">Llévalo a las apps de la suite LABG</span><span class="bt" lang="en">Take it to the LABG suite apps</span><p lang="es">Desde aquí exportas los datos en el formato de AgriDesign, CorrelationPro y PCAPro, de Luis Ángel Barrera-Guzmán, para gráficas y análisis multivariados.</p><p lang="en">From here you export the data in the format of AgriDesign, CorrelationPro and PCAPro, by Luis Ángel Barrera-Guzmán, for charts and multivariate analysis.</p></div>
+</section>
+
+<section class="chap" id="b10" data-toc="10" style="--c:var(--b10)">
+  <div class="chap-head"><span class="big">10</span>
+    <div class="eyebrow" lang="es">Bloque 10 · Sistema complejo</div><div class="eyebrow" lang="en">Block 10 · Complex system</div>
+    <h2 lang="es">El viñedo como sistema complejo adaptativo</h2><h2 lang="en">The vineyard as a complex adaptive system</h2>
+    <p lang="es">Las mediciones se unen en una red con lazos de retroalimentación.</p>
+    <p lang="en">Measurements join into a network with feedback loops.</p>
+    <span class="rule"></span></div>
+  <nav class="inchap"></nav>
+<p lang="es">Tu viñedo es una red: lo que cambias en el suelo llega a la hoja y vuelve. El Bloque 10 une las variables de los bloques 1 a 9 en una red con su sentido (más agua en el suelo → más transpiración) y te la cuenta en un <b>Recorrido</b> de ocho escenas con tus propios números.</p>
+<p lang="en">Your vineyard is a network: what you change in the soil reaches the leaf and comes back. Block 10 joins the variables of blocks 1 to 9 into a network with their direction (more soil water → more transpiration) and tells it to you in a <b>Walkthrough</b> of eight scenes with your own numbers.</p>
+<figure data-fig="sca"><figcaption><span class="fn"></span><span lang="es"><b>El Recorrido del viñedo.</b> La primera escena con los datos de Mata de Zarza: 43 de cada 100 litros no pasaron por la vid.</span><span lang="en"><b>The vineyard Walkthrough.</b> The first scene with Mata de Zarza data: 43 of every 100 litres did not pass through the vine.</span></figcaption></figure>
+<h3 id="b10-lazos" data-n="10.1"><span lang="es">Retroalimentaciones</span><span lang="en">Feedback loops</span></h3>
+<p lang="es">Un <b>lazo</b> es un camino que regresa a donde empezó. Si se <b>compensa</b> (negativo), el sistema se estabiliza solo: por ejemplo, el suelo se seca, la vid cierra estomas, transpira menos y el suelo se seca más despacio. Si se <b>refuerza</b> (positivo), un cambio pequeño crece.</p>
+<p lang="en">A <b>loop</b> is a path that returns to its start. If it <b>balances</b> (negative), the system stabilises itself: for example, the soil dries, the vine closes stomata, transpires less and the soil dries more slowly. If it <b>reinforces</b> (positive), a small change grows.</p>
+<figure data-fig="retro"><figcaption><span class="fn"></span><span lang="es"><b>10.1 y 10.2 Lazos y variables que más conectan.</b> El agotamiento del suelo y el potencial de tallo son los puentes del sistema.</span><span lang="en"><b>10.1 and 10.2 Loops and most-connected variables.</b> Soil depletion and stem potential are the system’s bridges.</span></figcaption></figure>
+</section>
+
+<section class="chap" id="b11" data-toc="11" style="--c:var(--b11)">
+  <div class="chap-head"><span class="big">11</span>
+    <div class="eyebrow" lang="es">Bloque 11 · Tablero</div><div class="eyebrow" lang="en">Block 11 · Dashboard</div>
+    <h2 lang="es">Todo el viñedo en una página</h2><h2 lang="en">The whole vineyard on one page</h2>
+    <p lang="es">Un resumen que se arma solo con lo que capturaste.</p>
+    <p lang="en">A summary built only from what you entered.</p>
+    <span class="rule"></span></div>
+<p lang="es">Todo tu viñedo en una sola página: los números clave, un semáforo con la clase de la fuente de cada indicador, a dónde se fue el agua, la comparación entre tratamientos y lo que llevas capturado. Empieza por el semáforo: lo rojo y lo amarillo es lo primero que hay que atender.</p>
+<p lang="en">Your whole vineyard on one page: key figures, a traffic light with each indicator’s source class, where the water went, the comparison between treatments and what you have entered so far. Start with the traffic light: red and amber come first.</p>
+<figure data-fig="tablero"><figcaption><span class="fn"></span><span lang="es"><b>Tablero de Mata de Zarza.</b> ET0 de la temporada de 1,236 mm y 57 % del agua por la vid.</span><span lang="en"><b>Mata de Zarza dashboard.</b> Season ET0 of 1,236 mm and 57 % of the water through the vine.</span></figcaption></figure>
+</section>
+
+<section class="chap" id="b12" data-toc="12" style="--c:var(--b12)">
+  <div class="chap-head"><span class="big">12</span>
+    <div class="eyebrow" lang="es">Bloque 12 · Regeneración</div><div class="eyebrow" lang="en">Block 12 · Regeneration</div>
+    <h2 lang="es">¿Se regenera o se desgasta?</h2><h2 lang="en">Regenerating or wearing out?</h2>
+    <p lang="es">Prácticas, resultados y resiliencia hídrica.</p>
+    <p lang="en">Practices, outcomes and water resilience.</p>
+    <span class="rule"></span></div>
+<p lang="es">La agricultura regenerativa busca que cada ciclo deje el suelo, el agua y la biodiversidad mejor que el anterior. Califica tus prácticas de 0 a 4 (procesos) y escribe los resultados que mides (materia orgánica, carbono, agua); guarda una <b>línea base</b> para comparar el próximo ciclo. Abajo, la resiliencia hídrica: cuántos días aguanta el suelo sin riego y cuánto frenó el estrés a la vid.</p>
+<p lang="en">Regenerative agriculture seeks for each cycle to leave soil, water and biodiversity better than the last. Score your practices 0 to 4 (processes) and enter the outcomes you measure (organic matter, carbon, water); save a <b>baseline</b> to compare next cycle. Below, water resilience: how many days the soil lasts without irrigation and how much stress held the vine back.</p>
+<figure data-fig="regen"><figcaption><span class="fn"></span><span lang="es"><b>Regeneración y resiliencia.</b> Las perillas empiezan sin calificar: nada viene llenado.</span><span lang="en"><b>Regeneration and resilience.</b> The knobs start unscored: nothing comes pre-filled.</span></figcaption></figure>
+</section>
+
+<section class="chap" id="b13" data-toc="13" style="--c:var(--b13)">
+  <div class="chap-head"><span class="big">13</span>
+    <div class="eyebrow" lang="es">Bloque 13 · Riesgos</div><div class="eyebrow" lang="en">Block 13 · Risks</div>
+    <h2 lang="es">Probabilidad por impacto</h2><h2 lang="en">Likelihood times impact</h2>
+    <p lang="es">Qué tan probable y qué tan dañino sería cada problema.</p>
+    <p lang="en">How likely and how harmful each problem would be.</p>
+    <span class="rule"></span></div>
+<p lang="es">Para cada riesgo (sequía o lluvias tardías, lluvias intensas, ciclones, plagas, hongos, caída del precio, falta de mano de obra…) mueve la probabilidad y el impacto de 1 a 5 y di cuánto control tienes. Junto a cada uno ves lo que dicen tus datos, por ejemplo los días con estrés del Bloque 4. La matriz pinta en rojo lo que hay que atender primero.</p>
+<p lang="en">For each risk (drought or late rains, heavy rain, cyclones, pests, fungi, price falls, labour shortage…) move likelihood and impact from 1 to 5 and say how much control you have. Beside each you see what your data say, such as Block 4 stress days. The matrix paints in red what to deal with first.</p>
+<figure data-fig="riesgos"><figcaption><span class="fn"></span><span lang="es"><b>Riesgos del viñedo.</b> La matriz se llena a medida que calificas.</span><span lang="en"><b>Vineyard risks.</b> The matrix fills in as you score.</span></figcaption></figure>
+</section>
+
+<section class="chap" id="b14" data-toc="14" style="--c:var(--b14)">
+  <div class="chap-head"><span class="big">14</span>
+    <div class="eyebrow" lang="es">Bloque 14 · Sostenibilidad</div><div class="eyebrow" lang="en">Block 14 · Sustainability</div>
+    <h2 lang="es">¿Qué tratamiento es más sostenible?</h2><h2 lang="en">Which treatment is more sustainable?</h2>
+    <p lang="es">MESMIS, Sarandón y la AMIBA.</p>
+    <p lang="en">MESMIS, Sarandón and the AMIBA.</p>
+    <span class="rule"></span></div>
+<p lang="es">Compara los tratamientos en tres dimensiones —ambiental, económica y social— con los indicadores de la tesis (materia orgánica, carbono, eficiencia del agua, rendimiento, costo, beneficio/costo, mano de obra, huella de carbono…). Cada indicador se normaliza de 0 a 1; un tratamiento es <b>sostenible</b> con un índice general (ISG) de 0.5 o más y ninguna dimensión abajo de 0.5 (Sarandón, 2002). La AMIBA dibuja los indicadores de todos los tratamientos en un radar.</p>
+<p lang="en">Compare treatments in three dimensions —environmental, economic and social— with the thesis indicators (organic matter, carbon, water efficiency, yield, cost, benefit/cost, labour, carbon footprint…). Each indicator is normalised 0 to 1; a treatment is <b>sustainable</b> with a general index (ISG) of 0.5 or more and no dimension below 0.5 (Sarandón, 2002). The AMIBA plots all treatments’ indicators on a radar.</p>
+<figure data-fig="sost"><figcaption><span class="fn"></span><span lang="es"><b>Sostenibilidad por tratamiento.</b> Se calcula cuando captures los indicadores de 14.1.</span><span lang="en"><b>Sustainability by treatment.</b> Computed once you enter the 14.1 indicators.</span></figcaption></figure>
+</section>
+
+<section class="chap" id="b15" data-toc="15" style="--c:var(--b15)">
+  <div class="chap-head"><span class="big">15</span>
+    <div class="eyebrow" lang="es">Bloque 15 · Prospectiva</div><div class="eyebrow" lang="en">Block 15 · Outlook</div>
+    <h2 lang="es">A 1, 2 y 5 años</h2><h2 lang="en">At 1, 2 and 5 years</h2>
+    <p lang="es">Qué tratamiento aguanta mejor la sequía y sigue siendo sostenible.</p>
+    <p lang="en">Which treatment best withstands drought and stays sustainable.</p>
+    <span class="rule"></span></div>
+<p lang="es">Tres futuros posibles —deseable, tendencial y no deseado— a 1, 2 y 5 años. Escribe cuánto sube o baja la materia orgánica de cada tratamiento por año: es lo que más cambia el agua que guarda tu suelo. La app recalcula la retención de agua (Saxton y Rawls, 2006), vuelve a correr el balance del Bloque 4 con el clima de cada escenario y recalcula el índice de sostenibilidad. Así se prueba la hipótesis de la tesis: ¿los tratamientos que suben la materia orgánica dan más resiliencia?</p>
+<p lang="en">Three possible futures —desirable, trend and undesirable— at 1, 2 and 5 years. Enter how much each treatment’s organic matter rises or falls per year: it is what most changes the water your soil holds. The app recomputes water retention (Saxton and Rawls, 2006), reruns the Block 4 balance with each scenario’s climate and recomputes the sustainability index. That is how the thesis hypothesis is tested: do treatments that raise organic matter give more resilience?</p>
+<figure data-fig="prosp"><figcaption><span class="fn"></span><span lang="es"><b>Prospectiva.</b> Necesita la prueba del frasco y la materia orgánica de cada tratamiento.</span><span lang="en"><b>Outlook.</b> It needs the jar test and each treatment’s organic matter.</span></figcaption></figure>
+<figure data-fig="supuestos"><figcaption><span class="fn"></span><span lang="es"><b>15.4 Supuestos de cada escenario.</b> El calentamiento viene del IPCC (2018); los demás están marcados como editables.</span><span lang="en"><b>15.4 Each scenario’s assumptions.</b> Warming comes from IPCC (2018); the rest are flagged as editable.</span></figcaption></figure>
+<div class="box warn"><span class="bi">!</span><span class="bt" lang="es">Escenarios, no pronósticos</span><span class="bt" lang="en">Scenarios, not forecasts</span><p lang="es">Un escenario dice qué pasaría si se cumplen sus supuestos. Cambia los supuestos y verás cuánto depende el resultado de ellos.</p><p lang="en">A scenario says what would happen if its assumptions hold. Change the assumptions and you will see how much the result depends on them.</p></div>
+</section>
+
+<section class="chap" id="b16" data-toc="16" style="--c:var(--b16)">
+  <div class="chap-head"><span class="big">16</span>
+    <div class="eyebrow" lang="es">Bloque 16 · Informe</div><div class="eyebrow" lang="en">Block 16 · Report</div>
+    <h2 lang="es">Acciones, PDF y datos</h2><h2 lang="en">Actions, PDF and data</h2>
+    <p lang="es">Lo que llevas a la reunión.</p>
+    <p lang="en">What you take to the meeting.</p>
+    <span class="rule"></span></div>
+<p lang="es">Tu viñedo en un documento para la reunión, el asesor o el comité de tesis: portada con un resumen escrito solo con lo capturado, <b>hoja de acciones</b> (cada acción dice de qué bloque sale), Tablero, agua y fenología, sostenibilidad y prospectiva, con la cita y el código QR. Imprime o guarda en PDF con el botón de arriba; descarga los CSV por tratamiento, del balance diario y de la prospectiva, y guarda el proyecto.</p>
+<p lang="en">Your vineyard in a document for the meeting, the adviser or the thesis committee: a cover with a summary written only from what was entered, an <b>action sheet</b> (each action says which block it comes from), Dashboard, water and phenology, sustainability and outlook, with the citation and QR code. Print or save as PDF with the button at the top; download the per-treatment, daily-balance and outlook CSVs, and save the project.</p>
+<figure data-fig="informe"><figcaption><span class="fn"></span><span lang="es"><b>Informe de Mata de Zarza.</b> La hoja de acciones empieza con los 125 días con estrés.</span><span lang="en"><b>Mata de Zarza report.</b> The action sheet starts with the 125 stress days.</span></figcaption></figure>
+<div class="box tip"><span class="bi">✓</span><span class="bt" lang="es">Guarda el proyecto seguido</span><span class="bt" lang="en">Save the project often</span><p lang="es">El archivo del proyecto es tu respaldo y lo que compartes con tu asesor. Guárdalo después de cada visita de campo.</p><p lang="en">The project file is your backup and what you share with your adviser. Save it after every field visit.</p></div>
+</section>
+
+<section class="chap" id="hoja" data-toc="A" style="--c:var(--acc)">
+  <div class="chap-head"><span class="big">A</span>
+    <div class="eyebrow" lang="es">Consulta</div><div class="eyebrow" lang="en">Reference</div>
+    <h2 lang="es">Hoja de campo</h2><h2 lang="en">Field sheet</h2>
+    <p lang="es">Para anotar en el viñedo.</p>
+    <p lang="en">For notes in the vineyard.</p>
+    <span class="rule"></span></div>
+<p lang="es">Imprime esta hoja y llévala al viñedo; una columna por visita. Lo que anotes aquí es lo que capturas en los bloques 4 a 7 y en la plantilla del Bloque 9.</p>
+<p lang="en">Print this sheet and take it to the vineyard; one column per visit. What you write here is what you enter in blocks 4 to 7 and in the Block 9 sheet.</p>
+<div class="tbl"><table class="hoja"><thead><tr><th><span lang="es">Variable</span><span lang="en">Variable</span></th><th><span lang="es">Visita 1</span><span lang="en">Visit 1</span></th><th><span lang="es">Visita 2</span><span lang="en">Visit 2</span></th><th><span lang="es">Visita 3</span><span lang="en">Visit 3</span></th><th><span lang="es">Visita 4</span><span lang="en">Visit 4</span></th></tr></thead><tbody><tr><td><span lang="es">Hilera / bloque</span><span lang="en">Row / block</span></td><td></td><td></td><td></td><td></td></tr><tr><td><span lang="es">Parcela y tratamiento</span><span lang="en">Plot and treatment</span></td><td></td><td></td><td></td><td></td></tr><tr><td><span lang="es">Planta (número)</span><span lang="en">Vine (number)</span></td><td></td><td></td><td></td><td></td></tr><tr><td><span lang="es">Edad (años)</span><span lang="en">Age (years)</span></td><td></td><td></td><td></td><td></td></tr><tr><td><span lang="es">Sarmiento más largo (cm)</span><span lang="en">Longest shoot (cm)</span></td><td></td><td></td><td></td><td></td></tr><tr><td><span lang="es">Peso de poda (kg)</span><span lang="en">Pruning weight (kg)</span></td><td></td><td></td><td></td><td></td></tr><tr><td><span lang="es">NDVI</span><span lang="en">NDVI</span></td><td></td><td></td><td></td><td></td></tr><tr><td><span lang="es">Potencial de tallo (MPa)</span><span lang="en">Stem potential (MPa)</span></td><td></td><td></td><td></td><td></td></tr><tr><td><span lang="es">Riego (L por planta)</span><span lang="en">Irrigation (L per vine)</span></td><td></td><td></td><td></td><td></td></tr><tr><td><span lang="es">Floración / envero (fecha)</span><span lang="en">Flowering / veraison (date)</span></td><td></td><td></td><td></td><td></td></tr><tr><td><span lang="es">Racimos</span><span lang="en">Clusters</span></td><td></td><td></td><td></td><td></td></tr><tr><td><span lang="es">Rendimiento (kg)</span><span lang="en">Yield (kg)</span></td><td></td><td></td><td></td><td></td></tr><tr><td><span lang="es">°Brix</span><span lang="en">°Brix</span></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+</section>
+
+<section class="chap" id="problemas" data-toc="B" style="--c:var(--acc)">
+  <div class="chap-head"><span class="big">B</span>
+    <div class="eyebrow" lang="es">Consulta</div><div class="eyebrow" lang="en">Reference</div>
+    <h2 lang="es">Si algo no sale</h2><h2 lang="en">If something goes wrong</h2>
+    <p lang="es">Problemas frecuentes y su arreglo.</p>
+    <p lang="en">Common problems and their fix.</p>
+    <span class="rule"></span></div>
+<div class="tbl"><table class=""><thead><tr><th><span lang="es">Lo que ves</span><span lang="en">What you see</span></th><th><span lang="es">Por qué</span><span lang="en">Why</span></th><th><span lang="es">Qué hacer</span><span lang="en">What to do</span></th></tr></thead><tbody><tr><td><span lang="es">«sin dato» en un resultado</span><span lang="en">“no data” in a result</span></td><td><span lang="es">Falta una captura en un bloque anterior.</span><span lang="en">An entry is missing in an earlier block.</span></td><td><span lang="es">El aviso dice cuál; tócalo para ir ahí.</span><span lang="en">The notice says which; tap it to go there.</span></td></tr><tr><td><span lang="es">El balance no aparece</span><span lang="en">The balance does not appear</span></td><td><span lang="es">Faltan clima, sitio, tipo de uva, suelo, etapas o brotación.</span><span lang="en">Climate, site, grape type, soil, stages or budburst missing.</span></td><td><span lang="es">El Bloque 4 lista lo que falta.</span><span lang="en">Block 4 lists what is missing.</span></td></tr><tr><td><span lang="es">El CSV de clima no se importa</span><span lang="en">The climate CSV will not import</span></td><td><span lang="es">Faltan las columnas de fecha, Tmáx o Tmín, o hay Tmáx menor que Tmín.</span><span lang="en">Date, Tmax or Tmin columns missing, or Tmax below Tmin.</span></td><td><span lang="es">Revisa los encabezados; la app dice cuántas filas descartó.</span><span lang="en">Check the headers; the app says how many rows it dropped.</span></td></tr><tr><td><span lang="es">Un índice dice «cobertura»</span><span lang="en">An index reads “coverage”</span></td><td><span lang="es">Su periodo tiene menos de 90 % de días con dato.</span><span lang="en">Its period has under 90 % of days with data.</span></td><td><span lang="es">Completa los registros de ese periodo.</span><span lang="en">Fill in that period’s records.</span></td></tr><tr><td><span lang="es">Los datos desaparecieron</span><span lang="en">The data disappeared</span></td><td><span lang="es">Se borró la memoria del navegador o cambiaste de equipo.</span><span lang="en">Browser storage was cleared or you changed device.</span></td><td><span lang="es">Abre tu último archivo de proyecto.</span><span lang="en">Open your last project file.</span></td></tr></tbody></table></div>
+</section>
+
+<section class="chap" id="glosario" data-toc="C" style="--c:var(--acc)">
+  <div class="chap-head"><span class="big">C</span>
+    <div class="eyebrow" lang="es">Consulta</div><div class="eyebrow" lang="en">Reference</div>
+    <h2 lang="es">Glosario</h2><h2 lang="en">Glossary</h2>
+    <p lang="es">Las palabras del viñedo medido.</p>
+    <p lang="en">The words of the measured vineyard.</p>
+    <span class="rule"></span></div>
+<dl class="glos" id="glos"></dl>
+</section>
+
+<section class="chap" id="unapagina" data-toc="D" style="--c:var(--acc)">
+  <div class="chap-head"><span class="big">D</span>
+    <div class="eyebrow" lang="es">Consulta</div><div class="eyebrow" lang="en">Reference</div>
+    <h2 lang="es">Ratio Vitis en una página</h2><h2 lang="en">Ratio Vitis on one page</h2>
+    <p lang="es">Los 16 bloques en una frase cada uno.</p>
+    <p lang="en">The 16 blocks in one sentence each.</p>
+    <span class="rule"></span></div>
+<ol class="quick"><li style="--c:var(--b1)"><i>1</i><div><b lang="es">Viñedo y experimento</b><b lang="en">Vineyard and trial</b><span lang="es">Ubica el viñedo, escribe el marco y sortea los tratamientos.</span><span lang="en">Locate the vineyard, enter the spacing and draw the treatments.</span></div></li><li style="--c:var(--b2)"><i>2</i><div><b lang="es">Suelo</b><b lang="en">Soil</b><span lang="es">Prueba del frasco, densidad, profundidad de raíces, pH y sal.</span><span lang="en">Jar test, bulk density, rooting depth, pH and salt.</span></div></li><li style="--c:var(--b3)"><i>3</i><div><b lang="es">Clima</b><b lang="en">Climate</b><span lang="es">Importa el CSV diario y lee ET0, Winkler, Huglin y GST.</span><span lang="en">Import the daily CSV and read ET0, Winkler, Huglin and GST.</span></div></li><li style="--c:var(--b4)"><i>4</i><div><b lang="es">RASPA</b><b lang="en">SPAC</b><span lang="es">Etapas, brotación y riegos; lee el balance y el estrés.</span><span lang="en">Stages, budburst and irrigations; read the balance and stress.</span></div></li><li style="--c:var(--b5)"><i>5</i><div><b lang="es">Fertilidad</b><b lang="en">Fertility</b><span lang="es">Análisis foliar, DOP y dosis igualada en nitrógeno.</span><span lang="en">Tissue analysis, DOP and nitrogen-matched dose.</span></div></li><li style="--c:var(--b6)"><i>6</i><div><b lang="es">Biomasa</b><b lang="en">Biomass</b><span lang="es">Poda, área foliar, NDVI, sarmiento y materia seca.</span><span lang="en">Pruning, leaf area, NDVI, shoot and dry matter.</span></div></li><li style="--c:var(--b7)"><i>7</i><div><b lang="es">Productividad</b><b lang="en">Productivity</b><span lang="es">Rendimiento, °Brix, Ravaz y pérdida por falta de agua.</span><span lang="en">Yield, °Brix, Ravaz and loss from water shortage.</span></div></li><li style="--c:var(--b8)"><i>8</i><div><b lang="es">Energía</b><b lang="en">Energy</b><span lang="es">Lee calor latente, calor sensible y Bowen.</span><span lang="en">Read latent heat, sensible heat and Bowen.</span></div></li><li style="--c:var(--b9)"><i>9</i><div><b lang="es">Estadística</b><b lang="en">Statistics</b><span lang="es">Importa la plantilla de campo y lee ANOVA y Tukey.</span><span lang="en">Import the field sheet and read ANOVA and Tukey.</span></div></li><li style="--c:var(--b10)"><i>10</i><div><b lang="es">Sistema complejo</b><b lang="en">Complex system</b><span lang="es">Recorre las escenas y los lazos de retroalimentación.</span><span lang="en">Walk through the scenes and feedback loops.</span></div></li><li style="--c:var(--b11)"><i>11</i><div><b lang="es">Tablero</b><b lang="en">Dashboard</b><span lang="es">Empieza por el semáforo.</span><span lang="en">Start with the traffic light.</span></div></li><li style="--c:var(--b12)"><i>12</i><div><b lang="es">Regeneración</b><b lang="en">Regeneration</b><span lang="es">Califica las prácticas y guarda una línea base.</span><span lang="en">Score the practices and save a baseline.</span></div></li><li style="--c:var(--b13)"><i>13</i><div><b lang="es">Riesgos</b><b lang="en">Risks</b><span lang="es">Califica cada riesgo; atiende lo rojo.</span><span lang="en">Score each risk; deal with the red ones.</span></div></li><li style="--c:var(--b14)"><i>14</i><div><b lang="es">Sostenibilidad</b><b lang="en">Sustainability</b><span lang="es">Captura por tratamiento y lee el ISG y la AMIBA.</span><span lang="en">Enter per treatment and read the ISG and AMIBA.</span></div></li><li style="--c:var(--b15)"><i>15</i><div><b lang="es">Prospectiva</b><b lang="en">Outlook</b><span lang="es">Ajusta la materia orgánica y compara tres futuros.</span><span lang="en">Adjust organic matter and compare three futures.</span></div></li><li style="--c:var(--b16)"><i>16</i><div><b lang="es">Informe</b><b lang="en">Report</b><span lang="es">Imprime, exporta CSV y JSON, guarda el proyecto.</span><span lang="en">Print, export CSV and JSON, save the project.</span></div></li></ol>
+<div class="qrbox"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 41 41" shape-rendering="crispEdges"><rect width="41" height="41" fill="#fff"/><path d="M4 4h7v1h-7zM12 4h1v1h-1zM15 4h1v1h-1zM17 4h4v1h-4zM22 4h1v1h-1zM25 4h3v1h-3zM30 4h7v1h-7zM4 5h1v1h-1zM10 5h1v1h-1zM13 5h1v1h-1zM15 5h4v1h-4zM22 5h3v1h-3zM30 5h1v1h-1zM36 5h1v1h-1zM4 6h1v1h-1zM6 6h3v1h-3zM10 6h1v1h-1zM14 6h1v1h-1zM18 6h2v1h-2zM21 6h2v1h-2zM25 6h1v1h-1zM28 6h1v1h-1zM30 6h1v1h-1zM32 6h3v1h-3zM36 6h1v1h-1zM4 7h1v1h-1zM6 7h3v1h-3zM10 7h1v1h-1zM12 7h1v1h-1zM14 7h1v1h-1zM16 7h1v1h-1zM19 7h3v1h-3zM23 7h1v1h-1zM30 7h1v1h-1zM32 7h3v1h-3zM36 7h1v1h-1zM4 8h1v1h-1zM6 8h3v1h-3zM10 8h1v1h-1zM12 8h2v1h-2zM15 8h2v1h-2zM20 8h1v1h-1zM23 8h1v1h-1zM26 8h2v1h-2zM30 8h1v1h-1zM32 8h3v1h-3zM36 8h1v1h-1zM4 9h1v1h-1zM10 9h1v1h-1zM12 9h3v1h-3zM17 9h3v1h-3zM24 9h2v1h-2zM28 9h1v1h-1zM30 9h1v1h-1zM36 9h1v1h-1zM4 10h7v1h-7zM12 10h1v1h-1zM14 10h1v1h-1zM16 10h1v1h-1zM18 10h1v1h-1zM20 10h1v1h-1zM22 10h1v1h-1zM24 10h1v1h-1zM26 10h1v1h-1zM28 10h1v1h-1zM30 10h7v1h-7zM12 11h3v1h-3zM21 11h8v1h-8zM4 12h1v1h-1zM8 12h1v1h-1zM10 12h5v1h-5zM19 12h4v1h-4zM24 12h3v1h-3zM28 12h6v1h-6zM36 12h1v1h-1zM4 13h1v1h-1zM6 13h2v1h-2zM9 13h1v1h-1zM13 13h1v1h-1zM15 13h2v1h-2zM19 13h4v1h-4zM26 13h2v1h-2zM29 13h1v1h-1zM33 13h3v1h-3zM4 14h2v1h-2zM9 14h3v1h-3zM13 14h2v1h-2zM16 14h4v1h-4zM22 14h1v1h-1zM24 14h1v1h-1zM26 14h2v1h-2zM29 14h1v1h-1zM33 14h1v1h-1zM35 14h1v1h-1zM4 15h1v1h-1zM7 15h3v1h-3zM11 15h1v1h-1zM17 15h1v1h-1zM19 15h2v1h-2zM23 15h1v1h-1zM25 15h1v1h-1zM27 15h2v1h-2zM36 15h1v1h-1zM4 16h1v1h-1zM7 16h1v1h-1zM9 16h2v1h-2zM12 16h1v1h-1zM17 16h1v1h-1zM19 16h2v1h-2zM23 16h1v1h-1zM25 16h1v1h-1zM30 16h4v1h-4zM5 17h2v1h-2zM9 17h1v1h-1zM12 17h3v1h-3zM16 17h3v1h-3zM21 17h4v1h-4zM27 17h1v1h-1zM29 17h1v1h-1zM31 17h1v1h-1zM4 18h2v1h-2zM7 18h6v1h-6zM14 18h1v1h-1zM16 18h1v1h-1zM18 18h2v1h-2zM21 18h2v1h-2zM24 18h2v1h-2zM27 18h4v1h-4zM32 18h1v1h-1zM35 18h1v1h-1zM6 19h1v1h-1zM8 19h2v1h-2zM11 19h3v1h-3zM19 19h4v1h-4zM25 19h3v1h-3zM29 19h4v1h-4zM6 20h1v1h-1zM9 20h3v1h-3zM14 20h1v1h-1zM16 20h1v1h-1zM18 20h1v1h-1zM21 20h1v1h-1zM23 20h1v1h-1zM25 20h3v1h-3zM30 20h1v1h-1zM32 20h1v1h-1zM35 20h1v1h-1zM5 21h1v1h-1zM8 21h2v1h-2zM11 21h1v1h-1zM13 21h1v1h-1zM15 21h2v1h-2zM18 21h3v1h-3zM22 21h1v1h-1zM25 21h1v1h-1zM27 21h1v1h-1zM29 21h1v1h-1zM33 21h3v1h-3zM4 22h1v1h-1zM8 22h3v1h-3zM15 22h2v1h-2zM19 22h1v1h-1zM21 22h1v1h-1zM24 22h1v1h-1zM27 22h2v1h-2zM30 22h2v1h-2zM33 22h1v1h-1zM5 23h1v1h-1zM7 23h1v1h-1zM9 23h1v1h-1zM12 23h2v1h-2zM16 23h1v1h-1zM21 23h2v1h-2zM24 23h2v1h-2zM29 23h1v1h-1zM31 23h1v1h-1zM36 23h1v1h-1zM5 24h3v1h-3zM10 24h3v1h-3zM15 24h1v1h-1zM22 24h1v1h-1zM24 24h1v1h-1zM28 24h1v1h-1zM30 24h1v1h-1zM32 24h2v1h-2zM35 24h2v1h-2zM4 25h2v1h-2zM7 25h3v1h-3zM12 25h1v1h-1zM14 25h1v1h-1zM20 25h1v1h-1zM23 25h1v1h-1zM27 25h1v1h-1zM29 25h1v1h-1zM31 25h1v1h-1zM33 25h1v1h-1zM35 25h1v1h-1zM6 26h1v1h-1zM10 26h1v1h-1zM13 26h1v1h-1zM15 26h1v1h-1zM17 26h1v1h-1zM20 26h2v1h-2zM23 26h1v1h-1zM25 26h1v1h-1zM27 26h1v1h-1zM30 26h2v1h-2zM34 26h2v1h-2zM7 27h3v1h-3zM11 27h1v1h-1zM14 27h4v1h-4zM21 27h5v1h-5zM28 27h1v1h-1zM31 27h3v1h-3zM35 27h2v1h-2zM4 28h2v1h-2zM7 28h5v1h-5zM13 28h2v1h-2zM18 28h2v1h-2zM21 28h1v1h-1zM24 28h3v1h-3zM28 28h5v1h-5zM12 29h2v1h-2zM15 29h2v1h-2zM18 29h5v1h-5zM25 29h1v1h-1zM28 29h1v1h-1zM32 29h1v1h-1zM34 29h2v1h-2zM4 30h7v1h-7zM12 30h2v1h-2zM15 30h1v1h-1zM18 30h3v1h-3zM22 30h1v1h-1zM24 30h1v1h-1zM28 30h1v1h-1zM30 30h1v1h-1zM32 30h2v1h-2zM35 30h1v1h-1zM4 31h1v1h-1zM10 31h1v1h-1zM13 31h1v1h-1zM15 31h1v1h-1zM17 31h2v1h-2zM24 31h1v1h-1zM26 31h1v1h-1zM28 31h1v1h-1zM32 31h1v1h-1zM35 31h1v1h-1zM4 32h1v1h-1zM6 32h3v1h-3zM10 32h1v1h-1zM12 32h1v1h-1zM14 32h3v1h-3zM19 32h2v1h-2zM23 32h1v1h-1zM26 32h1v1h-1zM28 32h6v1h-6zM36 32h1v1h-1zM4 33h1v1h-1zM6 33h3v1h-3zM10 33h1v1h-1zM14 33h1v1h-1zM16 33h2v1h-2zM21 33h4v1h-4zM27 33h2v1h-2zM30 33h4v1h-4zM35 33h1v1h-1zM4 34h1v1h-1zM6 34h3v1h-3zM10 34h1v1h-1zM15 34h2v1h-2zM19 34h1v1h-1zM21 34h1v1h-1zM24 34h1v1h-1zM26 34h1v1h-1zM30 34h3v1h-3zM34 34h1v1h-1zM4 35h1v1h-1zM10 35h1v1h-1zM14 35h1v1h-1zM18 35h5v1h-5zM25 35h1v1h-1zM29 35h2v1h-2zM4 36h7v1h-7zM12 36h5v1h-5zM21 36h3v1h-3zM25 36h4v1h-4zM33 36h2v1h-2zM36 36h1v1h-1z" fill="#1d2420"/></svg><p lang="es">Escanea para abrir Ratio Vitis:<br><b>hectortecumshe-ai.github.io/RatioVitis</b></p>
+<p lang="en">Scan to open Ratio Vitis:<br><b>hectortecumshe-ai.github.io/RatioVitis</b></p>
+</div>
+</section>
+
+<section class="chap" id="creditos" data-toc="E" style="--c:var(--acc)">
+  <div class="chap-head"><span class="big">E</span>
+    <div class="eyebrow" lang="es">Consulta</div><div class="eyebrow" lang="en">Reference</div>
+    <h2 lang="es">Cómo citar y créditos</h2><h2 lang="en">How to cite and credits</h2>
+    <p lang="es">Autores, licencias y fuentes del caso.</p>
+    <p lang="en">Authors, licences and case sources.</p>
+    <span class="rule"></span></div>
+<h3 id="cita-app"><span lang="es">Cómo citar la aplicación</span><span lang="en">How to cite the app</span></h3>
+<p lang="es">Mojica-Zárate, H. T., Hernández-González, J., Díaz-José, O., y Ramírez-García, A. G. (2026). <i>Ratio Vitis: el viñedo medido como sistema complejo adaptativo: relación agua–suelo–planta–atmósfera, fertilidad, biomasa, productividad y energía</i> (versión 0.1.0) [Software]. https://github.com/hectortecumshe-ai/RatioVitis</p><p lang="en">Mojica-Zárate, H. T., Hernández-González, J., Díaz-José, O., &amp; Ramírez-García, A. G. (2026). <i>Ratio Vitis: The measured vineyard as a complex adaptive system: soil–plant–atmosphere water relations, fertility, biomass, productivity and energy</i> (Version 0.1.0) [Computer software]. https://github.com/hectortecumshe-ai/RatioVitis</p><h3 id="cita-guia"><span lang="es">Cómo citar este instructivo</span><span lang="en">How to cite this guide</span></h3>
+<p lang="es">Mojica-Zárate, H. T., Hernández-González, J., Díaz-José, O., y Ramírez-García, A. G. (2026). <i>Ratio Vitis: Instructivo del Productor</i> (1.ª ed.). https://hectortecumshe-ai.github.io/RatioVitis/instructivo-productor.html</p><p lang="en">Mojica-Zárate, H. T., Hernández-González, J., Díaz-José, O., &amp; Ramírez-García, A. G. (2026). <i>Ratio Vitis: Producer Guide</i> (1st ed.). https://hectortecumshe-ai.github.io/RatioVitis/instructivo-productor.html</p><h3 id="fuentes-caso"><span lang="es">Fuentes del caso</span><span lang="en">Case sources</span></h3>
+<p lang="es">Mojica-Zárate, H. T., Barrera-Guzmán, L. Á., Alejo-Bello, S., Partida-Sedas, J. G., Rojas-Reyes, J. O., Díaz-José, O., Tinoco-Rueda, J. Á., y Torres-Palacios, C. (2026). <i>Guía práctica para el establecimiento de uva en Mata de Zarza, Veracruz</i>. Universidad Autónoma Chapingo.<br>Hernández González, J. (2026). <i>Adaptabilidad del cultivo de uva (Vitis vinifera L.) en Mata de Zarza, Veracruz, como sistema complejo adaptativo</i> (propuesta de tesis de maestría). Universidad Autónoma Chapingo.<br>Hersbach, H., et al. (2020). The ERA5 global reanalysis. <i>Quarterly Journal of the Royal Meteorological Society, 146</i>(730), 1999–2049. https://doi.org/10.1002/qj.3803</p>
+<p lang="en">Mojica-Zárate, H. T., Barrera-Guzmán, L. Á., Alejo-Bello, S., Partida-Sedas, J. G., Rojas-Reyes, J. O., Díaz-José, O., Tinoco-Rueda, J. Á., &amp; Torres-Palacios, C. (2026). <i>Guía práctica para el establecimiento de uva en Mata de Zarza, Veracruz</i>. Chapingo Autonomous University.<br>Hernández González, J. (2026). <i>Adaptabilidad del cultivo de uva (Vitis vinifera L.) en Mata de Zarza, Veracruz, como sistema complejo adaptativo</i> (master’s thesis proposal). Chapingo Autonomous University.<br>Hersbach, H., et al. (2020). The ERA5 global reanalysis. <i>Quarterly Journal of the Royal Meteorological Society, 146</i>(730), 1999–2049. https://doi.org/10.1002/qj.3803</p>
+<h3 id="ficha"><span lang="es">Ficha</span><span lang="en">Imprint</span></h3>
+<div class="legal">
+  <p lang="es"><b>Ratio Vitis · Instructivo del Productor</b> · 1.ª edición, noviembre de 2026 · describe Ratio Vitis 0.1.0.</p>
+  <p lang="en"><b>Ratio Vitis · Producer Guide</b> · 1st edition, November 2026 · covers Ratio Vitis 0.1.0.</p>
+  <p>Héctor Tecumshé Mojica-Zárate · Jorge Hernández-González · Oscar Díaz-José · Adán Guillermo Ramírez-García</p>
+  <p lang="es">Universidad Autónoma Chapingo, México. ORCID del autor de correspondencia (Héctor Tecumshé Mojica-Zárate): 0000-0002-9067-3983.</p>
+  <p lang="en">Chapingo Autonomous University, Mexico. Corresponding author ORCID (Héctor Tecumshé Mojica-Zárate): 0000-0002-9067-3983.</p>
+  <p><span class="isbn" lang="es">ISBN: sin asignar</span><span class="isbn" lang="en">ISBN: not assigned</span><br>
+     <span lang="es">DOI de este instructivo: se asigna al publicarlo en Zenodo · DOI de la aplicación: </span><span lang="en">DOI of this guide: assigned on publication in Zenodo · DOI of the app: </span><span lang="es">se asigna al publicar la aplicación</span><span lang="en">assigned when the app is published</span></p>
+  <p lang="es">Texto y figuras bajo licencia Creative Commons Atribución 4.0 Internacional (CC BY 4.0); la aplicación, bajo licencia MIT. Las capturas son de Ratio Vitis 0.1.0 en modo ejemplo (Mata de Zarza, Veracruz) o en blanco. Composición en Palatino Linotype.</p>
+  <p lang="en">Text and figures under the Creative Commons Attribution 4.0 International licence (CC BY 4.0); the app under the MIT licence. Screenshots are from Ratio Vitis 0.1.0 in example mode (Mata de Zarza, Veracruz) or blank. Typeset in Palatino Linotype.</p>
+</div></section>
+
+</div>
+
+</main>
+</div>
+
+<a class="ib totop" href="#portada" aria-label="Arriba / Top">↑</a>
+<div id="zoom" role="dialog" aria-label="Imagen ampliada / Enlarged image"><div class="zi"></div></div>
+
+<script>
+"use strict";
+const $ = (s, el = document) => el.querySelector(s), $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const CAP = window.CAPTURAS || {};
+
+/* ---------- idioma ---------- */
+function getLang(){
+  const u = new URLSearchParams(location.search).get('lang');
+  if (u === 'es' || u === 'en') return u;
+  try { const s = localStorage.getItem('ratiovitis_guia_lang'); if (s === 'es' || s === 'en') return s; } catch (_) {}
+  return (navigator.language || 'es').toLowerCase().startsWith('es') ? 'es' : 'en';
+}
+let LANG = getLang();
+function setLang(l){
+  LANG = l; document.documentElement.lang = l; document.documentElement.dataset.lang = l;
+  $$('.seg button').forEach(b => b.classList.toggle('on', b.dataset.lang === l));
+  $('#q').placeholder = l === 'es' ? 'Buscar en el instructivo…' : 'Search the guide…';
+  document.title = l === 'es' ? 'Ratio Vitis · Instructivo del Productor' : 'Ratio Vitis · Producer Guide';
+  try { localStorage.setItem('ratiovitis_guia_lang', l); } catch (_) {}
+  $('#pdfBtn').href = l === 'es' ? 'instructivo/RatioVitis-Instructivo-Productor.pdf' : 'instructivo/RatioVitis-Producer-Guide.pdf';
+  buildToc(); numberFigures(); buscar();
+}
+$$('.seg button').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
+
+/* ---------- tema ---------- */
+function setTheme(t){
+  if (t) document.documentElement.dataset.theme = t; else delete document.documentElement.dataset.theme;
+  const dark = t ? t === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  $('#temaBtn').textContent = dark ? '☀' : '☾';
+}
+try { setTheme(localStorage.getItem('ratiovitis_guia_tema')); } catch (_) { setTheme(null); }
+$('#temaBtn').addEventListener('click', () => {
+  const cur = document.documentElement.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  const nt = cur === 'dark' ? 'light' : 'dark'; setTheme(nt); try { localStorage.setItem('ratiovitis_guia_tema', nt); } catch (_) {}
+});
+
+/* ---------- figuras: dos idiomas + marcas sobre la captura ---------- */
+$$('figure[data-fig]').forEach(fig => {
+  const id = fig.dataset.fig, cap = fig.querySelector('figcaption');
+  const order = (fig.dataset.marks || '').split(',').filter(Boolean).map(Number);
+  const fix = Object.fromEntries((fig.dataset.fix || '').split(';').filter(Boolean).map(s => { const [k, v] = s.split(':'); return [+k, v.split(',').map(Number)]; }));
+  const holder = document.createElement('div');
+  ['es', 'en'].forEach(l => {
+    const shot = document.createElement('div'); shot.className = 'shot'; shot.lang = l;
+    const img = new Image(); img.src = `instructivo/img/${id}-${l}.jpg`; img.loading = new URLSearchParams(location.search).has('eager') ? 'eager' : 'lazy'; img.decoding = 'async';
+    img.alt = (cap ? cap.querySelector(`[lang="${l}"] b, [lang="${l}"]`)?.textContent : '') || id;
+    shot.appendChild(img);
+    const data = CAP[`${id}-${l}`];
+    order.forEach((mi, n) => {
+      const m = data && data.marks && data.marks[mi];
+      const mk = document.createElement('span'); mk.className = 'mk';
+      if (fix[n]) { mk.classList.add('dotonly'); mk.style.left = fix[n][0] + '%'; mk.style.top = fix[n][1] + '%'; mk.style.width = mk.style.height = '0'; }
+      else if (m) { mk.style.left = m.l + '%'; mk.style.top = m.t + '%'; mk.style.width = (m.r - m.l) + '%'; mk.style.height = (m.b - m.t) + '%'; }
+      else return;
+      mk.innerHTML = `<span class="ring"></span><span class="num">${n + 1}</span>`;
+      shot.appendChild(mk);
+    });
+    shot.addEventListener('click', () => abrirZoom(shot));
+    holder.appendChild(shot);
+  });
+  if (fig.dataset.phone) { holder.className = 'phone'; }
+  fig.insertBefore(holder, fig.firstChild);
+});
+function numberFigures(){
+  $$('section.chap').forEach(sec => {
+    const n = sec.dataset.toc; let i = 0;
+    $$('figure .fn', sec).forEach(fn => { i++; fn.textContent = (LANG === 'es' ? 'Figura ' : 'Figure ') + n + '.' + i; });
+  });
+}
+
+/* ---------- visor ---------- */
+function abrirZoom(shot){ const z = $('#zoom .zi'); z.innerHTML = ''; const c = shot.cloneNode(true); c.style.cursor = 'zoom-out'; c.querySelector('img').loading = 'eager'; z.appendChild(c); $('#zoom').classList.add('on'); }
+$('#zoom').addEventListener('click', () => $('#zoom').classList.remove('on'));
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { $('#zoom').classList.remove('on'); $('#toc').classList.remove('open'); } });
+
+/* ---------- índice lateral ---------- */
+const GRUPOS = {"leer": ["Para empezar", "Getting started"], "b1": ["Los dieciséis bloques", "The sixteen blocks"], "hoja": ["Consulta", "Reference"]};
+function txt(el){ const x = el.querySelector(`[lang="${LANG}"]`); return (x || el).textContent.trim(); }
+function buildToc(){
+  const ol = $('#tocList'); ol.innerHTML = '';
+  $$('section.chap').forEach(sec => {
+    const g = GRUPOS[sec.id]; if (g) { const li = document.createElement('li'); li.className = 'grp'; li.textContent = g[LANG === 'es' ? 0 : 1]; ol.appendChild(li); }
+    const h2 = sec.querySelector('h2[lang="' + LANG + '"]') || sec.querySelector('h2');
+    const li = document.createElement('li'); li.dataset.sec = sec.id;
+    li.innerHTML = `<a href="#${sec.id}" style="--c:${getComputedStyle(sec).getPropertyValue('--c')}"><span class="n">${sec.dataset.toc}</span><span>${h2 ? h2.textContent : ''}</span></a>`;
+    ol.appendChild(li);
+    const subs = $$('h3[id]', sec);
+    if (subs.length && /^[\dA-Z]+$/.test(sec.dataset.toc) && sec.dataset.toc !== 'P') {
+      const so = document.createElement('ol'); so.className = 'sub';
+      subs.forEach(h => { const s = document.createElement('li'); s.dataset.sec = h.id; s.innerHTML = `<a href="#${h.id}">${txt(h)}</a>`; so.appendChild(s); });
+      li.appendChild(so);
+    }
+    const nav = sec.querySelector('.inchap');
+    if (nav) nav.innerHTML = subs.map(h => `<a href="#${h.id}" data-n="${h.dataset.n || ''}">${txt(h)}</a>`).join('');
+    subs.forEach(h => { if (h.dataset.n && !h.querySelector('.sn')) h.insertAdjacentHTML('afterbegin', `<span class="sn">${h.dataset.n}</span>`); });
+  });
+  spy();
+}
+$('#tocList').addEventListener('click', e => { if (e.target.closest('a')) $('#toc').classList.remove('open'); });
+$('#menuBtn').addEventListener('click', () => $('#toc').classList.toggle('open'));
+
+/* ---------- posición de lectura ---------- */
+function spy(){
+  const y = scrollY + 120; let cur = null;
+  $$('section.chap, h3[id]').forEach(el => { if (el.getBoundingClientRect().top + scrollY <= y) cur = el.id; });
+  $$('#tocList a').forEach(a => a.classList.toggle('act', a.getAttribute('href') === '#' + cur));
+  const h = document.documentElement.scrollHeight - innerHeight;
+  $('#leido').style.width = (h > 0 ? 100 * scrollY / h : 0) + '%';
+  $('.totop').classList.toggle('on', scrollY > 900);
+}
+addEventListener('scroll', spy, { passive: true });
+
+/* ---------- buscador ---------- */
+const norm = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+function buscar(){
+  const q = norm($('#q').value.trim()), hits = $('#hits');
+  const items = $$('#tocList > li[data-sec]');
+  if (q.length < 2) { items.forEach(li => { li.classList.remove('hide'); $$('.sub li', li).forEach(s => s.classList.remove('hide')); }); hits.textContent = ''; return; }
+  let n = 0;
+  items.forEach(li => {
+    const sec = document.getElementById(li.dataset.sec);
+    const vis = el => norm($$(`[lang="${LANG}"]`, el).map(x => x.textContent).join(' ') + ' ' + (el.dataset.toc || ''));
+    let any = false;
+    $$('.sub li', li).forEach(s => {
+      const h = document.getElementById(s.dataset.sec); let seg = '', el = h;
+      do { seg += ' ' + (el.matches && el.matches(`[lang="${LANG}"]`) ? el.textContent : $$(`[lang="${LANG}"]`, el).map(x => x.textContent).join(' ')); el = el.nextElementSibling; } while (el && el.tagName !== 'H3');
+      const ok = norm(seg).includes(q); s.classList.toggle('hide', !ok); if (ok) { any = true; n++; }
+    });
+    const self = vis(sec).includes(q); if (self && !any) n++;
+    li.classList.toggle('hide', !(self || any));
+  });
+  hits.textContent = n ? (LANG === 'es' ? `${n} coincidencia${n > 1 ? 's' : ''}` : `${n} match${n > 1 ? 'es' : ''}`) : (LANG === 'es' ? 'Sin coincidencias' : 'No matches');
+}
+$('#q').addEventListener('input', buscar);
+$('#q').addEventListener('keydown', e => { if (e.key === 'Enter') { const a = $('#tocList li:not(.hide) .sub li:not(.hide) a') || $('#tocList li:not(.hide) a'); if (a) a.click(); } });
+
+/* ---------- glosario ---------- */
+const GLOS = [
+[
+"Agotamiento (Dr)",
+"Depletion (Dr)",
+"Cuánta agua le falta al suelo, en milímetros, para volver a capacidad de campo. Es la lámina neta de riego que propone la app.",
+"How much water the soil lacks, in millimetres, to return to field capacity. It is the net irrigation depth the app proposes."
+],
+[
+"AFA",
+"RAW",
+"Agua fácilmente aprovechable: la parte del agua disponible que la vid toma sin estrés (p × ADT).",
+"Readily available water: the part of available water the vine takes up without stress (p × TAW)."
+],
+[
+"ADT",
+"TAW",
+"Agua disponible total en la zona de raíces, entre capacidad de campo y punto de marchitez, en mm.",
+"Total available water in the root zone, between field capacity and wilting point, in mm."
+],
+[
+"AMIBA",
+"AMIBA",
+"Gráfica de radar del marco MESMIS que compara los indicadores de sostenibilidad de cada tratamiento.",
+"MESMIS radar chart comparing the sustainability indicators of each treatment."
+],
+[
+"ANOVA",
+"ANOVA",
+"Análisis de varianza: dice si las diferencias entre tratamientos son mayores que las que daría el azar.",
+"Analysis of variance: says whether the differences between treatments are larger than chance would give."
+],
+[
+"Bloque",
+"Block",
+"En el experimento, un grupo de parcelas parecidas (en Mata de Zarza, cada hilera) donde aparecen todos los tratamientos una vez.",
+"In the trial, a group of similar plots (in Mata de Zarza, each row) where every treatment appears once."
+],
+[
+"Bordo (planta de)",
+"Border vine",
+"Planta en el extremo de la hilera que recibe el tratamiento pero no se mide, para evitar el efecto de orilla.",
+"A vine at the end of the row that receives the treatment but is not measured, to avoid edge effects."
+],
+[
+"Bowen (relación de)",
+"Bowen ratio",
+"Calor sensible entre calor latente. Bajo: el viñedo gasta la energía en evaporar agua; alto: calienta el aire.",
+"Sensible over latent heat. Low: the vineyard spends energy evaporating water; high: it heats the air."
+],
+[
+"Capacidad de campo",
+"Field capacity",
+"El agua que el suelo retiene después de drenar el exceso, uno o dos días tras un riego pesado.",
+"The water the soil holds after excess has drained, one or two days after heavy irrigation."
+],
+[
+"Coeficiente de estrés (Ks)",
+"Stress coefficient (Ks)",
+"Va de 1 (sin estrés) a 0. Baja cuando el agotamiento pasa del AFA (FAO-56).",
+"Goes from 1 (no stress) to 0. Drops when depletion exceeds RAW (FAO-56)."
+],
+[
+"DOP",
+"DOP",
+"Desviación del óptimo porcentual de un nutriente: negativo falta, positivo sobra (Montañés et al., 1993).",
+"Deviation from optimum percentage of a nutrient: negative lacking, positive in excess (Montañés et al., 1993)."
+],
+[
+"ET0",
+"ET0",
+"Evapotranspiración de referencia: cuánta agua pide la atmósfera en el día, en mm, por FAO Penman–Monteith.",
+"Reference evapotranspiration: how much water the air demands in a day, in mm, by FAO Penman–Monteith."
+],
+[
+"ETc",
+"ETc",
+"Agua que usa el viñedo: transpiración de la vid más evaporación del suelo.",
+"Water the vineyard uses: vine transpiration plus soil evaporation."
+],
+[
+"GST",
+"GST",
+"Temperatura media de la temporada, del 1 de abril al 31 de octubre en el hemisferio norte.",
+"Growing season temperature, 1 April to 31 October in the northern hemisphere."
+],
+[
+"Índice de Huglin",
+"Huglin index",
+"Suma del calor de abril a septiembre que da más peso a las horas de sol (Tonietto y Carbonneau, 2004).",
+"April–September heat sum that weighs sunny hours more (Tonietto and Carbonneau, 2004)."
+],
+[
+"Índice de Ravaz",
+"Ravaz index",
+"Kilos de fruta entre kilos de poda; entre 5 y 10 la planta está equilibrada (UC Davis).",
+"Kilos of fruit over kilos of pruning; between 5 and 10 the vine is balanced (UC Davis)."
+],
+[
+"ISG",
+"ISG",
+"Índice de sostenibilidad general, de 0 a 1: sostenible con 0.5 o más y ninguna dimensión abajo (Sarandón, 2002).",
+"General sustainability index, 0 to 1: sustainable at 0.5 or more with no dimension below (Sarandón, 2002)."
+],
+[
+"Kcb",
+"Kcb",
+"Coeficiente basal de la vid: qué parte de la ET0 transpira la planta en cada etapa (FAO-56, Cuadro 17).",
+"Basal crop coefficient: what share of ET0 the vine transpires in each stage (FAO-56, Table 17)."
+],
+[
+"Ky",
+"Ky",
+"Factor de respuesta del rendimiento al agua; para la uva, 0.85 en toda la temporada (FAO-56, Cuadro 24).",
+"Yield response factor to water; for grapes, 0.85 over the season (FAO-56, Table 24)."
+],
+[
+"Lectura de Ratio Vitis",
+"Ratio Vitis reading",
+"Un supuesto de la app para completar un cálculo; siempre marcado con ◆ y editable.",
+"An app assumption to complete a calculation; always marked ◆ and editable."
+],
+[
+"Modo ejemplo",
+"Example mode",
+"El caso de Mata de Zarza cargado aparte: nada se guarda y tu proyecto no cambia.",
+"The Mata de Zarza case loaded separately: nothing is saved and your project does not change."
+],
+[
+"Parcela",
+"Plot",
+"La unidad experimental: un grupo de plantas seguidas con el mismo tratamiento dentro de un bloque.",
+"The experimental unit: a run of vines with the same treatment within a block."
+],
+[
+"Potencial hídrico de tallo",
+"Stem water potential",
+"Qué tanta tensión tiene el agua en la planta a mediodía, medida con cámara de presión, en MPa.",
+"How much tension the water in the vine is under at midday, measured with a pressure chamber, in MPa."
+],
+[
+"Prueba del frasco",
+"Jar test",
+"Agitar suelo con agua en un frasco y medir las capas de arena, limo y arcilla al asentarse.",
+"Shaking soil with water in a jar and measuring the sand, silt and clay layers as they settle."
+],
+[
+"Punto de marchitez permanente",
+"Permanent wilting point",
+"El agua que queda en el suelo cuando la planta ya no puede sacarla.",
+"The water left in the soil when the vine can no longer extract it."
+],
+[
+"RASPA",
+"SPAC",
+"Relación agua–suelo–planta–atmósfera: el camino del agua de la lluvia y el riego al aire, pasando por la vid.",
+"Soil–plant–atmosphere continuum: the path of water from rain and irrigation to the air, through the vine."
+],
+[
+"Reanálisis",
+"Reanalysis",
+"Clima reconstruido con modelos y observaciones (como ERA5); sirve donde no hay estación, pero no es una medición en tu viñedo.",
+"Climate reconstructed from models and observations (such as ERA5); useful where there is no station, but not a measurement in your vineyard."
+],
+[
+"Retroalimentación",
+"Feedback loop",
+"Un camino de la red que regresa a donde empezó: se compensa (negativa) o se refuerza (positiva).",
+"A network path that returns to its start: it balances (negative) or reinforces (positive)."
+],
+[
+"Tukey",
+"Tukey",
+"Prueba que compara los tratamientos de dos en dos; letras distintas significan diferencia real.",
+"Test that compares treatments in pairs; different letters mean a real difference."
+],
+[
+"Winkler (grados día)",
+"Winkler degree-days",
+"Calor útil para la vid del 1 de abril al 31 de octubre, arriba de 10 °C; define las regiones I a V.",
+"Heat useful to the vine from 1 April to 31 October, above 10 °C; defines regions I to V."
+]
+];
+$('#glos').innerHTML = GLOS.map(g => `<dt><span lang="es">${g[0]}<small>${g[1]}</small></span><span lang="en">${g[1]}<small>${g[0]}</small></span></dt><dd><span lang="es">${g[2]}</span><span lang="en">${g[3]}</span></dd>`).join('');
+
+/* ---------- al imprimir, carga todas las imágenes ---------- */
+addEventListener('beforeprint', () => $$('img[loading="lazy"]').forEach(i => i.loading = 'eager'));
+
+
+setLang(LANG);
+/* al abrir con #ancla, ir ahí cuando las figuras ya ocupan su lugar */
+addEventListener('load', () => { const h = decodeURIComponent(location.hash.slice(1)); const el = h && document.getElementById(h); if (el) { document.documentElement.style.scrollBehavior = 'auto'; el.scrollIntoView(); document.documentElement.style.scrollBehavior = ''; } });
+</script>
+</body>
+</html>
