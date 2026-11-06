@@ -10,6 +10,7 @@
    · Temperatura media de la temporada: GST = media de T del 1 abr al 31 oct.
    · Regiones de Winkler y clases de GST: leyendas de las Figuras 6 y 7 de del Río et al. (2023),
      «Zoning of the Querétaro wine region», BIO Web of Conferences 68: 01029 (1 abr–31 oct, base 10 °C).
+     Cotejadas con las leyendas de las figuras en el PDF original (pág. 3).
    · Relación P/ET0 mensual: ≥ 1 húmedo; < 0.5 seco (FAO-56).
    Hemisferio sur: los periodos se desplazan seis meses (oct–abr).
    Los índices se desarrollaron para la viticultura templada; en climas sin
