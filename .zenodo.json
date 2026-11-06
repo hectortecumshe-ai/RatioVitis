@@ -1,0 +1,18 @@
+{
+  "title": "Ratio Vitis: el viñedo medido como sistema complejo adaptativo: relación agua–suelo–planta–atmósfera, fertilidad, biomasa, productividad y energía",
+  "upload_type": "software",
+  "version": "0.1.0",
+  "license": "mit",
+  "language": "spa",
+  "creators": [
+    {"name": "Mojica-Zárate, Héctor Tecumshé", "orcid": "0000-0002-9067-3983"},
+    {"name": "Hernández-González, Jorge"},
+    {"name": "Díaz-José, Oscar"},
+    {"name": "Ramírez-García, Adán Guillermo"}
+  ],
+  "description": "Aplicación web libre, bilingüe (español/inglés) y de un solo archivo, de la línea Ratio Complexus, hermana cuantitativa de Ratio Viña. Mide el viñedo como sistema complejo adaptativo en 16 bloques, con vista de productor y vista científica: viñedo, sitio (INEGI) y diseño experimental en bloques completos al azar con sorteo reproducible; suelo (prueba del frasco, densidad aparente, agua disponible, pH y salinidad); clima diario con ET0 de FAO Penman–Monteith e índices vitícolas (Winkler, GST, Huglin y frescor nocturno, con clases cotejadas contra del Río et al., 2023); relación agua–suelo–planta–atmósfera con el balance hídrico diario de coeficiente dual de FAO-56 y potencial hídrico; fertilidad (rangos de suficiencia, índice DOP y dosis de abono igualada en nitrógeno); biomasa, dosel y carbono; productividad, calidad y pérdida de rendimiento por agua (Ky = 0.85, FAO-56); balance de energía; estadística (ANOVA en bloques, Tukey, ANCOVA, medidas repetidas) con exportación a las apps LABG; red del sistema con lazos de retroalimentación; tablero; regeneración y resiliencia; riesgos; sostenibilidad por tratamiento (MESMIS, Sarandón, AMIBA, huella de carbono); prospectiva a 1, 2 y 5 años (Saxton y Rawls, método delta, IPCC); e informe con CSV y JSON reproducible. Validación interna de 35 comprobaciones: ejemplos resueltos de FAO-56, 300 días contra un motor independiente en Python, estadística contra SciPy y numpy, y red contra NetworkX. Caso de referencia en modo ejemplo, nunca precargado: viñedo cooperante de uva de mesa Perlet en Mata de Zarza, Puente Nacional, Veracruz (guía de establecimiento de Mojica-Zárate et al., 2026; propuesta de tesis de Hernández González, 2026; clima diario de 2025 del reanálisis ERA5). Lo no medido aparece como «sin dato». Instructivos del Productor y del Científico en español e inglés.",
+  "keywords": ["vid", "Vitis vinifera", "uva de mesa", "FAO-56", "evapotranspiración", "balance hídrico", "relación agua-suelo-planta-atmósfera", "índice de Winkler", "diseño experimental", "sistemas complejos adaptativos", "sostenibilidad", "prospectiva", "Veracruz", "México"],
+  "related_identifiers": [
+    {"identifier": "10.5281/zenodo.23439305", "relation": "isSupplementTo", "scheme": "doi"}
+  ]
+}

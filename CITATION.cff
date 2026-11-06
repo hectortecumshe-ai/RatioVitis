@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "Si usas este software, cítalo como se indica. / If you use this software, please cite it as below."
+title: "Ratio Vitis: el viñedo medido como sistema complejo adaptativo: relación agua–suelo–planta–atmósfera, fertilidad, biomasa, productividad y energía"
+version: 0.1.0
+date-released: 2026-11-06
+type: software
+license: MIT
+authors:
+  - given-names: "Héctor Tecumshé"
+    family-names: "Mojica-Zárate"
+    orcid: "https://orcid.org/0000-0002-9067-3983"
+  - given-names: "Jorge"
+    family-names: "Hernández-González"
+  - given-names: "Oscar"
+    family-names: "Díaz-José"
+  - given-names: "Adán Guillermo"
+    family-names: "Ramírez-García"
+repository-code: "https://github.com/hectortecumshe-ai/RatioVitis"
+url: "https://hectortecumshe-ai.github.io/RatioVitis/"
+keywords: [grapevine, Vitis vinifera, table grape, FAO-56, evapotranspiration, soil water balance, soil-plant-atmosphere continuum, Winkler index, experimental design, complex adaptive systems, sostenibilidad, Mexico]

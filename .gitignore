@@ -1,2 +1,4 @@
 instructivo/img/png/
 __pycache__/
+.claude/
+instructivo/fuente/zenodo_guias.py
