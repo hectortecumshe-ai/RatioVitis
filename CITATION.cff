@@ -2,7 +2,8 @@ cff-version: 1.2.0
 message: "Si usas este software, cítalo como se indica. / If you use this software, please cite it as below."
 title: "Ratio Vitis: el viñedo medido como sistema complejo adaptativo: relación agua–suelo–planta–atmósfera, fertilidad, biomasa, productividad y energía"
 version: 0.1.0
-date-released: 2026-11-06
+date-released: 2026-11-08
+doi: "10.5281/zenodo.24048724"
 type: software
 license: MIT
 authors:

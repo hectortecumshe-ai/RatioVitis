@@ -10,8 +10,8 @@ sys.path.insert(0, AQUI)
 VERSION_APP = '0.1.0'
 EDICION = ('1.ª edición', '1st edition')
 FECHA = ('noviembre de 2026', 'November 2026')
-DOI_APP = ''                                   # ← DOI de la app cuando Zenodo lo asigne
-DOI_GUIA = {'productor': '', 'cientifico': ''}  # ← DOI propio de cada instructivo
+DOI_APP = '10.5281/zenodo.24048724'                                   # ← DOI de la app cuando Zenodo lo asigne
+DOI_GUIA = {'productor': '10.5281/zenodo.24048727', 'cientifico': '10.5281/zenodo.24048729'}  # ← DOI propio de cada instructivo
 ISBN = {'productor': ('', ''), 'cientifico': ('', '')}
 CITA_AUT = ('Mojica-Zárate, H. T., Hernández-González, J., Díaz-José, O., y Ramírez-García, A. G.', 'Mojica-Zárate, H. T., Hernández-González, J., Díaz-José, O., &amp; Ramírez-García, A. G.')
 AUTORES = 'Héctor Tecumshé Mojica-Zárate · Jorge Hernández-González · Oscar Díaz-José · Adán Guillermo Ramírez-García'

@@ -2,6 +2,8 @@
 
 # Ratio Vitis
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24048724.svg)](https://doi.org/10.5281/zenodo.24048724)
+
 👉 **https://hectortecumshe-ai.github.io/RatioVitis/**
 
 **El viñedo medido como sistema complejo adaptativo: relación agua–suelo–planta–atmósfera, fertilidad, biomasa, productividad y energía.** Aplicación de **Ratio Complexus**, el ala de la suite [Ratio](https://hectortecumshe-ai.github.io/) dedicada a los sistemas complejos adaptativos. Es la hermana cuantitativa de [Ratio Viña](https://hectortecumshe-ai.github.io/RatioVina/): Ratio Viña recoge lo que sabe la gente del viñedo; Ratio Vitis mide lo que pasa en él.
@@ -36,12 +38,12 @@ Cada coeficiente, umbral y fórmula viene de una fuente citada y cotejada con su
 
 ## Instructivos
 
-- [Instructivo del Productor](https://hectortecumshe-ai.github.io/RatioVitis/instructivo-productor.html) · [PDF](instructivo/RatioVitis-Instructivo-Productor.pdf) · [Producer Guide (PDF)](instructivo/RatioVitis-Producer-Guide.pdf)
-- [Instructivo del Científico](https://hectortecumshe-ai.github.io/RatioVitis/instructivo-cientifico.html) · [PDF](instructivo/RatioVitis-Instructivo-Cientifico.pdf) · [Scientist Guide (PDF)](instructivo/RatioVitis-Scientist-Guide.pdf)
+- [Instructivo del Productor](https://hectortecumshe-ai.github.io/RatioVitis/instructivo-productor.html) · DOI [10.5281/zenodo.24048727](https://doi.org/10.5281/zenodo.24048727) · [PDF](instructivo/RatioVitis-Instructivo-Productor.pdf) · [Producer Guide (PDF)](instructivo/RatioVitis-Producer-Guide.pdf)
+- [Instructivo del Científico](https://hectortecumshe-ai.github.io/RatioVitis/instructivo-cientifico.html) · DOI [10.5281/zenodo.24048729](https://doi.org/10.5281/zenodo.24048729) · [PDF](instructivo/RatioVitis-Instructivo-Cientifico.pdf) · [Scientist Guide (PDF)](instructivo/RatioVitis-Scientist-Guide.pdf)
 
 ## Cómo citarla
 
-Mojica-Zárate, H. T., Hernández-González, J., Díaz-José, O., y Ramírez-García, A. G. (2026). *Ratio Vitis: el viñedo medido como sistema complejo adaptativo: relación agua–suelo–planta–atmósfera, fertilidad, biomasa, productividad y energía* (versión 0.1.0) [Software]. https://github.com/hectortecumshe-ai/RatioVitis
+Mojica-Zárate, H. T., Hernández-González, J., Díaz-José, O., y Ramírez-García, A. G. (2026). *Ratio Vitis: el viñedo medido como sistema complejo adaptativo: relación agua–suelo–planta–atmósfera, fertilidad, biomasa, productividad y energía* (versión 0.1.0) [Software]. Zenodo. https://doi.org/10.5281/zenodo.24048724
 
 ## Armar desde las fuentes
 

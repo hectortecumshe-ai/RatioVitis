@@ -1,0 +1,18 @@
+{
+ "app": {
+  "id": 24048725,
+  "doi": "10.5281/zenodo.24048725",
+  "concepto": "10.5281/zenodo.24048724",
+  "bucket": "https://zenodo.org/api/files/be77c497-fda7-49fa-82c0-ceb3a8103fae"
+ },
+ "productor": {
+  "id": 24048727,
+  "doi": "10.5281/zenodo.24048727",
+  "bucket": "https://zenodo.org/api/files/8014abc7-1b29-428b-86aa-301ac23f8656"
+ },
+ "cientifico": {
+  "id": 24048729,
+  "doi": "10.5281/zenodo.24048729",
+  "bucket": "https://zenodo.org/api/files/75a6f491-8b47-4d2e-a180-f03f41714507"
+ }
+}

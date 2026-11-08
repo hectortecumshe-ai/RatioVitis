@@ -7,7 +7,7 @@
    App hermana de Ratio Viña: el Stack del conocimiento local vive solo allá.
    ===================================================================== */
 const CONFIG = {
-  app:'Ratio Vitis', version:'0.1.0', anio:2026, doi:'',
+  app:'Ratio Vitis', version:'0.1.0', anio:2026, doi:'10.5281/zenodo.24048724',
   repo:'https://github.com/hectortecumshe-ai/RatioVitis',
   autores:'Héctor Tecumshé Mojica-Zárate · Jorge Hernández-González · Oscar Díaz-José · Adán Guillermo Ramírez-García',
   citaAutores:{es:'Mojica-Zárate, H. T., Hernández-González, J., Díaz-José, O., y Ramírez-García, A. G.',en:'Mojica-Zárate, H. T., Hernández-González, J., Díaz-José, O., & Ramírez-García, A. G.'},
