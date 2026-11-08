@@ -3,6 +3,8 @@ Uso:  python armar.py          → ../../instructivo-productor.html y ../../inst
 Las capturas se toman con capturar.py (Chrome sin interfaz, lista en capturas.py) y se guardan en ../img/<id>-<idioma>.jpg.
 Los PDF se imprimen con pdf.py. El contenido está en productor.py y cientifico.py."""
 import json, os, re, subprocess, sys
+from enlaces_web import web   # enlaces públicos (no localhost) en el HTML y en los PDF
+APP_WEB = 'https://hectortecumshe-ai.github.io/RatioVitis/'
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 RAIZ = os.path.abspath(os.path.join(AQUI, '..', '..'))
@@ -11,7 +13,7 @@ VERSION_APP = '0.1.0'
 EDICION = ('1.ª edición', '1st edition')
 FECHA = ('noviembre de 2026', 'November 2026')
 DOI_APP = '10.5281/zenodo.24048724'                                   # ← DOI de la app cuando Zenodo lo asigne
-DOI_GUIA = {'productor': '10.5281/zenodo.24048727', 'cientifico': '10.5281/zenodo.24048729'}  # ← DOI propio de cada instructivo
+DOI_GUIA = {'productor': '10.5281/zenodo.24048804', 'cientifico': '10.5281/zenodo.24048805'}  # ← DOI propio de cada instructivo
 ISBN = {'productor': ('', ''), 'cientifico': ('', '')}
 CITA_AUT = ('Mojica-Zárate, H. T., Hernández-González, J., Díaz-José, O., y Ramírez-García, A. G.', 'Mojica-Zárate, H. T., Hernández-González, J., Díaz-José, O., &amp; Ramírez-García, A. G.')
 AUTORES = 'Héctor Tecumshé Mojica-Zárate · Jorge Hernández-González · Oscar Díaz-José · Adán Guillermo Ramírez-García'
@@ -289,7 +291,7 @@ def pagina(guia, cuerpo, t_es, t_en, sub_es, sub_en, pdf_es, pdf_en, grupos, glo
 
 def escribir(nombre, html):
     externos = sorted(set(re.findall(r'(?:src|href)="(https?://[^"/]+)', html)))
-    open(os.path.join(RAIZ, nombre), 'w', encoding='utf-8', newline='\n').write(html)
+    open(os.path.join(RAIZ, nombre), 'w', encoding='utf-8', newline='\n').write(web(html, APP_WEB))
     faltan = [m for m in re.findall(r'data-fig="([\w-]+)"', html) if not os.path.exists(os.path.join(AQUI, '..', 'img', m + '-es.jpg'))]
     print(nombre, round(len(html.encode('utf-8')) / 1024), 'KB · enlaces externos:', externos, '· capturas que faltan:', faltan)
 
