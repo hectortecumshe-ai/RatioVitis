@@ -38,8 +38,8 @@ Cada coeficiente, umbral y fórmula viene de una fuente citada y cotejada con su
 
 ## Instructivos
 
-- [Instructivo del Productor](https://hectortecumshe-ai.github.io/RatioVitis/instructivo-productor.html) · DOI [10.5281/zenodo.24048804](https://doi.org/10.5281/zenodo.24048804) · [PDF](instructivo/RatioVitis-Instructivo-Productor.pdf) · [Producer Guide (PDF)](instructivo/RatioVitis-Producer-Guide.pdf)
-- [Instructivo del Científico](https://hectortecumshe-ai.github.io/RatioVitis/instructivo-cientifico.html) · DOI [10.5281/zenodo.24048805](https://doi.org/10.5281/zenodo.24048805) · [PDF](instructivo/RatioVitis-Instructivo-Cientifico.pdf) · [Scientist Guide (PDF)](instructivo/RatioVitis-Scientist-Guide.pdf)
+- [Instructivo del Productor](https://hectortecumshe-ai.github.io/RatioVitis/instructivo-productor.html) · DOI ES [10.5281/zenodo.24049285](https://doi.org/10.5281/zenodo.24049285) · DOI EN [10.5281/zenodo.24049289](https://doi.org/10.5281/zenodo.24049289) · [PDF](instructivo/RatioVitis-Instructivo-Productor.pdf) · [Producer Guide (PDF)](instructivo/RatioVitis-Producer-Guide.pdf)
+- [Instructivo del Científico](https://hectortecumshe-ai.github.io/RatioVitis/instructivo-cientifico.html) · DOI ES [10.5281/zenodo.24049290](https://doi.org/10.5281/zenodo.24049290) · DOI EN [10.5281/zenodo.24049294](https://doi.org/10.5281/zenodo.24049294) · [PDF](instructivo/RatioVitis-Instructivo-Cientifico.pdf) · [Scientist Guide (PDF)](instructivo/RatioVitis-Scientist-Guide.pdf)
 
 ## Cómo citarla
 

@@ -1,0 +1,48 @@
+{
+ "productor": {
+  "es": {
+   "title": "Ratio Vitis: Instructivo del Productor (1.ª edición, versión 0.1.0)",
+   "description": "Instructivo en español para productores, técnicos de campo y tesistas de Ratio Vitis 0.1.0, aplicación libre que mide el viñedo como sistema complejo adaptativo. Recorre los 16 bloques —viñedo y diseño experimental, suelo, clima, relación agua–suelo–planta–atmósfera, fertilidad, biomasa, productividad, energía, estadística, sistema complejo, tablero, regeneración, riesgos, sostenibilidad, prospectiva e informe— con qué medir en campo, cómo leer cada resultado y reglas de decisión, usando el caso del viñedo cooperante de uva de mesa Perlet en Mata de Zarza, Puente Nacional, Veracruz (guía de establecimiento, propuesta de tesis y clima ERA5 de 2025). Incluye hoja de campo imprimible, problemas frecuentes, glosario y código QR. 1.ª edición, noviembre de 2026. La versión en inglés (Producer Guide) es un registro aparte con su propio DOI."
+  },
+  "en": {
+   "title": "Ratio Vitis: Producer Guide (1st edition, version 0.1.0)",
+   "description": "English guide for growers, field technicians and thesis students using Ratio Vitis 0.1.0, a free app that measures the vineyard as a complex adaptive system. It walks through the 16 blocks —vineyard and trial design, soil, climate, soil–plant–atmosphere water relations, fertility, biomass, productivity, energy, statistics, complex system, dashboard, regeneration, risks, sustainability, outlook and report— with what to measure in the field, how to read each result and decision rules, using the case of the cooperating Perlet table-grape vineyard in Mata de Zarza, Puente Nacional, Veracruz (establishment guide, thesis proposal and 2025 ERA5 climate). It includes a printable field sheet, troubleshooting, a glossary and a QR code. 1st edition, November 2026. The Spanish version (Instructivo del Productor) is a separate record with its own DOI.",
+   "keywords": [
+    "Ratio Vitis",
+    "user guide",
+    "grapevine",
+    "table grape",
+    "FAO-56",
+    "soil water balance",
+    "experimental design",
+    "complex adaptive systems",
+    "sustainability",
+    "Veracruz",
+    "Mexico"
+   ]
+  }
+ },
+ "cientifico": {
+  "es": {
+   "title": "Ratio Vitis: Instructivo del Científico (1.ª edición, versión 0.1.0)",
+   "description": "Instructivo en español para investigación y docencia de Ratio Vitis 0.1.0: modelo del viñedo como sistema complejo adaptativo; ecuaciones por bloque con su número en la fuente (FAO-56 Penman–Monteith y coeficiente dual, índices de Winkler, GST, Huglin y frescor nocturno, DOP, Ky, balance de energía, ANOVA, ANCOVA y medidas repetidas, intermediación de Brandes, ISG de Sarandón, pedotransferencia de Saxton y Rawls y escenarios por método delta); datos y resultados del caso de Mata de Zarza, Veracruz; validación con 35 comprobaciones (FAO-56, motor independiente en Python, SciPy, numpy y NetworkX); reproducibilidad y limitaciones; 46 referencias. 1.ª edición, noviembre de 2026. La versión en inglés (Scientist Guide) es un registro aparte con su propio DOI."
+  },
+  "en": {
+   "title": "Ratio Vitis: Scientist Guide (1st edition, version 0.1.0)",
+   "description": "English guide for research and teaching with Ratio Vitis 0.1.0: the vineyard modelled as a complex adaptive system; equations by block with their number in the source (FAO-56 Penman–Monteith and dual crop coefficient, Winkler, GST, Huglin and cool-night indices, DOP, Ky, energy balance, ANOVA, ANCOVA and repeated measures, Brandes betweenness, Sarandón ISG, Saxton and Rawls pedotransfer and delta-method scenarios); data and results of the Mata de Zarza, Veracruz case; validation with 35 checks (FAO-56, an independent Python engine, SciPy, numpy and NetworkX); reproducibility and limitations; 46 references. 1st edition, November 2026. The Spanish version (Instructivo del Científico) is a separate record with its own DOI.",
+   "keywords": [
+    "Ratio Vitis",
+    "scientist guide",
+    "grapevine",
+    "FAO-56",
+    "evapotranspiration",
+    "soil water balance",
+    "statistics",
+    "complex adaptive systems",
+    "validation",
+    "reproducibility",
+    "Mexico"
+   ]
+  }
+ }
+}

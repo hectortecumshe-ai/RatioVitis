@@ -13,7 +13,7 @@ VERSION_APP = '0.1.0'
 EDICION = ('1.ª edición', '1st edition')
 FECHA = ('noviembre de 2026', 'November 2026')
 DOI_APP = '10.5281/zenodo.24048724'                                   # ← DOI de la app cuando Zenodo lo asigne
-DOI_GUIA = {'productor': '10.5281/zenodo.24048804', 'cientifico': '10.5281/zenodo.24048805'}  # ← DOI propio de cada instructivo
+DOI_GUIA = {'productor': {'es': '10.5281/zenodo.24049285', 'en': '10.5281/zenodo.24049289'}, 'cientifico': {'es': '10.5281/zenodo.24049290', 'en': '10.5281/zenodo.24049294'}}  # ← DOI propio de cada instructivo
 ISBN = {'productor': ('', ''), 'cientifico': ('', '')}
 CITA_AUT = ('Mojica-Zárate, H. T., Hernández-González, J., Díaz-José, O., y Ramírez-García, A. G.', 'Mojica-Zárate, H. T., Hernández-González, J., Díaz-José, O., &amp; Ramírez-García, A. G.')
 AUTORES = 'Héctor Tecumshé Mojica-Zárate · Jorge Hernández-González · Oscar Díaz-José · Adán Guillermo Ramírez-García'
@@ -180,18 +180,21 @@ def cita_app():
     return (f'<p lang="es">{CITA_AUT[0]} (2026). <i>Ratio Vitis: el viñedo medido como sistema complejo adaptativo: relación agua–suelo–planta–atmósfera, fertilidad, biomasa, productividad y energía</i> (versión {VERSION_APP}) [Software]. {z}{d}</p>'
             f'<p lang="en">{CITA_AUT[1]} (2026). <i>Ratio Vitis: The measured vineyard as a complex adaptive system: soil–plant–atmosphere water relations, fertility, biomass, productivity and energy</i> (Version {VERSION_APP}) [Computer software]. {z}{d}</p>')
 
+def doi_l(guia, l):
+    """DOI del instructivo en el idioma l: cada idioma es un registro aparte en Zenodo."""
+    v = DOI_GUIA.get(guia)
+    return v.get(l) if isinstance(v, dict) else v
+
 def cita_guia(guia, t_es, t_en):
-    d = DOI_GUIA.get(guia)
-    url = f'https://doi.org/{d}' if d else APP + f'instructivo-{guia}.html'
-    z = 'Zenodo. ' if d else ''
-    return (f'<p lang="es">{CITA_AUT[0]} (2026). <i>{t_es.replace(" · ", ": ")}</i> (1.ª ed.). {z}{url}</p>'
-            f'<p lang="en">{CITA_AUT[1]} (2026). <i>{t_en.replace(" · ", ": ")}</i> (1st ed.). {z}{url}</p>')
+    ref = lambda d: f'Zenodo. https://doi.org/{d}' if d else APP + f'instructivo-{guia}.html'
+    return (f'<p lang="es">{CITA_AUT[0]} (2026). <i>{t_es.replace(" · ", ": ")}</i> (1.ª ed.). {ref(doi_l(guia, "es"))}</p>'
+            f'<p lang="en">{CITA_AUT[1]} (2026). <i>{t_en.replace(" · ", ": ")}</i> (1st ed.). {ref(doi_l(guia, "en"))}</p>')
 
 def legal(guia, t_es, t_en):
     ie, ien = ISBN[guia]
-    d = DOI_GUIA.get(guia)
+    d = doi_l(guia, 'es'); de = doi_l(guia, 'en')
     doi_es = f'DOI de este instructivo: <a href="https://doi.org/{d}">{d}</a>' if d else 'DOI de este instructivo: se asigna al publicarlo en Zenodo'
-    doi_en = f'DOI of this guide: <a href="https://doi.org/{d}">{d}</a>' if d else 'DOI of this guide: assigned on publication in Zenodo'
+    doi_en = f'DOI of this guide: <a href="https://doi.org/{de}">{de}</a>' if de else 'DOI of this guide: assigned on publication in Zenodo'
     dapp = f'<a href="https://doi.org/{DOI_APP}">{DOI_APP}</a>' if DOI_APP else L('se asigna al publicar la aplicación', 'assigned when the app is published')
     return f'''<div class="legal">
   <p lang="es"><b>{t_es}</b> · {EDICION[0]}, {FECHA[0]} · describe Ratio Vitis {VERSION_APP}.</p>

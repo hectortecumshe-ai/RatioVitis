@@ -3,3 +3,4 @@ __pycache__/
 .claude/
 instructivo/fuente/zenodo_guias.py
 instructivo/fuente/zenodo_nueva_version.py
+instructivo/fuente/zenodo_idiomas.py
