@@ -1,0 +1,17 @@
+{
+ "name": "Ratio Vitis",
+ "short_name": "Ratio Vitis",
+ "start_url": "./",
+ "scope": "./",
+ "display": "standalone",
+ "background_color": "#fbf8f1",
+ "theme_color": "#2f5d50",
+ "lang": "es",
+ "icons": [
+  {
+   "src": "logo.svg",
+   "sizes": "any",
+   "type": "image/svg+xml"
+  }
+ ]
+}

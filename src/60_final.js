@@ -153,7 +153,7 @@ function render(){ document.documentElement.lang=LANG; $$('.langsw button[data-l
   document.documentElement.classList.toggle('modo-ejemplo', EJ); franjaEjemplo();
   const b=B(S.bloque)||BLOQUES[0]; b.render()($('#main')); aplicarVariables(b.id, $('#main')); ponerVistas(b.id, $('#main')); enlazarTips($('#main'));
   $('#pie').innerHTML=`<svg style="width:26px;height:26px;vertical-align:middle;margin-right:6px"><use href="#i-logo"/></svg><b>Ratio Vitis</b> ${CONFIG.version} · Ratio Complexus · ${esc(CONFIG.autores)} · ${CONFIG.anio}<br><span class="tiny">${T('Herramienta de apoyo a la decisión: los resultados dependen de los datos capturados. Licencia MIT.','Decision-support tool: results depend on the data entered. MIT licence.')}</span>`;
-  renderNav(); actualizarPill(); renderAyuda(); }
+  renderNav(); actualizarPill(); renderAyuda(); entAvisoInicio(b.id, $('#main')); entBoton(); }
 function irA(id){ S.visitados[S.bloque]=true; S.bloque=id; guardar(); render(); scrollTo({top:0,behavior:'smooth'}); }
 document.addEventListener('click',e=>{ const t=e.target.closest('[data-ir]'); if(t) irA(t.dataset.ir); });
 function ponerModo(m){ MODO=m==='cien'?'cien':'prod'; try{ localStorage.setItem('vitis_modo',MODO); }catch(e){} render();
