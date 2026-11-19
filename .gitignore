@@ -4,3 +4,4 @@ __pycache__/
 instructivo/fuente/zenodo_guias.py
 instructivo/fuente/zenodo_nueva_version.py
 instructivo/fuente/zenodo_idiomas.py
+instructivo/fuente/zenodo_app_version.py
