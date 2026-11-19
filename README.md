@@ -12,7 +12,7 @@ Es la aplicación del objetivo 7 de la tesis de maestría de Jorge Hernández-Go
 
 Está hecha para productores y para científicos, en español y en inglés. Un solo archivo HTML, sin servidor, sin instalación, sin cookies y sin recursos de terceros.
 
-## Qué contiene (versión 0.1.0)
+## Qué contiene (versión 0.2.0)
 
 | Bloque | Contenido |
 |---|---|
@@ -27,6 +27,11 @@ Está hecha para productores y para científicos, en español y en inglés. Un s
 | 9 · Estadística | Descriptiva, ANOVA en bloques, Levene, Tukey, Pearson, ANCOVA y medidas repetidas; exportación a las apps LABG |
 | 10 · Sistema complejo | Red dirigida con signo, intermediación, lazos de retroalimentación y el Recorrido del viñedo |
 | 11–16 | Tablero, regeneración y resiliencia, riesgos, sostenibilidad por tratamiento (MESMIS, Sarandón, AMIBA, huella de carbono), prospectiva a 1, 2 y 5 años e informe con CSV y JSON reproducible |
+
+## Novedades de la versión 0.2.0
+
+- **Mis entrevistas y Enviar al administrador.** Cada encuestador guarda en su teléfono todas las entrevistas que haga, aunque no haya internet; una entrevista nueva no borra las anteriores. Cada una lleva encuestador, código del entrevistado y consentimiento informado. Con «Enviar al administrador» las elegidas salen en un solo archivo por WhatsApp o correo (menú de compartir del teléfono); lo no enviado queda pendiente y la app lo recuerda. El administrador recibe los archivos, descarga una tabla consolidada (CSV) para su análisis colectivo.
+- **Funciona sin conexión.** Después de abrirla una vez con internet, la app se abre en el teléfono sin señal.
 
 ## Caso de referencia
 
@@ -43,7 +48,7 @@ Cada coeficiente, umbral y fórmula viene de una fuente citada y cotejada con su
 
 ## Cómo citarla
 
-Mojica-Zárate, H. T., Hernández-González, J., Díaz-José, O., y Ramírez-García, A. G. (2026). *Ratio Vitis: el viñedo medido como sistema complejo adaptativo: relación agua–suelo–planta–atmósfera, fertilidad, biomasa, productividad y energía* (versión 0.1.0) [Software]. Zenodo. https://doi.org/10.5281/zenodo.24048724
+Mojica-Zárate, H. T., Hernández-González, J., Díaz-José, O., y Ramírez-García, A. G. (2026). *Ratio Vitis: el viñedo medido como sistema complejo adaptativo: relación agua–suelo–planta–atmósfera, fertilidad, biomasa, productividad y energía* (versión 0.2.0) [Software]. Zenodo. https://doi.org/10.5281/zenodo.24048724
 
 ## Armar desde las fuentes
 

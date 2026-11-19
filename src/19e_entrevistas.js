@@ -20,7 +20,7 @@ const ENT = {clave:'vitis', app:'Ratio Vitis', almacen:'vitis_v1', valido:s=>!!(
 const ENT_KEY = ENT.clave+'_entrevistas', ENT_ADM = ENT.clave+'_admin';
 function entLista(){ try{ return JSON.parse(localStorage.getItem(ENT_KEY)||'[]'); }catch(e){ return []; } }
 function entEscribir(L){ try{ localStorage.setItem(ENT_KEY, JSON.stringify(L)); return true; }catch(e){ toast(T('El teléfono ya no tiene espacio para más entrevistas: envía las pendientes y quita las ya enviadas.','This phone has no room for more interviews: send the pending ones and remove those already sent.')); return false; } }
-function entAdmin(){ try{ return Object.assign({correo:'', wa:'', encuestador:''}, JSON.parse(localStorage.getItem(ENT_ADM)||'{}')); }catch(e){ return {correo:'', wa:'', encuestador:''}; } }
+function entAdmin(){ try{ return Object.assign({correo:'hectortecumshe@gmail.com', wa:'', encuestador:''}, JSON.parse(localStorage.getItem(ENT_ADM)||'{}')); }catch(e){ return {correo:'hectortecumshe@gmail.com', wa:'', encuestador:''}; } }
 function entAdminGuardar(a){ try{ localStorage.setItem(ENT_ADM, JSON.stringify(a)); }catch(e){} }
 const entId = ()=> Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 const _entLocal = ()=> new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString();   // hora del teléfono, no UTC
